@@ -1,11 +1,15 @@
 WebApplication app = WebApplication.CreateBuilder(args).Build();
 
 //Разобраться с маршрутизацией
+//Добавить проверку на наличие запроса на фибоначчи
 //Перенести методы в классы
+//Переделать по-нормальному (проверяюищй метод и метод фиббоначчи)
+
+app.Map("/", () => "Hello!");
 
 app.Map("/fibonacci", appbuilder =>
 {
-    app.Use(async (context, next) =>
+    appbuilder.Use(async (context, next) =>
     {
         if (!ushort.TryParse(context.Request.Query["number"], out ushort num))
         {
@@ -23,7 +27,7 @@ app.Map("/fibonacci", appbuilder =>
         }
     });
 
-    app.Use(async (context, next) =>
+    appbuilder.Use(async (context, next) =>
     {
         if (context.Response.StatusCode == 405)
         {
@@ -37,7 +41,7 @@ app.Map("/fibonacci", appbuilder =>
         }
     });
 
-    app.Use(async (HttpContext context, RequestDelegate next) => //Типы данных параметров функции указаны явно из-за необходимости явно определить, какая перегрузка метода Use используется.
+    appbuilder.Use(async (HttpContext context, RequestDelegate next) => //Типы данных параметров функции указаны явно из-за необходимости явно определить, какая перегрузка метода Use используется.
     {
         ushort num = Convert.ToUInt16(context.Request.Query["number"]);
         try
