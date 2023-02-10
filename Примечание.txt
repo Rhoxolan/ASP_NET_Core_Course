@@ -1,2 +1,5 @@
 16.01.2022 - Вступ до ASP.NET Core
 PW, HW - создание ASP.NET Core приложений, вывод текста и HTML-разметки на страницу.
+
+18.01.2022 - Створення компонентів middleware
+PW - создание цепочки middleware; создание отдельных классов middleware; использование методов расширения UseMiddleware<>() интерфейса IApplicationBuilder.

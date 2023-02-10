@@ -1,10 +1,10 @@
 ﻿namespace _2023._01._18_PW
 {
-    public class FirstFibonacciNumberMiddleware
+    public class FibonacciMiddleware
     {
         private readonly RequestDelegate _next;
 
-        public FirstFibonacciNumberMiddleware(RequestDelegate next)
+        public FibonacciMiddleware(RequestDelegate next)
         {
             _next = next;
         }
@@ -12,14 +12,12 @@
         public async Task InvokeAsync(HttpContext context)
         {
             ushort num = Convert.ToUInt16(context.Request.Query["number"]);
-            if (num == 0 || num == 1)
+            List<ulong> fl = new() { 0, 1 };
+            for (int i = 0; i < (num - 1); i++)
             {
-                await context.Response.WriteAsync(num.ToString());
+                fl.Add(fl[^1] + fl[^2]);
             }
-            else
-            {
-                await _next(context);
-            }
+            await context.Response.WriteAsync(fl[^1].ToString());
         }
     }
 }

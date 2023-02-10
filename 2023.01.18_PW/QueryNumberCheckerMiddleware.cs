@@ -1,20 +1,19 @@
 ﻿namespace _2023._01._18_PW
 {
-    public class FirstFibonacciNumberMiddleware
+    public class QueryNumberCheckerMiddleware
     {
         private readonly RequestDelegate _next;
 
-        public FirstFibonacciNumberMiddleware(RequestDelegate next)
+        public QueryNumberCheckerMiddleware(RequestDelegate next)
         {
             _next = next;
         }
 
         public async Task InvokeAsync(HttpContext context)
         {
-            ushort num = Convert.ToUInt16(context.Request.Query["number"]);
-            if (num == 0 || num == 1)
+            if (!ushort.TryParse(context.Request.Query["number"], out ushort number) && number > 100)
             {
-                await context.Response.WriteAsync(num.ToString());
+                context.Response.StatusCode = 405;
             }
             else
             {
