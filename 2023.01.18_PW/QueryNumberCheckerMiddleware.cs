@@ -11,7 +11,7 @@
 
         public async Task InvokeAsync(HttpContext context)
         {
-            if (!ushort.TryParse(context.Request.Query["number"], out ushort number) && number > 100)
+            if (!ushort.TryParse(context.Request.Query["number"], out ushort number) || number > 100)
             {
                 context.Response.StatusCode = 405;
             }
