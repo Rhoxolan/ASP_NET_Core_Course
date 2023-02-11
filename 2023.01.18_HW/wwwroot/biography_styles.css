@@ -5,5 +5,17 @@
 #centralDiv {
     width: 500px;
     margin: auto;
+}
+
+
+#biographyHeader{
     text-align: center;
+}
+
+ul {
+    margin-top: 25px;
+}
+
+.biographyLi {
+    margin-bottom: 15px;
 }
