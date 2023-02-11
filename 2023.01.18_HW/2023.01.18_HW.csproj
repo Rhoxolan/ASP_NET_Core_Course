@@ -7,8 +7,4 @@
     <RootNamespace>_2023._01._18_HW</RootNamespace>
   </PropertyGroup>
 
-  <ItemGroup>
-    <Folder Include="wwwroot\" />
-  </ItemGroup>
-
 </Project>

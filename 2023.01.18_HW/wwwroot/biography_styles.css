@@ -1,0 +1,9 @@
+﻿body {
+    background-color: #FBF2E9;
+}
+
+#centralDiv {
+    width: 500px;
+    margin: auto;
+    text-align: center;
+}
