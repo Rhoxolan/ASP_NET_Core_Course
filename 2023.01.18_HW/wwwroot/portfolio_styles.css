@@ -1,0 +1,25 @@
+﻿#centralDiv {
+    width: 750px;
+    margin: auto;
+}
+
+.portfolioHeader {
+    text-align: center;
+}
+
+.projectRef {
+    text-decoration: none;
+    font-weight: bolder;
+    font-size: larger;
+    display: inline-block;
+    margin-bottom: 5px;
+}
+
+.portfolioUl {
+    font-size: larger;
+    margin-bottom: 50px;
+}
+
+.portfolioLi {
+    margin-bottom: 25px;
+}
