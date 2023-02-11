@@ -12,8 +12,9 @@
     text-align: center;
 }
 
-ul {
+.biographyUl {
     margin-top: 25px;
+    font-size: larger;
 }
 
 .biographyLi {
