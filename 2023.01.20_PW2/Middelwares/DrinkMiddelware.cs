@@ -23,7 +23,7 @@ namespace _2023._01._20_PW2.Middelwares
                     drink = drinkService.GetMineralWater();
                     break;
             }
-            await context.Response.WriteAsync($"The drink {drink!.Name} has {drink!.Calories} calories");
+            await context.Response.WriteAsync($"The drink {drink!.Name.ToLower()} has {drink!.Calories} calories");
         }
     }
 }
