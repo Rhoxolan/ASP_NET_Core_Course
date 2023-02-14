@@ -27,6 +27,10 @@
 
     public class MineralWater : IDrink
     {
+        public MineralWater()
+        {
+        }
+
         public string Name
             => "Mineral water";
 
@@ -53,7 +57,7 @@
             return _drinks.Where(d => d is Coffe).FirstOrDefault();
         }
 
-        public IDrink? GetMineralWoter()
+        public IDrink? GetMineralWater()
         {
             return _drinks.Where(d => d is MineralWater).FirstOrDefault();
         }
@@ -138,10 +142,10 @@
                     drink = drinkService.GetTea();
                     break;
                 case "coffe":
-                    drink = drinkService.GetTea();
+                    drink = drinkService.GetCoffe();
                     break;
                 case "mineralwater":
-                    drink = drinkService.GetMineralWoter();
+                    drink = drinkService.GetMineralWater();
                     break;
             }
             await context.Response.WriteAsync($"The drink {drink!.Name} has {drink!.Calories} calories");
