@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<data>
+	<Student>
+		<Skills>
+			<string1>C++</string1>
+			<string2>C#</string2>
+			<string3>Desktop development</string3>
+			<string4>SQL</string4>
+			<string5>DB development</string5>
+			<string6>HTML/CSS</string6>
+			<string7>JavaScript</string7>
+			<string8>ASP.NET Core</string8>
+			<string9>Web Development</string9>
+		</Skills>
+	</Student>
+</data>
