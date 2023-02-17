@@ -2,15 +2,15 @@
 <data>
 	<Student>
 		<Skills>
-			<string1>C++</string1>
-			<string2>C#</string2>
-			<string3>Desktop development</string3>
-			<string4>SQL</string4>
-			<string5>DB development</string5>
-			<string6>HTML/CSS</string6>
-			<string7>JavaScript</string7>
-			<string8>ASP.NET Core</string8>
-			<string9>Web Development</string9>
+			<cpp>C++</cpp>
+			<cs>C#</cs>
+			<desktop>Desktop development</desktop>
+			<sql>SQL</sql>
+			<db>DB development</db>
+			<html>HTML/CSS</html>
+			<js>JavaScript</js>
+			<asp>ASP.NET Core</asp>
+			<web>Web Development</web>
 		</Skills>
 	</Student>
 </data>
