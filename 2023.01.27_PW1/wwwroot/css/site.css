@@ -28,19 +28,18 @@ footer {
 }
 
 #fractionsForm {
+    width: 250px;
+    margin: auto;
     margin-top: 20px;
 }
 
 .fractionsDiv {
-/*    border: 1px solid red;*/
-    width: 300px;
-    margin: auto;
     display: flex;
     justify-content: space-evenly;
+    margin-bottom: 10px;
 }
 
 .fractionDiv {
-/*    border: 2px solid yellow;*/
     width: 150px;
 }
 
@@ -61,4 +60,25 @@ footer {
     background-color: #001A3A;
     height: 3px;
     opacity: 0.5;
+}
+
+.submitFractionFormButton {
+    width: 100%;
+    margin-top: 17px;
+    border: 1px solid #001927;
+    border-radius: 3px;
+}
+
+#outputLabelDiv{
+    margin-top: 25px;
+    margin-bottom: 5px;
+    font-size: x-large;
+}
+
+#outputTextArea {
+    resize: none;
+    width: 500px;
+    height: 150px;
+    padding: 5px;
+    font-size: larger;
 }
