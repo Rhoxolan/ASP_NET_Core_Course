@@ -18,5 +18,47 @@ html {
 }
 
 body {
-  margin-bottom: 60px;
+    margin-bottom: 60px;
+}
+
+footer {
+    bottom: 10px;
+    position: absolute;
+    width:100%;
+}
+
+#fractionsForm {
+    margin-top: 20px;
+}
+
+.fractionsDiv {
+/*    border: 1px solid red;*/
+    width: 300px;
+    margin: auto;
+    display: flex;
+    justify-content: space-evenly;
+}
+
+.fractionDiv {
+/*    border: 2px solid yellow;*/
+    width: 150px;
+}
+
+.fractionInput {
+    font-size: xx-large;
+    width: 50%;
+    box-sizing: border-box;
+    padding: 10px;
+    border-radius: 3px;
+    border: 1px solid #003172;
+}
+
+.fractionHr {
+    width: 55%;
+    margin-left: auto;
+    margin-right: auto;
+    border: 0;
+    background-color: #001A3A;
+    height: 3px;
+    opacity: 0.5;
 }
