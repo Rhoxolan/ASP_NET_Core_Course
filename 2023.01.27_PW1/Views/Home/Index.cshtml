@@ -4,7 +4,7 @@
 
 <div class="text-center">
 	<h1 class="display-4">Fractions</h1>
-	<form id="fractionsForm">
+	<form id="fractionsForm" method="post">
 		<div class="fractionsDiv">
 			<div class="fractionDiv">
 				<input class="fractionInput" type="text" name="leftTopFractionInput" pattern="\d{1,3}(\.\d{1,2})?" required />
@@ -17,8 +17,8 @@
 				<input class="fractionInput" type="text" name="rightBottomFractionInput" pattern="\d{1,3}(\.\d{1,2})?" required />
 			</div>
 		</div>
-		<button type="submit" class="submitFractionFormButton">Addition</button>
-		<button type="submit" class="submitFractionFormButton">Substraction</button>
+		<button type="submit" name="additionSubmitButton" value="addition" class="submitFractionFormButton">Addition</button>
+		<button type="submit" name="substractionSubmitButton" value="substraction" class="submitFractionFormButton">Substraction</button>
 		<button type="submit" class="submitFractionFormButton">Multiplication</button>
 		<button type="submit" class="submitFractionFormButton">Division</button>
 		<button type="submit" class="submitFractionFormButton">Power</button>

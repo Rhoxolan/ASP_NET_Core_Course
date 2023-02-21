@@ -13,11 +13,13 @@ namespace _2023._01._27_PW1.Controllers
 			_logger = logger;
 		}
 
-		public IActionResult Index(double? leftTopFractionInput, double? leftBottomFractionInput, double? rightTopFractionInput, double? rightBottomFractionInput)
+		//Попробовать упростить систему получения кнопки. Поэксперементировать с методами пост/гет, пчитать за них.
+		public IActionResult Index(string additionSubmitButton, string substractionSubmitButton, double? leftTopFractionInput, double? leftBottomFractionInput, double? rightTopFractionInput, double? rightBottomFractionInput)
 		{
 			if(leftTopFractionInput is not null)
 			{
-
+				var request = HttpContext.Request;
+				Console.WriteLine(leftTopFractionInput);
 			}
 			return View();
 		}
