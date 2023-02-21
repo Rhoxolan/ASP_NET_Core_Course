@@ -1,7 +1,27 @@
-﻿#fractionsForm {
+﻿body {
+    background-color: #FFFEFE;
+}
+
+#centralDiv {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+#fractionsForm {
     width: 250px;
     margin: auto;
     margin-top: 20px;
+    text-align: center;
+}
+
+#addFromFileButton {
+    width: 100%;
+    height: 25px;
+    background-color: #E5E4E7;
+    border: 1px solid #001927;
+    border-radius: 3px;
+    margin-bottom: 17px
 }
 
 .fractionsDiv {
@@ -15,6 +35,7 @@
 }
 
 .fractionInput {
+    text-align: center;
     font-size: xx-large;
     width: 50%;
     box-sizing: border-box;
@@ -54,4 +75,23 @@
     padding-left: 15px;
     box-sizing: border-box;
     font-size: larger;
+}
+
+.buttonClass:hover {
+    opacity: 0.9;
+    background-color: ghostwhite;
+}
+
+.buttonClass:active {
+    opacity: 1;
+    background-color: aliceblue;
+}
+
+#addFromFileButton:hover {
+    background-color: ghostwhite;
+}
+
+#addFromFileButton:active {
+    opacity: 1;
+    background-color: aliceblue;
 }
