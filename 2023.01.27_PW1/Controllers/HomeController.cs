@@ -13,16 +13,32 @@ namespace _2023._01._27_PW1.Controllers
 			_logger = logger;
 		}
 
-		//Попробовать упростить систему получения кнопки. Поэксперементировать с методами пост/гет, пчитать за них.
-		public IActionResult Index(string additionSubmitButton, string substractionSubmitButton, double? leftTopFractionInput, double? leftBottomFractionInput, double? rightTopFractionInput, double? rightBottomFractionInput)
+		[HttpPost]
+		public IActionResult Index(double leftTopFractionInput, double leftBottomFractionInput, double rightTopFractionInput, double rightBottomFractionInput)
 		{
-			if(leftTopFractionInput is not null)
+			double res = default;
+			foreach (var formElem in HttpContext.Request.Form)
 			{
-				var request = HttpContext.Request;
-				Console.WriteLine(leftTopFractionInput);
+				if (formElem.Value == "addition")
+				{
+					res = AddFractions(leftTopFractionInput, leftBottomFractionInput, rightTopFractionInput, rightBottomFractionInput);
+					break;
+				}
+				if(formElem.Value == "substraction")
+				{
+					res = SubtractFractions(leftTopFractionInput, leftBottomFractionInput, rightTopFractionInput, rightBottomFractionInput);
+				}
 			}
+			return View(res);
+		}
+
+		[HttpGet]
+		public IActionResult Index()
+		{
 			return View();
 		}
+
+
 
 		[ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
 		public IActionResult Error()
