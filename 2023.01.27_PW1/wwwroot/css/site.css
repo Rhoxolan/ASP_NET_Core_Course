@@ -80,5 +80,7 @@ footer {
     width: 500px;
     height: 150px;
     padding: 5px;
+    padding-left: 15px;
+    box-sizing: border-box;
     font-size: larger;
 }

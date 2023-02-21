@@ -2,6 +2,8 @@
 	ViewData["Title"] = "Fractions";
 }
 
+@model double?
+
 <div class="text-center">
 	<h1 class="display-4">Fractions</h1>
 	<form id="fractionsForm" method="post">
@@ -27,7 +29,12 @@
 		Output:
 	</label>
 	<br />
-	<textarea id="outputTextArea" readonly>
-
-	</textarea>
+	@if (Model is not null)
+	{
+		<textarea id="outputTextArea" readonly>@Model.ToString()</textarea>
+	}
+	else
+	{
+		<textarea id="outputTextArea" readonly>Please make your calculation</textarea>
+	}
 </div>
