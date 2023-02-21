@@ -7,21 +7,21 @@
 	<form id="fractionsForm">
 		<div class="fractionsDiv">
 			<div class="fractionDiv">
-				<input class="fractionInput" type="text" name="leftTopFractionInput" pattern="\d{1,3}(\.\d{1,2})?" />
+				<input class="fractionInput" type="text" name="leftTopFractionInput" pattern="\d{1,3}(\.\d{1,2})?" required />
 				<hr class="fractionHr" />
-				<input class="fractionInput" type="text" name="leftBottomFractionInput" pattern="\d{1,3}(\.\d{1,2})?" />
+				<input class="fractionInput" type="text" name="leftBottomFractionInput" pattern="\d{1,3}(\.\d{1,2})?" required />
 			</div>
 			<div class="fractionDiv">
-				<input class="fractionInput" type="text" name="rightTopFractionInput" pattern="\d{1,3}(\.\d{1,2})?" />
+				<input class="fractionInput" type="text" name="rightTopFractionInput" pattern="\d{1,3}(\.\d{1,2})?" required />
 				<hr class="fractionHr" />
-				<input class="fractionInput" type="text" name="rightBottomFractionInput" pattern="\d{1,3}(\.\d{1,2})?" />
+				<input class="fractionInput" type="text" name="rightBottomFractionInput" pattern="\d{1,3}(\.\d{1,2})?" required />
 			</div>
 		</div>
 		<button type="submit" class="submitFractionFormButton">Addition</button>
 		<button type="submit" class="submitFractionFormButton">Substraction</button>
 		<button type="submit" class="submitFractionFormButton">Multiplication</button>
 		<button type="submit" class="submitFractionFormButton">Division</button>
-		<button type="submit" class="submitFractionFormButton">Fraction simplification</button>
+		<button type="submit" class="submitFractionFormButton">Power</button>
 	</form>
 	<label for="outputTextArea" id="outputLabelDiv">
 		Output:
