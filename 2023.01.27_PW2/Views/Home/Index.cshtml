@@ -1,0 +1,46 @@
+﻿@model double?
+
+<!doctype html>
+<html>
+<head>
+	<title>Fractions</title>
+	<meta charset="utf-8" />
+	<link rel="stylesheet" href="~/styles.css" />
+</head>
+<body>
+	<div>
+		<h1>Fractions</h1>
+		<form id="fractionsForm" method="post">
+			<div class="fractionsDiv">
+				<div class="fractionDiv">
+					<input class="fractionInput" type="text" name="leftTopFractionInput" pattern="\d{1,3}(\.\d{1,2})?" required />
+					<hr class="fractionHr" />
+					<input class="fractionInput" type="text" name="leftBottomFractionInput" pattern="\d{1,3}(\.\d{1,2})?" required />
+				</div>
+				<div class="fractionDiv">
+					<input class="fractionInput" type="text" name="rightTopFractionInput" pattern="\d{1,3}(\.\d{1,2})?" required />
+					<hr class="fractionHr" />
+					<input class="fractionInput" type="text" name="rightBottomFractionInput" pattern="\d{1,3}(\.\d{1,2})?" required />
+				</div>
+			</div>
+			<button type="submit" name="additionSubmitButton" value="addition" class="submitFractionFormButton">Addition</button>
+			<button type="submit" name="substractionSubmitButton" value="substraction" class="submitFractionFormButton">Substraction</button>
+			<button type="submit" name="multiplicationSubmitButton" value="multiplication" class="submitFractionFormButton">Multiplication</button>
+			<button type="submit" name="divisionSubmitButton" value="division" class="submitFractionFormButton">Division</button>
+			<button type="submit" name="powerSubmitButton" value="power" class="submitFractionFormButton">Power</button>
+		</form>
+		<label for="outputTextArea" id="outputLabelDiv">
+			Output:
+		</label>
+		<br />
+		@if (Model is not null)
+		{
+			<textarea id="outputTextArea" readonly>@Model.ToString()</textarea>
+		}
+		else
+		{
+			<textarea id="outputTextArea" readonly>Please make your calculation</textarea>
+		}
+	</div>
+</body>
+</html>

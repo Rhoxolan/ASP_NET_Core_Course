@@ -1,0 +1,57 @@
+﻿#fractionsForm {
+    width: 250px;
+    margin: auto;
+    margin-top: 20px;
+}
+
+.fractionsDiv {
+    display: flex;
+    justify-content: space-evenly;
+    margin-bottom: 10px;
+}
+
+.fractionDiv {
+    width: 150px;
+}
+
+.fractionInput {
+    font-size: xx-large;
+    width: 50%;
+    box-sizing: border-box;
+    padding: 10px;
+    border-radius: 3px;
+    border: 1px solid #003172;
+}
+
+.fractionHr {
+    width: 55%;
+    margin-left: auto;
+    margin-right: auto;
+    border: 0;
+    background-color: #001A3A;
+    height: 3px;
+    opacity: 0.5;
+}
+
+.submitFractionFormButton {
+    width: 100%;
+    margin-top: 17px;
+    border: 1px solid #001927;
+    border-radius: 3px;
+}
+
+#outputLabelDiv {
+    margin-top: 25px;
+    margin-bottom: 5px;
+    font-size: x-large;
+}
+
+#outputTextArea {
+    resize: none;
+    width: 500px;
+    height: 150px;
+    padding: 5px;
+    padding-left: 15px;
+    box-sizing: border-box;
+    font-size: larger;
+}
