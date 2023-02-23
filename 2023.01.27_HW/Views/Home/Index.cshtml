@@ -1,25 +1,27 @@
 ﻿@{
-    ViewData["Title"] = "Home Page";
+	ViewData["Title"] = "Home Page";
 }
 @model List<Book>
 
 <div class="text-center">
-    @foreach(Book book in Model)
-    {
-        <div>
-            @book.Title
-        </div>
-        <div>
-            @book.Author
-        </div>
-        <div>
-            @book.Publisher, @book.Year
-        </div>
-        <div>
-            @book.Style
-        </div>
-        <div>
-            <img src="@book.ImagePath" alt="@book.Title">
-        </div>
-    }
+	@foreach (Book book in Model)
+	{
+		<div class="bookDiv">
+			<div>
+				<h5>@book.Title</h5>
+			</div>
+			<div>
+				<strong>@book.Author</strong>
+			</div>
+			<div>
+				@book.Publisher, @book.Year
+			</div>
+			<div>
+				@book.Style
+			</div>
+			<div>
+				<img class="bookImg" src="@book.ImagePath" alt="@book.Title">
+			</div>
+		</div>
+	}
 </div>

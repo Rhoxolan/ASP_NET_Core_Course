@@ -13,12 +13,12 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Resource Include="Images\cppsoftwaredesign.jfif">
+    <Content Update="wwwroot\images\cppsoftwaredesign.jfif">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
-    </Resource>
-    <Resource Include="Images\The_C++_Programming_Language,_Fourth_Edition.jpg">
+    </Content>
+    <Content Update="wwwroot\images\The_C++_Programming_Language,_Fourth_Edition.jpg">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
-    </Resource>
+    </Content>
   </ItemGroup>
 
 </Project>

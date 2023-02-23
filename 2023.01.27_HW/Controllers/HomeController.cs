@@ -22,7 +22,7 @@ namespace _2023._01._27_HW.Controllers
 				Style = "technical literature",
 				Publisher = "Addison–Wesley",
 				Year = 2013,
-				ImagePath = "Images/The_C++_Programming_Language,_Fourth_Edition.jpg"
+				ImagePath = "/images/The_C++_Programming_Language,_Fourth_Edition.jpg"
 			};
 			Book cppSoftwareDesign = new Book
 			{
@@ -31,7 +31,7 @@ namespace _2023._01._27_HW.Controllers
 				Style = "technical literature",
 				Publisher = "O'Reilly Media, Inc.",
 				Year = 2022,
-				ImagePath = "/Images/cppsoftwaredesign.jfif"
+				ImagePath = "/images/cppsoftwaredesign.jfif"
             };
 			List<Book> books = new List<Book>()
 			{

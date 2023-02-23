@@ -27,3 +27,18 @@ body {
     position: absolute;
     width: 100%;
 }
+
+.bookDiv {
+    width: 300px;
+    margin: auto;
+    margin-bottom: 15px;
+    border: 1px solid steelblue;
+    padding: 10px;
+    box-sizing: border-box;
+}
+
+.bookImg{
+    margin: 5px;
+    width: 225px;
+    height: 275px;
+}
