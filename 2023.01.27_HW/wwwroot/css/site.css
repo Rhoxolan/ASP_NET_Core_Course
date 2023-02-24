@@ -42,3 +42,8 @@ body {
     width: 225px;
     height: 275px;
 }
+
+.bookA {
+    text-decoration: none;
+    color: inherit;
+}

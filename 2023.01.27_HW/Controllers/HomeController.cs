@@ -7,16 +7,19 @@ namespace _2023._01._27_HW.Controllers
 	public class HomeController : Controller
 	{
 		private readonly ILogger<HomeController> _logger;
+		private List<Book> books;
 
 		public HomeController(ILogger<HomeController> logger)
 		{
 			_logger = logger;
+			books = new(); //Поэксперементировать с сервисом!
 		}
 
 		public IActionResult Index()
 		{
 			Book cppProgrammingLangguage = new Book
 			{
+				Id = 1,
 				Author = "Bjarne Stroustrup",
 				Title = "The C++ Programming Language",
 				Style = "technical literature",
@@ -26,6 +29,7 @@ namespace _2023._01._27_HW.Controllers
 			};
 			Book cppSoftwareDesign = new Book
 			{
+				Id = 2,
 				Author = "Klaus Iglberger",
 				Title = "C++ Software Design",
 				Style = "technical literature",
@@ -33,12 +37,14 @@ namespace _2023._01._27_HW.Controllers
 				Year = 2022,
 				ImagePath = "/images/cppsoftwaredesign.jfif"
             };
-			List<Book> books = new List<Book>()
-			{
-				cppProgrammingLangguage,
-				cppSoftwareDesign
-			};
+			books.Add(cppProgrammingLangguage);
+			books.Add(cppSoftwareDesign);
 			return View(books);
+		}
+
+		public IActionResult Details(uint id)
+		{
+			return View(books.Where(b => b.Id == id).FirstOrDefault());
 		}
 
 		[ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
