@@ -1,7 +1,8 @@
-var builder = WebApplication.CreateBuilder(args);
+using _2023._01._27_HW.Models;
 
-// Add services to the container.
+var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllersWithViews();
+builder.Services.AddTransient<ICollection<Book>, List<Book>>();
 
 var app = builder.Build();
 
@@ -18,10 +19,8 @@ app.UseStaticFiles();
 
 app.UseRouting();
 
-app.UseAuthorization();
-
 app.MapControllerRoute(
 	name: "default",
-	pattern: "{controller=Home}/{action=Index}/{id?}");
+	pattern: "{controller=Home}/{action=Index}");
 
 app.Run();

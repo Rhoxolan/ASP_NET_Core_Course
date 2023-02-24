@@ -6,13 +6,11 @@ namespace _2023._01._27_HW.Controllers
 {
 	public class HomeController : Controller
 	{
-		private readonly ILogger<HomeController> _logger;
-		private List<Book> books;
+		private ICollection<Book> books;
 
-		public HomeController(ILogger<HomeController> logger)
+		public HomeController(ICollection<Book> books)
 		{
-			_logger = logger;
-			books = new(); //Поэксперементировать с сервисом!
+			this.books = books;
 			Book cppProgrammingLangguage = new Book
 			{
 				Id = 1,
