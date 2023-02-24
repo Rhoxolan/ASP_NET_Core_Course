@@ -3,9 +3,11 @@
 }
 @model Book?
 
-<button class="goToHomeButton">
-	Home
-</button>
+<a class="goA" asp-controller="Home" asp-action="Index">
+	<button class="goToHomeButton" asp-controller="Home" asp-action="Index">
+		Home
+	</button>
+</a>
 
 @if (Model is null)
 {

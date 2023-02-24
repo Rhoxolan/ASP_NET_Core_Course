@@ -6,8 +6,8 @@
 <div class="text-center">
 	@foreach (Book book in Model)
 	{
-		<a class="bookA" asp-controller="Home" asp-action="Details" asp-route-id="@book.Id">
-			<div class="bookDiv">
+		<div class="bookDiv">
+			<a class="goA" asp-controller="Home" asp-action="Details" asp-route-id="@book.Id">
 				<div>
 					<h5>@book.Title</h5>
 				</div>
@@ -23,7 +23,7 @@
 				<div>
 					<img class="bookImg" src="@book.ImagePath" alt="@book.Title">
 				</div>
-			</div>
-		</a>
+			</a>
+		</div>
 	}
 </div>

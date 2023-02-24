@@ -35,6 +35,7 @@ body {
     border: 1px solid steelblue;
     padding: 10px;
     box-sizing: border-box;
+    border-radius: 1.5px;
 }
 
 .bookImg {
@@ -43,7 +44,7 @@ body {
     height: 275px;
 }
 
-.bookA {
+.goA {
     text-decoration: none;
     color: inherit;
 }
@@ -55,21 +56,21 @@ body {
 .goToHomeButton {
     width: 150px;
     height: 75px;
-    background-color: mediumorchid;
+    background-color: #F6F0FF;
     color: navy;
     font-size: larger;
     font-weight: bolder;
     border: 1px solid navy;
     border-radius: 5px;
     position: fixed;
-    top: 60px;
+    top: 70px;
     left: 20px;
 }
 
-.goToHomeButton:hover {
-    background-color: mediumpurple;
-}
+    .goToHomeButton:hover {
+        background-color: #DEC9FF;
+    }
 
-.goToHomeButton:active {
-    background-color: lavender;
-}
+    .goToHomeButton:active {
+        background-color: lavender;
+    }
