@@ -15,5 +15,7 @@
 		public required int Year { get; set; }
 
 		public string? ImagePath { get; set; }
+
+		public required string Description { get; set; }
 	}
 }

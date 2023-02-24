@@ -3,7 +3,35 @@
 }
 @model Book?
 
-<div class="text-center">
-	Hello from @Model?.Title
-</div>
+@if (Model is null)
+{
+	<div class="text-center">
+		<h2>
+			The book was not found
+		</h2>
+	</div>
+}
+else
+{
+	<div class="text-center">
+		<div>
+			<h5>@Model.Title</h5>
+		</div>
+		<div>
+			<strong>@Model.Author</strong>
+		</div>
+		<div>
+			@Model.Publisher, @Model.Year
+		</div>
+		<div>
+			@Model.Style
+		</div>
+		<div>
+			<img class="bookImg" src="@Model.ImagePath" alt="@Model.Title">
+		</div>
+		<div class="bookDescriptionDiv">
+			@Model.Description
+		</div>
+	</div>
+}
 

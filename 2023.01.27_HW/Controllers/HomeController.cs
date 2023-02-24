@@ -13,10 +13,6 @@ namespace _2023._01._27_HW.Controllers
 		{
 			_logger = logger;
 			books = new(); //Поэксперементировать с сервисом!
-		}
-
-		public IActionResult Index()
-		{
 			Book cppProgrammingLangguage = new Book
 			{
 				Id = 1,
@@ -25,7 +21,8 @@ namespace _2023._01._27_HW.Controllers
 				Style = "technical literature",
 				Publisher = "Addison–Wesley",
 				Year = 2013,
-				ImagePath = "/images/The_C++_Programming_Language,_Fourth_Edition.jpg"
+				ImagePath = "/images/The_C++_Programming_Language,_Fourth_Edition.jpg",
+				Description = "The book about C++ programming language"
 			};
 			Book cppSoftwareDesign = new Book
 			{
@@ -35,10 +32,15 @@ namespace _2023._01._27_HW.Controllers
 				Style = "technical literature",
 				Publisher = "O'Reilly Media, Inc.",
 				Year = 2022,
-				ImagePath = "/images/cppsoftwaredesign.jfif"
-            };
+				ImagePath = "/images/cppsoftwaredesign.jfif",
+				Description = "The book about software design and pattenrns on the C++ programming language"
+			};
 			books.Add(cppProgrammingLangguage);
 			books.Add(cppSoftwareDesign);
+		}
+
+		public IActionResult Index()
+		{
 			return View(books);
 		}
 

@@ -47,3 +47,7 @@ body {
     text-decoration: none;
     color: inherit;
 }
+
+.bookDescriptionDiv {
+    margin-top: 10px;
+}
