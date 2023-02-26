@@ -48,7 +48,15 @@ namespace _2023._01._30_PW.Controllers
 		[HttpGet]
 		public IActionResult Edit(uint id)
 		{
-			return View(bookRepository.Books.Select(b => b.Id == id).First());
+			return View(bookRepository.Books.Where(b => b.Id == id).First());
+		}
+
+		[HttpPost]
+		public IActionResult Edit(Book editedBook)
+		{
+			Book book = bookRepository.Books.Find(b => b.Id == editedBook.Id)!;
+			book = editedBook;
+			return RedirectToAction("Index");
 		}
 	}
 }
