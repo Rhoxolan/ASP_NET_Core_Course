@@ -20,3 +20,50 @@ html {
 body {
   margin-bottom: 60px;
 }
+
+.bookDiv {
+    width: 300px;
+    margin: auto;
+    margin-bottom: 15px;
+    border: 1px solid steelblue;
+    padding: 10px;
+    box-sizing: border-box;
+    border-radius: 1.5px;
+}
+
+.bookImg {
+    margin: 5px;
+    width: 225px;
+    height: 275px;
+}
+
+.goA {
+    text-decoration: none;
+    color: inherit;
+}
+
+.bookDescriptionDiv {
+    margin-top: 10px;
+}
+
+.goToHomeButton {
+    width: 150px;
+    height: 75px;
+    background-color: #F6F0FF;
+    color: navy;
+    font-size: larger;
+    font-weight: bolder;
+    border: 1px solid navy;
+    border-radius: 5px;
+    position: fixed;
+    top: 70px;
+    left: 20px;
+}
+
+    .goToHomeButton:hover {
+        background-color: #DEC9FF;
+    }
+
+    .goToHomeButton:active {
+        background-color: lavender;
+    }

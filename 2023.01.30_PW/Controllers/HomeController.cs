@@ -6,21 +6,45 @@ namespace _2023._01._30_PW.Controllers
 {
 	public class HomeController : Controller
 	{
-		private readonly ILogger<HomeController> _logger;
+		private ICollection<Book> books;
 
-		public HomeController(ILogger<HomeController> logger)
+		public HomeController(ICollection<Book> books)
 		{
-			_logger = logger;
+			this.books = books;
+			Book cppProgrammingLangguage = new Book
+			{
+				Id = 1,
+				Author = "Bjarne Stroustrup",
+				Title = "The C++ Programming Language",
+				Style = "technical literature",
+				Publisher = "Addison–Wesley",
+				Year = 2013,
+				ImagePath = "/images/The_C++_Programming_Language,_Fourth_Edition.jpg",
+				Description = "The book about C++ programming language"
+			};
+			Book cppSoftwareDesign = new Book
+			{
+				Id = 2,
+				Author = "Klaus Iglberger",
+				Title = "C++ Software Design",
+				Style = "technical literature",
+				Publisher = "O'Reilly Media, Inc.",
+				Year = 2022,
+				ImagePath = "/images/cppsoftwaredesign.jfif",
+				Description = "The book about software design and pattenrns on the C++ programming language"
+			};
+			books.Add(cppProgrammingLangguage);
+			books.Add(cppSoftwareDesign);
 		}
 
 		public IActionResult Index()
 		{
-			return View();
+			return View(books);
 		}
 
-		public IActionResult Privacy()
+		public IActionResult Details(uint id)
 		{
-			return View();
+			return View(books.Where(b => b.Id == id).FirstOrDefault());
 		}
 
 		[ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
