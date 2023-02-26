@@ -1,13 +1,8 @@
 ﻿@{
 	ViewData["Title"] = "Book Details";
 }
+@using static System.String;
 @model Book?
-
-<a class="goA" asp-controller="Home" asp-action="Index">
-	<button class="goToHomeButton" asp-controller="Home" asp-action="Index">
-		Home
-	</button>
-</a>
 
 @if (Model is null)
 {
@@ -19,6 +14,12 @@
 }
 else
 {
+	<div class="detailsMenuDiv">
+		<a class="btn btn-outline-primary" asp-controller="Home" asp-action="Index">Home</a>
+		<a class="btn btn-outline-warning" asp-controller="Home" asp-action="Edit" asp-route-id="@Model.Id">Edit</a>
+		<a class="btn btn-outline-danger" asp-controller="Home" asp-action="Delete" asp-route-id="@Model.Id">Delete</a>
+	</div>
+
 	<div class="text-center">
 		<div>
 			<h5>@Model.Title</h5>
@@ -32,9 +33,12 @@ else
 		<div>
 			@Model.Style
 		</div>
-		<div>
-			<img class="bookImg" src="@Model.ImagePath" alt="@Model.Title">
-		</div>
+		@if (!string.IsNullOrEmpty(Model.ImagePath))
+		{
+			<div>
+				<img class="bookImg" src="@Model.ImagePath" alt="@Model.Title">
+			</div>
+		}
 		<div class="bookDescriptionDiv">
 			@Model.Description
 		</div>

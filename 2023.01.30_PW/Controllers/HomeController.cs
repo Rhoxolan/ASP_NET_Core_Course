@@ -1,4 +1,5 @@
 ﻿using _2023._01._30_PW.Models;
+using _2023._01._30_PW.Repositories;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 
@@ -6,51 +7,48 @@ namespace _2023._01._30_PW.Controllers
 {
 	public class HomeController : Controller
 	{
-		private ICollection<Book> books;
+		private BookRepository bookRepository;
 
-		public HomeController(ICollection<Book> books)
+		public HomeController(BookRepository bookRepository)
 		{
-			this.books = books;
-			Book cppProgrammingLangguage = new Book
-			{
-				Id = 1,
-				Author = "Bjarne Stroustrup",
-				Title = "The C++ Programming Language",
-				Style = "technical literature",
-				Publisher = "Addison–Wesley",
-				Year = 2013,
-				ImagePath = "/images/The_C++_Programming_Language,_Fourth_Edition.jpg",
-				Description = "The book about C++ programming language"
-			};
-			Book cppSoftwareDesign = new Book
-			{
-				Id = 2,
-				Author = "Klaus Iglberger",
-				Title = "C++ Software Design",
-				Style = "technical literature",
-				Publisher = "O'Reilly Media, Inc.",
-				Year = 2022,
-				ImagePath = "/images/cppsoftwaredesign.jfif",
-				Description = "The book about software design and pattenrns on the C++ programming language"
-			};
-			books.Add(cppProgrammingLangguage);
-			books.Add(cppSoftwareDesign);
+			this.bookRepository = bookRepository;
 		}
 
 		public IActionResult Index()
 		{
-			return View(books);
+			return View(bookRepository.Books);
 		}
 
 		public IActionResult Details(uint id)
 		{
-			return View(books.Where(b => b.Id == id).FirstOrDefault());
+			return View(bookRepository.Books.Where(b => b.Id == id).FirstOrDefault());
 		}
 
 		[ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
 		public IActionResult Error()
 		{
 			return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+		}
+
+		[HttpGet]
+		public IActionResult Add()
+		{
+			return View();
+		}
+
+		[HttpPost]
+		public IActionResult Add(Book book)
+		{
+			uint maxIdFromTheCollection = bookRepository.Books.Max(b => b.Id);
+			book.Id = ++maxIdFromTheCollection;
+			bookRepository.Books.Add(book);
+			return RedirectToAction("Index");
+		}
+
+		[HttpGet]
+		public IActionResult Edit(uint id)
+		{
+			return View(bookRepository.Books.Select(b => b.Id == id).First());
 		}
 	}
 }

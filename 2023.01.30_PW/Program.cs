@@ -1,8 +1,8 @@
-using _2023._01._30_PW.Models;
+using _2023._01._30_PW.Repositories;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllersWithViews();
-builder.Services.AddTransient<ICollection<Book>, List<Book>>();
+builder.Services.AddSingleton<BookRepository>();
 
 var app = builder.Build();
 
