@@ -39,8 +39,7 @@ namespace _2023._01._30_PW.Controllers
 		[HttpPost]
 		public IActionResult Add(Book book)
 		{
-			uint maxIdFromTheCollection = bookRepository.Books.Max(b => b.Id);
-			book.Id = ++maxIdFromTheCollection;
+			book.Id = CreateId(bookRepository.Books);
 			bookRepository.Books.Add(book);
 			return RedirectToAction("Index");
 		}
@@ -83,6 +82,32 @@ namespace _2023._01._30_PW.Controllers
 		{
 			bookRepository.Books.RemoveAt(bookRepository.Books.FindIndex(b => b.Id == id));
 			return RedirectToAction("Index");
+		}
+
+		private uint CreateId(IEnumerable<Book> books)
+		{
+			if (!books.Any())
+			{
+				return 1;
+			}
+			bool checker = false;
+			for (uint i = 1; i < uint.MaxValue; i++)
+			{
+				foreach (var book in books)
+				{
+					if (book.Id == i)
+					{
+						checker = true;
+						break;
+					}
+				}
+				if (!checker)
+				{
+					return i;
+				}
+				checker = false;
+			}
+			return default;
 		}
 	}
 }
