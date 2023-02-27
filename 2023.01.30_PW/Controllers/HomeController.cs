@@ -52,10 +52,23 @@ namespace _2023._01._30_PW.Controllers
 		}
 
 		[HttpPost]
-		public IActionResult Edit(Book editedBook)
+		public IActionResult Edit(Book book)
 		{
-			Book book = bookRepository.Books.Find(b => b.Id == editedBook.Id)!;
-			book = editedBook;
+			bookRepository.Books[bookRepository.Books.FindIndex(b => b.Id == book.Id)] = book;
+			return RedirectToAction("Index");
+		}
+
+		[HttpGet]
+		public IActionResult Delete(uint id)
+		{
+			return View(bookRepository.Books.Where(b => b.Id == id).First());
+		}
+
+		[HttpPost]
+		[ActionName("Delete")]
+		public IActionResult ConfirmDelete(uint id)
+		{
+			bookRepository.Books.RemoveAt(bookRepository.Books.FindIndex(b => b.Id == id));
 			return RedirectToAction("Index");
 		}
 	}
