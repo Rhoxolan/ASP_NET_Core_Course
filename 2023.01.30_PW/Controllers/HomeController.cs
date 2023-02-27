@@ -61,7 +61,20 @@ namespace _2023._01._30_PW.Controllers
 		[HttpGet]
 		public IActionResult Delete(uint id)
 		{
-			return View(bookRepository.Books.Where(b => b.Id == id).First());
+			Book? book = bookRepository.Books.Find(b => b.Id == id);
+			if (book is null)
+			{
+				return RedirectToAction("Index");
+			}
+			return View(book);
+
+			//Variant 2
+			//int index = bookRepository.Books.FindIndex(b => b.Id == id);
+			//if(index == -1)
+			//{
+			//	return RedirectToAction("Index");
+			//}
+			//return View(bookRepository.Books[index]);
 		}
 
 		[HttpPost]
