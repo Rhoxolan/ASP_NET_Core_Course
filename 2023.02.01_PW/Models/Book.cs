@@ -2,7 +2,7 @@
 {
 	public class Book
 	{
-		public required uint Id { get; set; }
+		public required int Id { get; set; }
 
 		public required string Title { get; set; }
 

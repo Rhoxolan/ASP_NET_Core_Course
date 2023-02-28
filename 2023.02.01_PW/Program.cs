@@ -1,8 +1,14 @@
+using _2023._02._01_PW.Contexts;
+using _2023._02._01_PW.Models;
 using _2023._02._01_PW.Repositories;
+using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllersWithViews();
-builder.Services.AddSingleton<BookRepository>();
+
+builder.Services.AddTransient<IRepository<Book>, BookDbRepository>();
+string? connstr = builder.Configuration.GetConnectionString("BooksDb");
+builder.Services.AddDbContext<ApplicationContext>(options => options.UseSqlite(connstr));
 
 var app = builder.Build();
 

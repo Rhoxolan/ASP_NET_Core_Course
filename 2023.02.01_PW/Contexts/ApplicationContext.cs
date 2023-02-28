@@ -1,12 +1,18 @@
 ﻿using _2023._02._01_PW.Models;
+using Microsoft.EntityFrameworkCore;
 
-namespace _2023._02._01_PW.Repositories
+namespace _2023._02._01_PW.Contexts
 {
-	public class BookRepository
+	public class ApplicationContext : DbContext
 	{
-		public List<Book> Books { get; } = new();
+		public ApplicationContext(DbContextOptions<ApplicationContext> options) : base(options)
+		{
+			Database.EnsureCreated();
+		}
 
-		public BookRepository()
+		public DbSet<Book> Books { get; set; } = null!;
+
+		protected override void OnModelCreating(ModelBuilder modelBuilder)
 		{
 			Book cppProgrammingLangguage = new Book
 			{
@@ -30,8 +36,7 @@ namespace _2023._02._01_PW.Repositories
 				ImagePath = "/images/cppsoftwaredesign.jfif",
 				Description = "The book about software design and pattenrns on the C++ programming language"
 			};
-			Books.Add(cppProgrammingLangguage);
-			Books.Add(cppSoftwareDesign);
+			modelBuilder.Entity<Book>().HasData(cppProgrammingLangguage, cppSoftwareDesign);
 		}
 	}
 }
