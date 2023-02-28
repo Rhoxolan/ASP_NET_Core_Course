@@ -1,0 +1,25 @@
+﻿@using static System.String;
+@model Book;
+
+<div class="formDiv">
+	<form class="form-group" method="post">
+		<input type="hidden" name="id" value="@Model.Id" />
+		@if (!IsNullOrEmpty(Model.ImagePath))
+		{
+			<input type="hidden" name="ImagePath" value="@Model.ImagePath" />
+		}
+		<label class="col-form-label" for="titleInput">Title</label><br />
+		<input type="text" name="title" id="titleInput" class="form-control" value="@Model.Title" required /><br />
+		<label class="col-form-label" for="authorInput">Author</label><br />
+		<input type="text" name="author" id="authorInput" class="form-control" value="@Model.Author" required /><br />
+		<label class="col-form-label" for="publisherInput">Publisher</label><br />
+		<input type="text" name="publisher" id="publisherInput" class="form-control" value="@Model.Publisher" required /><br />
+		<label class="col-form-label" for="yearInput">Year</label><br />
+		<input type="number" name="year" id="yearInput" class="form-control" value="@Model.Year" required /><br />
+		<label class="col-form-label" for="styleInput">Style</label><br />
+		<input type="text" name="style" id="styleInput" class="form-control" value="@Model.Style" required /><br />
+		<label class="col-form-label" for="descriptionInput">Description</label><br />
+		<textarea class="form-control" name="description" id="descriptionInput" required>@Model.Description</textarea><br />
+		<button type="submit" class="btn btn-outline-success">Edit</button>
+	</form>
+</div>

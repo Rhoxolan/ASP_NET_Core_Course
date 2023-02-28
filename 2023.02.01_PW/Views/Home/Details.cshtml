@@ -1,0 +1,47 @@
+﻿@{
+	ViewData["Title"] = "Book Details";
+}
+@using static System.String;
+@model Book?
+
+@if (Model is null)
+{
+	<div class="text-center">
+		<h2>
+			The book was not found
+		</h2>
+	</div>
+}
+else
+{
+	<div class="detailsMenuDiv">
+		<a class="btn btn-outline-primary" asp-controller="Home" asp-action="Index">Home</a>
+		<a class="btn btn-outline-warning" asp-controller="Home" asp-action="Edit" asp-route-id="@Model.Id">Edit</a>
+		<a class="btn btn-outline-danger" asp-controller="Home" asp-action="Delete" asp-route-id="@Model.Id">Delete</a>
+	</div>
+
+	<div class="text-center">
+		<div>
+			<h5>@Model.Title</h5>
+		</div>
+		<div>
+			<strong>@Model.Author</strong>
+		</div>
+		<div>
+			@Model.Publisher, @Model.Year
+		</div>
+		<div>
+			@Model.Style
+		</div>
+		@if (!string.IsNullOrEmpty(Model.ImagePath))
+		{
+			<div>
+				<img class="bookImg" src="@Model.ImagePath" alt="@Model.Title">
+			</div>
+		}
+		<div class="bookDescriptionDiv">
+			@Model.Description
+		</div>
+	</div>
+}
+

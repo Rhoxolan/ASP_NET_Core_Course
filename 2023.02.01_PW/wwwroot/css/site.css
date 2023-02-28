@@ -1,0 +1,82 @@
+html {
+    font-size: 14px;
+}
+
+@media (min-width: 768px) {
+    html {
+        font-size: 16px;
+    }
+}
+
+.btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
+    box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
+}
+
+html {
+    position: relative;
+    min-height: 100%;
+}
+
+body {
+    margin-bottom: 60px;
+    background-color: #FDFEFC;
+}
+
+.bookDiv {
+    width: 300px;
+    margin: auto;
+    margin-bottom: 15px;
+    border: 1px solid steelblue;
+    padding: 10px;
+    box-sizing: border-box;
+    border-radius: 1.5px;
+}
+
+.bookImg {
+    margin: 5px;
+    width: 225px;
+    height: 275px;
+}
+
+.goA {
+    text-decoration: none;
+    color: inherit;
+}
+
+.bookDescriptionDiv {
+    margin-top: 10px;
+}
+
+.detailsMenuDiv {
+    width: 125px;
+    position: absolute;
+    top: 70px;
+    left: 20px;
+    row-gap: 10px;
+    display: flex;
+    flex-direction: column;
+}
+
+
+.addNewBookButton {
+    width: 155px;
+    position: absolute;
+    top: 70px;
+    left: 20px;
+}
+
+.formDiv {
+    margin: auto;
+    max-width: 500px;
+}
+
+#descriptionInput {
+    height: 180px;
+    resize: none;
+}
+
+.choiceDiv {
+    display: flex;
+    margin-top: 25px;
+    gap: 15px
+}

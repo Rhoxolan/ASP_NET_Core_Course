@@ -1,0 +1,37 @@
+﻿@{
+	ViewData["Title"] = "Home Page";
+}
+@using static System.String;
+@model List<Book>
+
+<a class="btn btn-outline-primary addNewBookButton" asp-action="Add">
+	Add new book
+</a>
+
+<div class="text-center">
+	@foreach (Book book in Model)
+	{
+		<div class="bookDiv">
+			<a class="goA" asp-controller="Home" asp-action="Details" asp-route-id="@book.Id">
+				<div>
+					<h5>@book.Title</h5>
+				</div>
+				<div>
+					<strong>@book.Author</strong>
+				</div>
+				<div>
+					@book.Publisher, @book.Year
+				</div>
+				<div>
+					@book.Style
+				</div>
+				@if (!IsNullOrEmpty(book.ImagePath))
+				{
+					<div>
+						<img class="bookImg" src="@book.ImagePath" alt="@book.Title">
+					</div>
+				}
+			</a>
+		</div>
+	}
+</div>
