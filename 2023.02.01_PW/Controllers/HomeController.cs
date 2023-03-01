@@ -64,6 +64,10 @@ namespace _2023._02._01_PW.Controllers
 				cover.CopyTo(ms);
 				book.Cover = ms.ToArray();
 			}
+			if(cover is null && bookRepository.Get(book.Id)!.Cover is not null)
+			{
+				book.Cover = bookRepository.Get(book.Id)!.Cover;
+			}
 			bookRepository.Edit(book);
 			return RedirectToAction("Index");
 		}

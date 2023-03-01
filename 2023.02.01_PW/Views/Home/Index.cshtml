@@ -28,7 +28,7 @@
 				@if (book.Cover is not null)
 				{
 					<div>
-						<img src=@($"data:image/jpeg;base64,{Convert.ToBase64String(book.Cover)}") alt="@book.Title">
+						<img class="bookImg" src=@($"data:image/jpeg;base64,{Convert.ToBase64String(book.Cover)}") alt="@book.Title">
 					</div>
 				}
 			</a>

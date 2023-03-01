@@ -1,4 +1,7 @@
-﻿@model Book;
+﻿@{
+	ViewData["Title"] = "Remove Book";
+}
+@model Book;
 
 <form method="post">
 	<input type="hidden" name="id" value="@Model.Id" />
