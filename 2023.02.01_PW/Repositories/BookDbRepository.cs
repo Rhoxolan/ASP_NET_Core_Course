@@ -1,5 +1,6 @@
 ﻿using _2023._02._01_PW.Contexts;
 using _2023._02._01_PW.Models;
+using System.Reflection;
 
 namespace _2023._02._01_PW.Repositories
 {
@@ -12,9 +13,9 @@ namespace _2023._02._01_PW.Repositories
 			_context = context;
 		}
 
-		public void Add(Book entity)
+		public void Add(Book book)
 		{
-			_context.Books.Add(entity);
+			_context.Books.Add(book);
 			_context.SaveChanges();
 		}
 
@@ -30,9 +31,21 @@ namespace _2023._02._01_PW.Repositories
 			return true;
 		}
 
-		public void Edit(Book entity)
+		public bool Edit(Book book)
 		{
-			_context.SaveChanges();
+			Book? editingBook = _context.Books.Find(book.Id);
+			if(editingBook is not null)
+			{
+				PropertyInfo[] properties = typeof(Book).GetProperties();
+				foreach(PropertyInfo property in properties)
+				{
+					property.SetValue(editingBook, property.GetValue(book));
+				}
+				_context.Entry(editingBook).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
+				_context.SaveChanges();
+				return true;
+			}
+			return false;
 		}
 
 		public Book? Get(int id)

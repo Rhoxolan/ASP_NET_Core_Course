@@ -4,9 +4,9 @@
 <div class="formDiv">
 	<form class="form-group" method="post">
 		<input type="hidden" name="id" value="@Model.Id" />
-		@if (!IsNullOrEmpty(Model.ImagePath))
+		@if (Model.Cover is not null)
 		{
-			<input type="hidden" name="ImagePath" value="@Model.ImagePath" />
+			<input type="hidden" name="Cover" value="@Model.Cover" />
 		}
 		<label class="col-form-label" for="titleInput">Title</label><br />
 		<input type="text" name="title" id="titleInput" class="form-control" value="@Model.Title" required /><br />

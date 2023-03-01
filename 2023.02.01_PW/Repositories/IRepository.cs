@@ -8,7 +8,7 @@
 
 		T? Get(int id);
 
-		void Edit(T entity);
+		bool Edit(T entity);
 
 		bool Delete(int id);
 	}

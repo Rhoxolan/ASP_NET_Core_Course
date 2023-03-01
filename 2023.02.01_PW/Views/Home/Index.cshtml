@@ -25,10 +25,10 @@
 				<div>
 					@book.Style
 				</div>
-				@if (!IsNullOrEmpty(book.ImagePath))
+				@if (book.Cover is not null)
 				{
 					<div>
-						<img class="bookImg" src="@book.ImagePath" alt="@book.Title">
+						<img src=@($"data:image/jpeg;base64,{Convert.ToBase64String(book.Cover)}") alt="@book.Title">
 					</div>
 				}
 			</a>
