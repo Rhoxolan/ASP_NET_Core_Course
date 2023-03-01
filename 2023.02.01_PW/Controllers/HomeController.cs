@@ -56,8 +56,14 @@ namespace _2023._02._01_PW.Controllers
 		}
 
 		[HttpPost]
-		public IActionResult Edit(Book book)
+		public IActionResult Edit(Book book, IFormFile? cover)
 		{
+			if (cover is not null)
+			{
+				using MemoryStream ms = new();
+				cover.CopyTo(ms);
+				book.Cover = ms.ToArray();
+			}
 			bookRepository.Edit(book);
 			return RedirectToAction("Index");
 		}

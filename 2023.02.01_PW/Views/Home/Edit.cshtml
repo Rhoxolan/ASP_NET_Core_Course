@@ -2,12 +2,8 @@
 @model Book;
 
 <div class="formDiv">
-	<form class="form-group" method="post">
+	<form class="form-group" method="post" enctype="multipart/form-data">
 		<input type="hidden" name="id" value="@Model.Id" />
-		@if (Model.Cover is not null)
-		{
-			<input type="hidden" name="Cover" value="@Model.Cover" />
-		}
 		<label class="col-form-label" for="titleInput">Title</label><br />
 		<input type="text" name="title" id="titleInput" class="form-control" value="@Model.Title" required /><br />
 		<label class="col-form-label" for="authorInput">Author</label><br />
@@ -18,6 +14,12 @@
 		<input type="number" name="year" id="yearInput" class="form-control" value="@Model.Year" required /><br />
 		<label class="col-form-label" for="styleInput">Style</label><br />
 		<input type="text" name="style" id="styleInput" class="form-control" value="@Model.Style" required /><br />
+		@if (Model.Cover is not null)
+		{
+			<img src=@($"data:image/jpeg;base64,{Convert.ToBase64String(Model.Cover)}") alt="@Model.Title"><br />
+		}
+		<label class="col-form-label" for="coverInput">Cover</label><br />
+		<input class="form-control" type="file" id="coverInput" name="cover" accept="image/*" /><br />
 		<label class="col-form-label" for="descriptionInput">Description</label><br />
 		<textarea class="form-control" name="description" id="descriptionInput" required>@Model.Description</textarea><br />
 		<button type="submit" class="btn btn-outline-success">Edit</button>
