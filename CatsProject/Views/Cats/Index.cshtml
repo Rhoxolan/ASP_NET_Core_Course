@@ -1,4 +1,6 @@
-﻿@model IEnumerable<BigProject.Data.Entities.Cat>
+﻿@using BigProject.Data.Entities;
+@using CatsProject.Models.ViewModels.CatViewModels
+@model IndexCatViewModel
 
 @{
 	ViewData["Title"] = "Index";
@@ -11,66 +13,59 @@
 	<a asp-action="Create">Create New</a>
 	@Html.ActionLink("Додати кота", "Create", null, htmlAttributes: new {@class="btn btn-sm btn-warning", id="createBtn"})
 </p>
-<table class="table">
-	<thead>
-		<tr>
-			<th>
-				@Html.DisplayNameFor(model => model.CatName)
-			</th>
-			<th>
-				@Html.DisplayNameFor(model => model.Description)
-			</th>
-			<th>
-				@Html.DisplayNameFor(model => model.Gender)
-			</th>
-			<th>
-				@Html.DisplayNameFor(model => model.IsVacinated)
-			</th>
-			<th>
-				@Html.DisplayNameFor(model => model.Image)
-			</th>
-			<th>
-				@Html.DisplayNameFor(model => model.IsDeleted)
-			</th>
-			<th>
-				@Html.DisplayNameFor(model => model.Breed)
-			</th>
-			<th></th>
-		</tr>
-	</thead>
-	<tbody>
-		@foreach (var item in Model)
-		{
-			<tr>
-				<td>
-					@Html.DisplayFor(modelItem => item.CatName)
-				</td>
-				<td>
-					@Html.DisplayFor(modelItem => item.Description)
-				</td>
-				<td>
-					@Html.DisplayFor(modelItem => item.Gender)
-				</td>
-				<td>
-					@Html.DisplayFor(modelItem => item.IsVacinated)
-				</td>
-				<td style="text-align: center">
-					@*@Html.DisplayFor(modelItem => item.Image)*@
-					<img class="catimage" src="data:image/jpeg;base64,@(Convert.ToBase64String(item.Image))"
-					 alt="@item.CatName">
-				</td>
-				<td>
-					@Html.DisplayFor(modelItem => item.IsDeleted)
-				</td>
-				<td>
-					@Html.DisplayFor(modelItem => item.Breed.BreedName)
-				</td>
-				<td>
-					<a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-					<a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-					<a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-				</td>
-			</tr>
-		}
-	</tbody>
-</table>
+
+<form asp-action="Index" method="get" class="mb-4">
+	<div class="row">
+
+		<div class="col col-12 col-sm-5 col-lg-4 col-xxl-3 mb-2">
+			<select asp-for="BreedId" class="form-select bg-light text-dark" asp-items="@Model.BreedSl">
+				<option value="0">All</option>
+			</select>
+		</div>
+
+		<div class="col col-12 col-sm-5 col-lg-4 col-xxl-3 mb-2">
+			<input type="text" asp-for="Search" placeholder="Search in cat name..." class="form-control" />
+		</div>
+
+		<div class="col col-12 col-sm-5 col-lg-4 col-xxl-3 mb-2">
+			<button type="submit" class="btn btn-outline-success">
+				Search
+			</button>
+		</div>
+
+	</div>
+</form>
+
+<div class="row">
+	@foreach (Cat cat in Model.Cats)
+	{
+		<div class="col col-xl-3 col-lg-4 col-md-6 col-12 md-5">
+			<div class="card">
+				<div class="card-body">
+					<h5 class="card-title">@cat.CatName</h5>
+					<p class="card-text text-truncate">@cat.Description</p>
+					<p class="card-text">
+						<small class="text-muted">
+							@Html.DisplayNameFor(model=> model.Cats.First().Breed!.BreedName) :
+							@cat.Breed?.BreedName
+						</small>
+					</p>
+				</div>
+
+				<div class="btn-group btn-group-sm mb-2">
+					<a asp-action="Details" asp-route-id="@cat.Id" class="btn btn-outline-success">
+						Details
+					</a>
+					<a asp-action="Edit" asp-route-id="@cat.Id" class="btn btn-outline-warning">
+						Edit
+					</a>
+					<a asp-action="Delete" asp-route-id="@cat.Id" class="btn btn-outline-danger">
+						Delete
+					</a>
+				</div>
+
+				<img src="data:image/*;base64,@(Convert.ToBase64String(cat.Image!))" class="card-img-bottom" alt="@cat.CatName">
+			</div>
+		</div>
+	}
+</div>

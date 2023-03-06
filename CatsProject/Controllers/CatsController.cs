@@ -6,23 +6,46 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using BigProject.Data.Entities;
+using CatsProject.Models.ViewModels.CatViewModels;
 
 namespace BigProject.Controllers
 {
     public class CatsController : Controller
     {
         private readonly CatContext _context;
+        private readonly ILogger _logger;
 
-        public CatsController(CatContext context)
+        public CatsController(CatContext context, ILoggerFactory loggerFactory)
         {
             _context = context;
+            _logger = loggerFactory.CreateLogger<CatsController>();
         }
 
         // GET: Cats
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(int breedId, string search)
         {
-            var catContext = _context.Cats.Include(c => c.Breed);
-            return View(await catContext.ToListAsync());
+            IQueryable<Cat> cats = _context.Cats
+                .Include(c => c.Breed)
+                .Where(t => t.IsDeleted == false);
+            if(breedId > 0)
+                cats = cats.Where(t => t.BreedId == breedId);
+            if (search is not null)
+                cats = cats.Where(t => t.CatName.Contains(search));
+            IQueryable<Breed> breeds = _context.Breeds;
+
+            SelectList breedSL = new(await breeds.ToListAsync(),
+                dataValueField: nameof(Breed.Id),
+                dataTextField: nameof(Breed.BreedName),
+                selectedValue: breedId) ;
+            IndexCatViewModel vm = new IndexCatViewModel
+            {
+                Cats = await cats.ToListAsync(),
+                BreedSl = breedSL,
+                BreedId = breedId,
+                Search = search
+            };
+
+            return View(vm);
         }
 
         // GET: Cats/Details/5
@@ -40,8 +63,11 @@ namespace BigProject.Controllers
             {
                 return NotFound();
             }
-
-            return View(cat);
+            DetailsCatViewModel vM = new DetailsCatViewModel
+            {
+                Cat = cat
+            };
+            return View(vM);
         }
 
         // GET: Cats/Create
