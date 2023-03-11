@@ -1,4 +1,5 @@
 ﻿@using BigProject.Data.Entities;
+@using BigProject.Models.DTO;
 @using CatsProject.Models.ViewModels.CatViewModels
 @model IndexCatViewModel
 
@@ -37,7 +38,7 @@
 </form>
 
 <div class="row">
-	@foreach (Cat cat in Model.Cats)
+	@foreach (CatDTO cat in Model.Cats)
 	{
 		<div class="col col-xl-3 col-lg-4 col-md-6 col-12 md-5">
 			<div class="card">
@@ -63,6 +64,8 @@
 						Delete
 					</a>
 				</div>
+
+				
 
 				<img src="data:image/*;base64,@(Convert.ToBase64String(cat.Image!))" class="card-img-bottom" alt="@cat.CatName">
 			</div>

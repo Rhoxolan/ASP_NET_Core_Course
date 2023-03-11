@@ -1,7 +1,9 @@
 using BigProject.Data.Entities;
+using CatsProject.AutoMapperProfiles;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
+builder.Services.AddAutoMapper(typeof(CatProfile), typeof(BreedProfile));
 builder.Services.AddDbContext<CatContext>(options =>
 options.UseSqlServer(
 	builder.Configuration.GetConnectionString("CatsDb")
