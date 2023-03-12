@@ -9,6 +9,8 @@ using BigProject.Data.Entities;
 using CatsProject.Models.ViewModels.CatViewModels;
 using BigProject.Models.DTO;
 using AutoMapper;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
+using System.Text;
 
 namespace BigProject.Controllers
 {
@@ -114,16 +116,17 @@ namespace BigProject.Controllers
 		[HttpPost]
 		[ValidateAntiForgeryToken]
 		//public async Task<IActionResult> Create([Bind("Id,CatName,Description,Gender,IsVacinated,Image,BreedId")] Cat cat)
-		public async Task<IActionResult> Create(CreateCatViewModel cat)
+		public async Task<IActionResult> Create(CreateCatViewModel newCat)
 		{
-			if (ModelState.IsValid)
+			ModelChecker(ModelState);
+            if (ModelState.IsValid)
 			{
-				_context.Add(cat);
+				_context.Add(newCat);
 				await _context.SaveChangesAsync();
 				return RedirectToAction(nameof(Index));
 			}
 			//ViewData["BreedId"] = new SelectList(_context.Breeds, "Id", "BreedName", cat.BreedId);
-			return View(cat);
+			return View(newCat);
 		}
 
 		// GET: Cats/Edit/5
@@ -221,5 +224,25 @@ namespace BigProject.Controllers
 		{
 			return _context.Cats.Any(e => e.Id == id);
 		}
-	}
+
+        private void ModelChecker(ModelStateDictionary modelState)
+        {
+            if (!modelState.IsValid)
+            {
+                Console.WriteLine($"Query validation errors count: {ModelState.ErrorCount}");
+                StringBuilder stringBuilder = new();
+                foreach (var modelValue in ModelState.Values)
+                {
+                    if (modelValue.ValidationState != ModelValidationState.Valid)
+                    {
+                        foreach (var error in modelValue.Errors)
+                        {
+                            stringBuilder.AppendLine(error.ErrorMessage);
+                        }
+                    }
+                }
+                Console.WriteLine($"Errors: {Environment.NewLine}{stringBuilder}");
+            }
+        }
+    }
 }
