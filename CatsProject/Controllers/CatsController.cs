@@ -118,10 +118,10 @@ namespace BigProject.Controllers
 		//public async Task<IActionResult> Create([Bind("Id,CatName,Description,Gender,IsVacinated,Image,BreedId")] Cat cat)
 		public async Task<IActionResult> Create(CreateCatViewModel newCat)
 		{
-			ModelChecker(ModelState);
-            if (ModelState.IsValid)
+			//ModelChecker(ModelState);
+            if (!ModelState.IsValid)
 			{
-				_context.Add(newCat);
+				//_context.Add(newCat);
 				await _context.SaveChangesAsync();
 				return RedirectToAction(nameof(Index));
 			}
