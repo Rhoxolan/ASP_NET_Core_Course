@@ -1,5 +1,6 @@
 ﻿@using BigProject.Data.Entities;
 @using BigProject.Models.DTO;
+@using CatsProject.Models.DTO;
 @using CatsProject.Models.ViewModels.CatViewModels;
 @model CreateCatViewModel
 
@@ -25,10 +26,17 @@
                 <input asp-for="Cat.Description" class="form-control" />
                 <span asp-validation-for="Cat.Description" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <label asp-for="Cat.Gender" class="control-label"></label>
+            <div class="form-group mb-3">
+                @*<label asp-for="Cat.Gender" class="control-label"></label>
                 <select asp-for="Cat.Gender" class="form-control" asp-items="@new SelectList(Enum.GetValues(typeof(CatGender)))"></select>
-                <span asp-validation-for="Cat.Gender" class="text-danger"></span>
+                <span asp-validation-for="Cat.Gender" class="text-danger"></span>*@
+                    @foreach(var gender in Enum.GetValues(typeof(CatGender)))
+                    {
+                        <div class="form-check">
+                            <input asp-for="Cat.Gender" type="radio" value="@gender" class="form-check-input">
+                            <label asp-for="Cat.Gender" class="form-check-label">@gender</label>
+                        </div>
+                    }
             </div>
             <div class="form-group form-check">
                 <label class="form-check-label">
@@ -37,7 +45,7 @@
             </div>
             <div class="form-group">
                 <label asp-for="Image" class="control-label"></label>
-                <input type="file" id="Image" name="Image" class="form-control" />
+                <input type="file" accept="image/*" id="Image" name="Image" class="form-control" />
                 <span asp-validation-for="Image" class="text-danger"></span>
             </div>
 @*            <div class="form-group form-check">

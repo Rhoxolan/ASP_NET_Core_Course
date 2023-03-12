@@ -1,4 +1,5 @@
 ﻿using BigProject.Data.Entities;
+using CatsProject.Models.DTO;
 using System.ComponentModel.DataAnnotations;
 
 namespace BigProject.Models.DTO

@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using CatsProject.Models.DTO;
+using System.ComponentModel.DataAnnotations;
 
 namespace BigProject.Data.Entities
 {
@@ -10,7 +11,7 @@ namespace BigProject.Data.Entities
 
 		public string? Description { get; set; }
 
-		public CatGender Gender { get; set; }
+		public string Gender { get; set; } = default!;
 
 		public bool IsVacinated { get; set; }
 
@@ -21,11 +22,5 @@ namespace BigProject.Data.Entities
 		public Breed? Breed { get; set; }
 
 		public int BreedId { get; set; }
-	}
-
-	public enum CatGender
-	{
-		Male,
-		Female
 	}
 }

@@ -118,16 +118,30 @@ namespace BigProject.Controllers
 		//public async Task<IActionResult> Create([Bind("Id,CatName,Description,Gender,IsVacinated,Image,BreedId")] Cat cat)
 		public async Task<IActionResult> Create(CreateCatViewModel newCat)
 		{
-			//ModelChecker(ModelState);
             if (!ModelState.IsValid)
 			{
-				//_context.Add(newCat);
-				await _context.SaveChangesAsync();
-				return RedirectToAction(nameof(Index));
+				SelectList breedSL = new SelectList(await _context.Breeds.ToListAsync(),
+					nameof(Breed.Id),
+					nameof(Breed.BreedName),
+					newCat.Cat.BreedId);
+				newCat.BreedSL = breedSL;
+				foreach (var key in ModelState.Keys)
+					_logger.LogInformation(key);
+				foreach (var error in ModelState.Values.SelectMany(t => t.Errors))
+					_logger.LogError(error.ErrorMessage);
+				return View(newCat);
 			}
 			//ViewData["BreedId"] = new SelectList(_context.Breeds, "Id", "BreedName", cat.BreedId);
-			return View(newCat);
-		}
+			byte[] buff = null!;
+			using(BinaryReader br = new BinaryReader(newCat.Image.OpenReadStream()))
+			{
+				newCat.Cat.Image = br.ReadBytes((int)newCat.Image.Length);
+			}
+			Cat createdCat = _mapper.Map<Cat>(newCat.Cat);
+			_context.Add(createdCat);
+            await _context.SaveChangesAsync();
+            return RedirectToAction(nameof(Index));
+        }
 
 		// GET: Cats/Edit/5
 		public async Task<IActionResult> Edit(int? id)
@@ -224,25 +238,5 @@ namespace BigProject.Controllers
 		{
 			return _context.Cats.Any(e => e.Id == id);
 		}
-
-        private void ModelChecker(ModelStateDictionary modelState)
-        {
-            if (!modelState.IsValid)
-            {
-                Console.WriteLine($"Query validation errors count: {ModelState.ErrorCount}");
-                StringBuilder stringBuilder = new();
-                foreach (var modelValue in ModelState.Values)
-                {
-                    if (modelValue.ValidationState != ModelValidationState.Valid)
-                    {
-                        foreach (var error in modelValue.Errors)
-                        {
-                            stringBuilder.AppendLine(error.ErrorMessage);
-                        }
-                    }
-                }
-                Console.WriteLine($"Errors: {Environment.NewLine}{stringBuilder}");
-            }
-        }
     }
 }

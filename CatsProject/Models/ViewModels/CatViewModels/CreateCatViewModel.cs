@@ -7,7 +7,7 @@ namespace CatsProject.Models.ViewModels.CatViewModels
 	{
 		public CatDTO Cat { get; set; } = default!;
 
-		public SelectList BreedSL { get; set; } = default!;
+		public SelectList? BreedSL { get; set; } = default!;
 
         public IFormFile Image { get; set; } = default!;
 

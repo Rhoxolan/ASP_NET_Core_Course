@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using CatsProject.Models.DTO;
+using Microsoft.EntityFrameworkCore;
 
 namespace BigProject.Data.Entities
 {
@@ -35,7 +36,7 @@ namespace BigProject.Data.Entities
 				{
 					CatName = "Moorka",
 					Description = lorem,
-					Gender = CatGender.Female,
+					Gender = CatGender.Female.ToString(),
 					IsVacinated = true,
 					Image = catimage1,
 					Breed = breed1,
@@ -45,7 +46,7 @@ namespace BigProject.Data.Entities
 				{
 					CatName = "Vasyl",
 					Description = lorem,
-					Gender = CatGender.Male,
+					Gender = CatGender.Male.ToString(),
 					IsVacinated = false,
 					Image = catimage2,
 					Breed = breed4,
@@ -55,7 +56,7 @@ namespace BigProject.Data.Entities
 				{
 					CatName = "Barsyk",
 					Description = lorem,
-					Gender = CatGender.Male,
+					Gender = CatGender.Male.ToString(),
 					IsVacinated = true,
 					Image = catimage3,
 					Breed = breed2,
@@ -65,7 +66,7 @@ namespace BigProject.Data.Entities
 				{
 					CatName = "Lucy",
 					Description = lorem,
-					Gender = CatGender.Female,
+					Gender = CatGender.Female.ToString(),
 					IsVacinated = true,
 					Image = catimage4,
 					Breed = breed3,
@@ -75,7 +76,7 @@ namespace BigProject.Data.Entities
 				{
 					CatName = "Umka",
 					Description = lorem,
-					Gender = CatGender.Female,
+					Gender = CatGender.Female.ToString(),
 					IsVacinated = false,
 					Image = catimage5,
 					Breed = breed4,
