@@ -1,5 +1,4 @@
-﻿@using CatsProject.Models.ViewModels.CatViewModels;
-@model DetailsCatViewModel
+﻿@model CatsProject.Models.ViewModels.CatViewModels.DetailsCatViewModel
 
 @{
     ViewData["Title"] = "Details";
@@ -41,21 +40,16 @@
         <dd class = "col-sm-10">
             @Html.DisplayFor(model => model.Cat.Image)
         </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Cat.IsDeleted)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Cat.IsDeleted)
-        </dd>
+       
         <dt class = "col-sm-2">
             @Html.DisplayNameFor(model => model.Cat.Breed)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Cat.Breed.BreedName)
+            @Html.DisplayFor(model => model.Cat.Breed!.BreedName)
         </dd>
     </dl>
 </div>
 <div>
-    <a asp-action="Edit" asp-route-id="@Model.Cat.Id">Edit</a> |
+    <a asp-action="Edit" asp-route-id="@Model?.Cat.Id">Edit</a> |
     <a asp-action="Index">Back to List</a>
 </div>

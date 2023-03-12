@@ -1,9 +1,10 @@
 ﻿using BigProject.Data.Entities;
+using BigProject.Models.DTO;
 
 namespace CatsProject.Models.ViewModels.CatViewModels
 {
 	public class DetailsCatViewModel
 	{
-		public Cat Cat { get; set; } = default!;
+		public CatDTO Cat { get; set; } = default!;
 	}
 }

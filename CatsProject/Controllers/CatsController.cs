@@ -93,8 +93,8 @@ namespace BigProject.Controllers
 			}
 			DetailsCatViewModel vM = new DetailsCatViewModel
 			{
-				Cat = cat
-			};
+				Cat = _mapper.Map<CatDTO>(cat)
+            };
 			return View(vM);
 		}
 
