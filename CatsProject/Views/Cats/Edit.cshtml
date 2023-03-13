@@ -1,7 +1,8 @@
-﻿@model BigProject.Data.Entities.Cat
+﻿@using CatsProject.Models.DTO;
+@model CatsProject.Models.ViewModels.CatViewModels.EditCatViewModel
 
 @{
-    ViewData["Title"] = "Edit";
+	ViewData["Title"] = "Edit";
 }
 
 <h1>Edit</h1>
@@ -9,56 +10,75 @@
 <h4>Cat</h4>
 <hr />
 <div class="row">
-    <div class="col-md-4">
-        <form asp-action="Edit">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input type="hidden" asp-for="Id" />
-            <div class="form-group">
-                <label asp-for="CatName" class="control-label"></label>
-                <input asp-for="CatName" class="form-control" />
-                <span asp-validation-for="CatName" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Description" class="control-label"></label>
-                <input asp-for="Description" class="form-control" />
-                <span asp-validation-for="Description" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Gender" class="control-label"></label>
-                <select asp-for="Gender" class="form-control"></select>
-                <span asp-validation-for="Gender" class="text-danger"></span>
-            </div>
-            <div class="form-group form-check">
-                <label class="form-check-label">
-                    <input class="form-check-input" asp-for="IsVacinated" /> @Html.DisplayNameFor(model => model.IsVacinated)
-                </label>
-            </div>
-            <div class="form-group">
-                <label asp-for="Image" class="control-label"></label>
-                <input asp-for="Image" class="form-control" />
-                <span asp-validation-for="Image" class="text-danger"></span>
-            </div>
-            <div class="form-group form-check">
-                <label class="form-check-label">
-                    <input class="form-check-input" asp-for="IsDeleted" /> @Html.DisplayNameFor(model => model.IsDeleted)
-                </label>
-            </div>
-            <div class="form-group">
-                <label asp-for="BreedId" class="control-label"></label>
-                <select asp-for="BreedId" class="form-control" asp-items="ViewBag.BreedId"></select>
-                <span asp-validation-for="BreedId" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-primary" />
-            </div>
-        </form>
-    </div>
+	<div class="col-md-4">
+		<form asp-action="Edit" enctype="multipart/form-data">
+			<div asp-validation-summary="ModelOnly" class="text-danger"></div>
+			<input type="hidden" asp-for="Cat.Id" />
+			<input type="hidden" asp-for="Cat.Image" />
+			<div class="form-group">
+				<label asp-for="Cat.CatName" class="control-label"></label>
+				<input asp-for="Cat.CatName" class="form-control" />
+				<span asp-validation-for="Cat.CatName" class="text-danger"></span>
+			</div>
+			<div class="form-group">
+				<label asp-for="Cat.Description" class="control-label"></label>
+				<input asp-for="Cat.Description" class="form-control" />
+				<span asp-validation-for="Cat.Description" class="text-danger"></span>
+			</div>
+			<div class="form-group">
+				@Html.DisplayNameFor(model=>model.Cat.Gender)<br />
+
+
+				@foreach (var gender in Enum.GetValues(typeof(CatGender)))
+				{
+					<div class="form-check">
+						<input asp-for="Cat.Gender"
+						   type="radio"
+						   value="@gender"
+			 class="form-check-input">
+						<label asp-for="Cat.Gender"
+			 class="form-check-label">@gender</label>
+					</div>
+				}
+
+			</div>
+			<div class="form-group form-check">
+				<label class="form-check-label">
+					<input class="form-check-input" asp-for="Cat.IsVacinated" />
+					@Html.DisplayNameFor(model => model.Cat.IsVacinated)
+				</label>
+			</div>
+			<div class="form-group">
+				<div class="mb-3">
+					Current Image:<br />
+					<img src="data:image/*;base64,@(Convert.ToBase64String(Model.Cat.Image!))"
+						 class="card-img-bottom w-100" alt="@Model.Cat.CatName" />
+				</div>
+				<label asp-for="Image" class="control-label"></label>
+				<input asp-for="Image"
+					   type="file"
+		accept="image/*"
+		class="form-control" />
+				<span asp-validation-for="Image" class="text-danger"></span>
+			</div>
+			<div class="form-group">
+				<label asp-for="Cat.BreedId" class="control-label"></label>
+				<select asp-for="Cat.BreedId" class="form-control" asp-items="@Model.BreedSL"></select>
+				<span asp-validation-for="Cat.BreedId" class="text-danger"></span>
+			</div>
+			<div class="form-group">
+				<input type="submit" value="Save" class="btn btn-primary" />
+			</div>
+		</form>
+	</div>
 </div>
 
 <div>
-    <a asp-action="Index">Back to List</a>
+	<a asp-action="Index">Back to List</a>
 </div>
 
 @section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+	@{
+		await Html.RenderPartialAsync("_ValidationScriptsPartial");
+	}
 }

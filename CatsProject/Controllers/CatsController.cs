@@ -156,8 +156,17 @@ namespace BigProject.Controllers
 			{
 				return NotFound();
 			}
-			ViewData["BreedId"] = new SelectList(_context.Breeds, "Id", "BreedName", cat.BreedId);
-			return View(cat);
+			IQueryable<Breed> breeds = _context.Breeds;
+			SelectList breedSL = new SelectList(await breeds.ToListAsync(),
+				nameof(Breed.Id),
+				nameof(Breed.BreedName),
+				selectedValue: cat.BreedId);
+			EditCatViewModel vM = new EditCatViewModel
+			{
+				BreedSL = breedSL,
+				Cat = _mapper.Map<CatDTO>(cat)
+			};
+			return View(vM);
 		}
 
 		// POST: Cats/Edit/5
@@ -165,35 +174,50 @@ namespace BigProject.Controllers
 		// For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
 		[HttpPost]
 		[ValidateAntiForgeryToken]
-		public async Task<IActionResult> Edit(int id, [Bind("Id,CatName,Description,Gender,IsVacinated,Image,IsDeleted,BreedId")] Cat cat)
+		public async Task<IActionResult> Edit(int id, EditCatViewModel vM)
 		{
-			if (id != cat.Id)
+			if (id != vM.Cat.Id)
 			{
 				return NotFound();
 			}
 
-			if (ModelState.IsValid)
+			if (!ModelState.IsValid)
 			{
-				try
-				{
-					_context.Update(cat);
-					await _context.SaveChangesAsync();
-				}
-				catch (DbUpdateConcurrencyException)
-				{
-					if (!CatExists(cat.Id))
-					{
-						return NotFound();
-					}
-					else
-					{
-						throw;
-					}
-				}
-				return RedirectToAction(nameof(Index));
+				foreach (var error in ModelState.Values.SelectMany(t => t.Errors))
+					_logger.LogError(error.ErrorMessage);
+				IQueryable<Breed> breeds = _context.Breeds;
+				SelectList breedSL = new SelectList(await breeds.ToListAsync(),
+					nameof(Breed.Id),
+					nameof(Breed.BreedName),
+					selectedValue: vM.Cat.BreedId);
+				vM.BreedSL = breedSL;
+				return View(vM);
 			}
-			ViewData["BreedId"] = new SelectList(_context.Breeds, "Id", "BreedName", cat.BreedId);
-			return View(cat);
+			try
+			{
+				if (vM.Image is not null)
+				{
+					using (BinaryReader br = new BinaryReader(vM.Image.OpenReadStream()))
+					{
+						vM.Cat.Image = br.ReadBytes((int)vM.Image.Length);
+					}
+				}
+				Cat editedCat = _mapper.Map<Cat>(vM.Cat);
+				_context.Update(editedCat);
+				await _context.SaveChangesAsync();
+			}
+			catch (DbUpdateConcurrencyException)
+			{
+				if (!CatExists(vM.Cat.Id))
+				{
+					return NotFound();
+				}
+				else
+				{
+					throw;
+				}
+			}
+			return RedirectToAction(nameof(Index));
 		}
 
 		// GET: Cats/Delete/5
