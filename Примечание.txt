@@ -36,3 +36,6 @@ PW - работа "Books", добавлено взаимодействие с С
 
 08.02.2023 - MVC. Ч. 6
 Проект "CatsProject". Работа с DTO и библиотекой AutoMapper.
+
+10.02.2023 - MVC. Ч. 7
+Проект "CatsProject". Работа с DTO и библиотекой AutoMapper.
