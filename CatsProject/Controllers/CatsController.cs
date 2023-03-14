@@ -156,6 +156,8 @@ namespace BigProject.Controllers
 			{
 				return NotFound();
 			}
+			if (cat.IsDeleted)
+				return Unauthorized();
 			IQueryable<Breed> breeds = _context.Breeds;
 			SelectList breedSL = new SelectList(await breeds.ToListAsync(),
 				nameof(Breed.Id),
@@ -240,7 +242,7 @@ namespace BigProject.Controllers
 				Cat = _mapper.Map<CatDTO>(cat)
 			};
 
-			return View();
+			return View(vM);
 		}
 
 		// POST: Cats/Delete/5
@@ -255,7 +257,8 @@ namespace BigProject.Controllers
 			var cat = await _context.Cats.FindAsync(id);
 			if (cat != null)
 			{
-				_context.Cats.Remove(cat);
+				//_context.Cats.Remove(cat);
+				cat.IsDeleted = true;
 			}
 
 			await _context.SaveChangesAsync();
