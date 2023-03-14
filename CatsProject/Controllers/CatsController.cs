@@ -235,8 +235,12 @@ namespace BigProject.Controllers
 			{
 				return NotFound();
 			}
+			DeleteCatViewModel vM = new DeleteCatViewModel
+			{
+				Cat = _mapper.Map<CatDTO>(cat)
+			};
 
-			return View(cat);
+			return View();
 		}
 
 		// POST: Cats/Delete/5
