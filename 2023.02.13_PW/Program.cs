@@ -1,3 +1,5 @@
+using _2023._02._13_PW.Constraints;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -31,6 +33,11 @@ app.MapControllerRoute(
 
 //Task 2
 app.Map("/Home/{action:minlength(6)}", () => "Blocked");
+
+app.MapControllerRoute(
+	name: "adminDefaultRoute",
+	pattern: "admin/{action}",
+	constraints: new { action = new EndsSetupConstraint() });
 
 
 app.Run();
