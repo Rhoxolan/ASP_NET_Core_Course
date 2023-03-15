@@ -1,3 +1,5 @@
+using Microsoft.AspNetCore.Routing.Constraints;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -19,6 +21,21 @@ app.UseStaticFiles();
 app.UseRouting();
 
 app.UseAuthorization();
+
+app.MapControllerRoute(
+	name: "pib",
+	pattern: "{controller}/{action}/{name}/{age}",
+	constraints: new { age = new IntRouteConstraint() });
+
+app.MapControllerRoute(
+	name: "buy",
+	pattern: "admin",
+	defaults: new { controller = "Admin", action = "Edit" });
+
+app.MapControllerRoute(
+	name: "buy",
+	pattern: "{controller:regex(^H\\d?)}/ua-{action}/{id?}",
+	defaults: new { controller = "Admin", action = "Edit" });
 
 app.MapControllerRoute(
 	name: "default",

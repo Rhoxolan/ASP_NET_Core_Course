@@ -34,5 +34,21 @@ namespace Project_From_Meeting_Of_13_02_2023.Controllers
 			return Content($"Controller: {controller} | Action: {action}, Id: {id}, Id From Query: {queryId}, " +
 				$"Id from Form: {formId}, Id from Route: {routeId}");
 		}
+
+		public IActionResult Show(string name, int age)
+		{
+			string? controller = RouteData.Values["controller"]!.ToString();
+			string? action = RouteData.Values["action"]!.ToString();
+			return Content($"Controller: {controller} | Action: {action}, Name: {name}, " +
+				$"{age} years old");
+		}
+
+		public IActionResult Show(string name, string position)
+		{
+			string? controller = RouteData.Values["controller"]!.ToString();
+			string? action = RouteData.Values["action"]!.ToString();
+			return Content($"Controller: {controller} | Action: {action}, Name: {name}, " +
+				$"Position: {position}");
+		}
 	}
 }
