@@ -46,8 +46,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "2023.02.01_PW", "2023.02.01
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CatsProject", "CatsProject\CatsProject.csproj", "{932B51E8-C27D-41B3-B3E9-1EB2BA7F0CC8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Project_From_Meeting_Of_13_02_2023", "Project_From_Meeting_Of_13_02_2023\Project_From_Meeting_Of_13_02_2023.csproj", "{9BC2F9A4-DCE4-4353-B60B-8A58E79E979C}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -130,10 +128,6 @@ Global
 		{932B51E8-C27D-41B3-B3E9-1EB2BA7F0CC8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{932B51E8-C27D-41B3-B3E9-1EB2BA7F0CC8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{932B51E8-C27D-41B3-B3E9-1EB2BA7F0CC8}.Release|Any CPU.Build.0 = Release|Any CPU
-		{9BC2F9A4-DCE4-4353-B60B-8A58E79E979C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{9BC2F9A4-DCE4-4353-B60B-8A58E79E979C}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{9BC2F9A4-DCE4-4353-B60B-8A58E79E979C}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{9BC2F9A4-DCE4-4353-B60B-8A58E79E979C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
