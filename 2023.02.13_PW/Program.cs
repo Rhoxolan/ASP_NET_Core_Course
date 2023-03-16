@@ -22,22 +22,11 @@ app.UseRouting();
 
 app.UseAuthorization();
 
-app.MapControllerRoute(
-	name: "default",
-	pattern: "{controller=Home}/{action=Index}/{id?}");
+//Примечание: чем более специфичней маршрут - тем выше он расположен
 
 app.MapControllerRoute(
 	name: "newOrderRoute", //Task 1
 	pattern: "newOrder",
 	defaults: new { controller = "Shop", action = "Buy" });
-
-//Task 2
-app.Map("/Home/{action:minlength(6)}", () => "Blocked");
-
-app.MapControllerRoute(
-	name: "adminDefaultRoute",
-	pattern: "admin/{action}",
-	constraints: new { action = new EndsSetupConstraint() });
-
 
 app.Run();
