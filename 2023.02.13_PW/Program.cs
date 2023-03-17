@@ -43,6 +43,4 @@ app.MapControllerRoute(
 	defaults: new { controller = "Admin" },
 	constraints: new { action = new EndsSetupConstraint() });
 
-//Проверить в чем отличие
-
 app.Run();
