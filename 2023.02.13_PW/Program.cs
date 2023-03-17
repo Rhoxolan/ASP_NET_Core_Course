@@ -1,4 +1,6 @@
 using _2023._02._13_PW.Constraints;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Routing.Constraints;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -24,29 +26,34 @@ app.UseAuthorization();
 
 //Примечание: чем более специфичней маршрут - тем выше он расположен
 
-//Task 1
 app.MapControllerRoute(
-	name: "newOrderRoute",
+	name: "newOrderRoute", //Task 1
 	pattern: "newOrder",
 	defaults: new { controller = "Shop", action = "Buy" });
 
-//Task 2
 app.MapControllerRoute(
-	name: "homeDefaultRoute",
-	pattern: "home/{action:maxlength(6)}/{id?}",
-	defaults: new { controller = "Home" }); //Примечание - необходимо указывать значение сегмента по умолчанию, если в паттерне маршрута используется статический сегмент.
+	name: "home", //Task 2
+	pattern: "{controller:regex(^H.*)=Home}/{action:maxlength(6)=index}/{id?}");
 
-//Task 3
 app.MapControllerRoute(
-	name: "usersettingsNewRoute",
+	name: "usersettingsNewRoute", //Task 3
 	pattern: "usersettings/{id:range(1,999)}",
 	defaults: new { controller = "User", action = "Settings" });
 
-//Task 4
 app.MapControllerRoute(
-	name: "adminDefaultRoute",
+	name: "userDefaultRoute",
+	pattern: "user/{action}",
+	defaults: new {action="User"}
+	);
+
+app.MapControllerRoute(
+	name: "adminDefaultRoute", //Task 4
 	pattern: "admin/{action}",
-	defaults: new { controller = "Admin" },
+	defaults: new { controller = "Admin" }, //Примечание - необходимо указывать значение сегмента по умолчанию, если в паттерне маршрута используется статический сегмент.
 	constraints: new { action = new EndsSetupConstraint() });
+
+app.MapControllerRoute(
+	name: "default",
+	pattern: "{controller:regex(^[^HAU].*)}/{action=Index}/{id?}");
 
 app.Run();
