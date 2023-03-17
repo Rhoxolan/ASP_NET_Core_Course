@@ -24,9 +24,17 @@ app.UseAuthorization();
 
 //Примечание: чем более специфичней маршрут - тем выше он расположен
 
+//Task 1
 app.MapControllerRoute(
-	name: "newOrderRoute", //Task 1
+	name: "newOrderRoute",
 	pattern: "newOrder",
 	defaults: new { controller = "Shop", action = "Buy" });
+
+//Task 3
+app.MapControllerRoute(
+	name: "usersettingsNewRoute",
+	pattern: "usersettings/{id:range(1,999)}",
+	defaults: new {controller = "User", action = "Settings"});
+//Доделать, проверить передаётся ли id в новый маршрут
 
 app.Run();
