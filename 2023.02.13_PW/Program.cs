@@ -30,11 +30,17 @@ app.MapControllerRoute(
 	pattern: "newOrder",
 	defaults: new { controller = "Shop", action = "Buy" });
 
+//Task 2
+app.MapControllerRoute(
+	name: "homeDefaultRoute",
+	pattern: "home/{action:maxlength(6)}/{id?}",
+	defaults: new { controller = "Home" }); //Примечание - необходимо указывать значение сегмента по умолчанию, если в паттерне маршрута используется статический сегмент.
+
 //Task 3
 app.MapControllerRoute(
 	name: "usersettingsNewRoute",
 	pattern: "usersettings/{id:range(1,999)}",
-	defaults: new {controller = "User", action = "Settings"});
+	defaults: new { controller = "User", action = "Settings" });
 
 //Task 4
 app.MapControllerRoute(
