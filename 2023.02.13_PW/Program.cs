@@ -35,6 +35,14 @@ app.MapControllerRoute(
 	name: "usersettingsNewRoute",
 	pattern: "usersettings/{id:range(1,999)}",
 	defaults: new {controller = "User", action = "Settings"});
-//Доделать, проверить передаётся ли id в новый маршрут
+
+//Task 4
+app.MapControllerRoute(
+	name: "adminDefaultRoute",
+	pattern: "admin/{action}",
+	defaults: new { controller = "Admin" },
+	constraints: new { action = new EndsSetupConstraint() });
+
+//Проверить в чем отличие
 
 app.Run();
