@@ -14,8 +14,7 @@ using System.Text;
 
 namespace BigProject.Controllers
 {
-	[Route("")]
-	[Route("Cats")]
+	[Route("{controller=Cats}/{action=Index}/{id?}")]
 	public class CatsController : Controller
 	{
 		private readonly IMapper _mapper;
@@ -31,8 +30,6 @@ namespace BigProject.Controllers
 		}
 
 		// GET: Cats
-		[Route("")]
-		[Route("Index")]
 		public async Task<IActionResult> Index(int breedId, string search)
 		{
 			IQueryable<Cat> cats = _context.Cats
@@ -81,7 +78,6 @@ namespace BigProject.Controllers
 		}
 
 		// GET: Cats/Details/5
-		[Route("Details")]
 		public async Task<IActionResult> Details(int? id)
 		{
 			if (id == null || _context.Cats == null)
@@ -104,7 +100,6 @@ namespace BigProject.Controllers
 		}
 
 		// GET: Cats/Create
-		[Route("Create")]
 		public IActionResult Create()
 		{
 			//ViewData["BreedId"] = new SelectList(_context.Breeds, "Id", "BreedName");
@@ -121,7 +116,6 @@ namespace BigProject.Controllers
 		// For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
 		[HttpPost]
 		[ValidateAntiForgeryToken]
-		[Route("Create")]
 		//public async Task<IActionResult> Create([Bind("Id,CatName,Description,Gender,IsVacinated,Image,BreedId")] Cat cat)
 		public async Task<IActionResult> Create(CreateCatViewModel newCat)
 		{
@@ -151,7 +145,6 @@ namespace BigProject.Controllers
         }
 
 		// GET: Cats/Edit/5
-		[Route("Edit")]
 		public async Task<IActionResult> Edit(int? id)
 		{
 			if (id == null || _context.Cats == null)
@@ -184,7 +177,6 @@ namespace BigProject.Controllers
 		// For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
 		[HttpPost]
 		[ValidateAntiForgeryToken]
-		[Route("Edit")]
 		public async Task<IActionResult> Edit(int id, EditCatViewModel vM)
 		{
 			if (id != vM.Cat.Id)
@@ -232,7 +224,6 @@ namespace BigProject.Controllers
 		}
 
 		// GET: Cats/Delete/5
-		[Route("Delete")]
 		public async Task<IActionResult> Delete(int? id)
 		{
 			if (id == null || _context.Cats == null)
@@ -258,7 +249,6 @@ namespace BigProject.Controllers
 		// POST: Cats/Delete/5
 		[HttpPost, ActionName("Delete")]
 		[ValidateAntiForgeryToken]
-		[Route("Delete")]
 		public async Task<IActionResult> DeleteConfirmed(int id)
 		{
 			if (_context.Cats == null)
