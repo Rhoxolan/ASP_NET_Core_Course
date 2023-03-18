@@ -14,7 +14,8 @@ using System.Text;
 
 namespace BigProject.Controllers
 {
-	[Route("{controller=Cats}/{action=Index}/{id?}")]
+	[Route("{controller=Cats}")]
+	[Route("")]
 	public class CatsController : Controller
 	{
 		private readonly IMapper _mapper;
@@ -29,6 +30,8 @@ namespace BigProject.Controllers
 			_logger = loggerFactory.CreateLogger<CatsController>();
 		}
 
+		[Route("{action=Index}/{id?}")]
+		[Route("List")]
 		// GET: Cats
 		public async Task<IActionResult> Index(int breedId, string search)
 		{
@@ -78,6 +81,7 @@ namespace BigProject.Controllers
 		}
 
 		// GET: Cats/Details/5
+		[Route("Details/{id?}")]
 		public async Task<IActionResult> Details(int? id)
 		{
 			if (id == null || _context.Cats == null)
@@ -95,11 +99,12 @@ namespace BigProject.Controllers
 			DetailsCatViewModel vM = new DetailsCatViewModel
 			{
 				Cat = _mapper.Map<CatDTO>(cat)
-            };
+			};
 			return View(vM);
 		}
 
 		// GET: Cats/Create
+		[Route("Create")]
 		public IActionResult Create()
 		{
 			//ViewData["BreedId"] = new SelectList(_context.Breeds, "Id", "BreedName");
@@ -117,9 +122,10 @@ namespace BigProject.Controllers
 		[HttpPost]
 		[ValidateAntiForgeryToken]
 		//public async Task<IActionResult> Create([Bind("Id,CatName,Description,Gender,IsVacinated,Image,BreedId")] Cat cat)
+		[Route("Create")]
 		public async Task<IActionResult> Create(CreateCatViewModel newCat)
 		{
-            if (!ModelState.IsValid)
+			if (!ModelState.IsValid)
 			{
 				SelectList breedSL = new SelectList(await _context.Breeds.ToListAsync(),
 					nameof(Breed.Id),
@@ -134,17 +140,18 @@ namespace BigProject.Controllers
 			}
 			//ViewData["BreedId"] = new SelectList(_context.Breeds, "Id", "BreedName", cat.BreedId);
 			byte[] buff = null!;
-			using(BinaryReader br = new BinaryReader(newCat.Image.OpenReadStream()))
+			using (BinaryReader br = new BinaryReader(newCat.Image.OpenReadStream()))
 			{
 				newCat.Cat.Image = br.ReadBytes((int)newCat.Image.Length);
 			}
 			Cat createdCat = _mapper.Map<Cat>(newCat.Cat);
 			_context.Add(createdCat);
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
-        }
+			await _context.SaveChangesAsync();
+			return RedirectToAction(nameof(Index));
+		}
 
 		// GET: Cats/Edit/5
+		[Route("Edit/{id?}")]
 		public async Task<IActionResult> Edit(int? id)
 		{
 			if (id == null || _context.Cats == null)
@@ -177,6 +184,7 @@ namespace BigProject.Controllers
 		// For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
 		[HttpPost]
 		[ValidateAntiForgeryToken]
+		[Route("Edit/{id}")]
 		public async Task<IActionResult> Edit(int id, EditCatViewModel vM)
 		{
 			if (id != vM.Cat.Id)
@@ -224,6 +232,7 @@ namespace BigProject.Controllers
 		}
 
 		// GET: Cats/Delete/5
+		[Route("Delete/{id?}")]
 		public async Task<IActionResult> Delete(int? id)
 		{
 			if (id == null || _context.Cats == null)
@@ -249,6 +258,7 @@ namespace BigProject.Controllers
 		// POST: Cats/Delete/5
 		[HttpPost, ActionName("Delete")]
 		[ValidateAntiForgeryToken]
+		[Route("Delete/{id}")]
 		public async Task<IActionResult> DeleteConfirmed(int id)
 		{
 			if (_context.Cats == null)
@@ -270,5 +280,5 @@ namespace BigProject.Controllers
 		{
 			return _context.Cats.Any(e => e.Id == id);
 		}
-    }
+	}
 }
