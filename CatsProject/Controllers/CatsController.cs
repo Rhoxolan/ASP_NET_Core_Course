@@ -16,6 +16,7 @@ namespace BigProject.Controllers
 {
 	[Route("")]
 	[Route("Cats")]
+	//[Route("{controller=Cats}/{action=Index}/{id?}")]
 	public class CatsController : Controller
 	{
 		private readonly IMapper _mapper;
