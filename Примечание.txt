@@ -37,9 +37,12 @@ PW - работа "Books", добавлено взаимодействие с С
 08.02.2023 - MVC. Ч. 6
 Проект "CatsProject". Работа с DTO и библиотекой AutoMapper.
 
-10.02.2023 - MVC. Ч. 7
+10.02.2023 - MVC. Ч. 7.
 Проект "CatsProject". Работа с DTO и библиотекой AutoMapper.
 
-13.02.2023 - MVC. Ч. 8
+13.02.2023 - MVC. Ч. 8.
 Проект "CatsProject" - Работа с DTO и ViewModel.
 PW - работа с маршрутизацией в MVC. Работа с методом MapControllerRoute, работа с ограничниями маршрутов.
+
+15.02.2023 - MVC. Ч. 9.
+Проект "CatsProject" - контроллер "Cats" переведен на Attribute Based Routing. Работа с атрибутом маршрутизации "[Routing("path")]".

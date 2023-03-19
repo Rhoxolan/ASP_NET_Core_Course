@@ -11,6 +11,7 @@ using BigProject.Models.DTO;
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using System.Text;
+using static System.String;
 
 namespace BigProject.Controllers
 {
@@ -31,10 +32,19 @@ namespace BigProject.Controllers
 		}
 
 		[Route("{action=Index}/{id?}")]
-		[Route("List")]
+		[Route("List/{breed?}")]
 		// GET: Cats
-		public async Task<IActionResult> Index(int breedId, string search)
+		public async Task<IActionResult> Index(int breedId, string search, string? breed)
 		{
+			if (!IsNullOrEmpty(breed))
+			{
+				int? searchedBreedId = _context.Breeds.Where(b => b.BreedName.ToUpper() == breed.ToUpper()).FirstOrDefault()?.Id;
+				if(searchedBreedId is not null)
+				{
+					breedId = searchedBreedId.Value;
+				}
+			}
+
 			IQueryable<Cat> cats = _context.Cats
 				.Include(c => c.Breed)
 				.Where(t => t.IsDeleted == false);
