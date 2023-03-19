@@ -54,6 +54,6 @@ app.MapControllerRoute(
 
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller:regex(^[^HAU].*)}/{action=Index}/{id?}");
+    pattern: "{controller:regex(^[^HAU].*)}/{action=Index}/{id?}"); //Ограничиваем в дефолтном маршруте работу с контроллерам "Home, Admin и User, так как для них прописаны ограничения в других методах"
 
 app.Run();
