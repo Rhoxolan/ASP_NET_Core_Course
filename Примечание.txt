@@ -45,4 +45,4 @@ PW - работа "Books", добавлено взаимодействие с С
 PW - работа с маршрутизацией в MVC. Работа с методом MapControllerRoute, работа с ограничниями маршрутов.
 
 15.02.2023 - MVC. Ч. 9.
-Проект "CatsProject" - контроллер "Cats" переведен на Attribute Based Routing. Работа с атрибутом маршрутизации "[Routing("path")]".
+Проект "CatsProject" - контроллер "Cats" переведен на Attribute Based Routing. Работа с атрибутом маршрутизации "[Routing("path")]" (См. комментарии в файле Controllers/CatsController.cs).
