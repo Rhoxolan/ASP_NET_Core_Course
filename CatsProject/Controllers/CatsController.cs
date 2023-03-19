@@ -15,8 +15,8 @@ using static System.String;
 
 namespace BigProject.Controllers
 {
-	[Route("{controller=Cats}")]
-	[Route("")]
+	[Route("{controller=Cats}")] //Устанавливаем контроллер по умолчанию для маршрутизации
+	[Route("")] //Необходим для работы с маршрутом "/List/" без префикса "Cats/"
 	public class CatsController : Controller
 	{
 		private readonly IMapper _mapper;
@@ -31,8 +31,8 @@ namespace BigProject.Controllers
 			_logger = loggerFactory.CreateLogger<CatsController>();
 		}
 
-		[Route("{action=Index}/{id?}")]
-		[Route("List/{breed?}")]
+		[Route("{action=Index}/{id?}")] //Отображение начальной страницы "Index"
+		[Route("List/{breed?}")] //Маршрут "/List/{breed?}" без префикса контроллера. Необходим по заданию с PW 15.02.2023 (см файл ASP_DZ_14_new.pdf в каталоге проекта)
 		// GET: Cats
 		public async Task<IActionResult> Index(int breedId, string search, string? breed)
 		{
