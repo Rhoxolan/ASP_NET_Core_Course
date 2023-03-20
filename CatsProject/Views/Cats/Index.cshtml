@@ -2,6 +2,10 @@
 @using BigProject.Models.DTO;
 @using CatsProject.Models.ViewModels.CatViewModels
 @model IndexCatViewModel
+@addTagHelper *, CatsProject
+@{
+	var breeds = Model.BreedSl.Select(b => b.Text);
+}
 
 @{
 	ViewData["Title"] = "Index";
@@ -9,6 +13,10 @@
 }
 
 <h1>Index</h1>
+
+<p>
+	<breeds breeds-class="btn-group" a-class="btn btn-outline-success" ahref="/List" breeds="breeds"></breeds>
+</p>
 
 <p>
 	<a asp-action="Create">Create New</a>

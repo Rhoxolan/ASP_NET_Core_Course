@@ -46,3 +46,6 @@ PW - работа с маршрутизацией в MVC. Работа с  Conve
 
 15.02.2023 - MVC. Ч. 9.
 Проект "CatsProject" - контроллер "Cats" переведен на Attribute Based Routing. Работа с атрибутом маршрутизации "[Routing("path")]" (См. комментарии в файле Controllers/CatsController.cs).
+
+17.020.2023 - MVC. Ч. 10.
+Проект "CatsProject" - создан и добавлен на страницу "Index" tag-хелпер "<breeds>" для навигации по породам котов.
