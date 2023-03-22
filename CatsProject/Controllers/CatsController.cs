@@ -12,6 +12,7 @@ using AutoMapper;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using System.Text;
 using static System.String;
+using CatsProject.Models.Enum;
 
 namespace BigProject.Controllers
 {
@@ -32,9 +33,9 @@ namespace BigProject.Controllers
 		}
 
 		[Route("{action=Index}/{id?}")] //Отображение начальной страницы "Index"
-		[Route("List/{breed?}")] //Маршрут "/List/{breed?}" без префикса контроллера. Необходим по заданию с PW 15.02.2023 (см файл ASP_DZ_14_new.pdf в каталоге проекта)
+		[Route("List/{breed?}/{sort?}")] //Маршрут "/List/{breed?}" без префикса контроллера. Необходим по заданию с PW 15.02.2023 (см файл ASP_DZ_14_new.pdf в каталоге проекта)
 		// GET: Cats
-		public async Task<IActionResult> Index(int breedId, string search, string? breed)
+		public async Task<IActionResult> Index(int breedId, string search, string? breed, CatsSort? catsSort)
 		{
 			if (!IsNullOrEmpty(breed))
 			{
@@ -48,6 +49,24 @@ namespace BigProject.Controllers
 			IQueryable<Cat> cats = _context.Cats
 				.Include(c => c.Breed)
 				.Where(t => t.IsDeleted == false);
+
+			// = CatsSort.BreedAscending;
+			switch (catsSort)
+			{
+				case CatsSort.NameAscending:
+					cats = cats.OrderBy(c => c.CatName);
+					break;
+				case CatsSort.NameDescending:
+					cats = cats.OrderByDescending(c => c.CatName);
+					break;
+				case CatsSort.BreedAscending:
+					cats = cats.OrderBy(c => c.Breed!.BreedName);
+					break;
+				case CatsSort.BreedDescending:
+					cats = cats.OrderByDescending(c => c.Breed!.BreedName);
+					break;
+			}
+
 			if (breedId > 0)
 				cats = cats.Where(t => t.BreedId == breedId);
 			if (search is not null)

@@ -37,7 +37,7 @@ app.MapControllers();
 
 app.MapControllerRoute(
 	name: "listRoute",
-	pattern: "List/{breed?}",
+	pattern: "List/{breed?}/{sort?}",
 	defaults: new { action = "List" });
 
 app.Run();
