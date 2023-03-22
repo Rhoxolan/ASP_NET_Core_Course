@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Razor.TagHelpers;
+﻿using BigProject.Data.Entities;
+using Microsoft.AspNetCore.Razor.TagHelpers;
+using System.Drawing.Drawing2D;
 using static System.String;
 
 namespace CatsProject.TagHelpers

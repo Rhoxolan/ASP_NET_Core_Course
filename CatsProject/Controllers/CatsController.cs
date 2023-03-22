@@ -33,9 +33,9 @@ namespace BigProject.Controllers
 		}
 
 		[Route("{action=Index}/{id?}")] //Отображение начальной страницы "Index"
-		[Route("List/{breed?}/{sort?}")] //Маршрут "/List/{breed?}" без префикса контроллера. Необходим по заданию с PW 15.02.2023 (см файл ASP_DZ_14_new.pdf в каталоге проекта)
+		[Route("List/{breed?}")] //Маршрут "/List/{breed?}" без префикса контроллера. Необходим по заданию с PW 15.02.2023 (см файл ASP_DZ_14_new.pdf в каталоге проекта)
 		// GET: Cats
-		public async Task<IActionResult> Index(int breedId, string search, string? breed, CatsSort? catsSort)
+		public async Task<IActionResult> Index(int breedId, string search, string? breed, CatsSort? sort)
 		{
 			if (!IsNullOrEmpty(breed))
 			{
@@ -50,8 +50,7 @@ namespace BigProject.Controllers
 				.Include(c => c.Breed)
 				.Where(t => t.IsDeleted == false);
 
-			// = CatsSort.BreedAscending;
-			switch (catsSort)
+			switch (sort)
 			{
 				case CatsSort.NameAscending:
 					cats = cats.OrderBy(c => c.CatName);
