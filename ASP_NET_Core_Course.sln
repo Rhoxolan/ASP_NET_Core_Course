@@ -46,7 +46,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "2023.02.01_PW", "2023.02.01
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CatsProject", "CatsProject\CatsProject.csproj", "{932B51E8-C27D-41B3-B3E9-1EB2BA7F0CC8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "2023.02.13_PW", "2023.02.13_PW\2023.02.13_PW.csproj", "{C851055E-9FCD-4795-9E46-7CC5AE8AA5BA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "2023.02.13_PW", "2023.02.13_PW\2023.02.13_PW.csproj", "{C851055E-9FCD-4795-9E46-7CC5AE8AA5BA}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OnlineShop", "OnlineShop\OnlineShop.csproj", "{23AE970A-1981-4ADB-8B3C-BE48DDEB8479}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -134,6 +136,10 @@ Global
 		{C851055E-9FCD-4795-9E46-7CC5AE8AA5BA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C851055E-9FCD-4795-9E46-7CC5AE8AA5BA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C851055E-9FCD-4795-9E46-7CC5AE8AA5BA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{23AE970A-1981-4ADB-8B3C-BE48DDEB8479}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{23AE970A-1981-4ADB-8B3C-BE48DDEB8479}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{23AE970A-1981-4ADB-8B3C-BE48DDEB8479}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{23AE970A-1981-4ADB-8B3C-BE48DDEB8479}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
