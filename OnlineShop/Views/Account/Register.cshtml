@@ -1,0 +1,35 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+@model RegisterViewModel
+<form asp-action="Register" method="post">
+    <div asp-validation-summary="ModelOnly"></div>
+    <div class="mb-3">
+        <label asp-for="Login" class="form-label"></label>
+        <input asp-for="Login" class="form-control" />
+        <span asp-validation-for="Login" class="text-danger"></span>
+    </div>
+    <div class="mb-3">
+        <label asp-for="EMail" class="form-label"></label>
+        <input asp-for="EMail" class="form-control" />
+        <span asp-validation-for="EMail" class="text-danger"></span>
+    </div>
+    <div class="mb-3">
+        <label asp-for="YearOfBirth" class="form-label"></label>
+        <input asp-for="YearOfBirth" class="form-control" />
+        <span asp-validation-for="YearOfBirth" class="text-danger"></span>
+    </div>
+    <div class="mb-3">
+        <label asp-for="Password" class="form-label"></label>
+        <input asp-for="Password" class="form-control" />
+        <span asp-validation-for="Password" class="text-danger"></span>
+    </div>
+    <div class="mb-3">
+        <label asp-for="ConfirmPassword" class="form-label"></label>
+        <input asp-for="ConfirmPassword" class="form-control" />
+        <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
+    </div>
+    <input type="submit" value="Register" class="btn btn-primary" />
+</form>

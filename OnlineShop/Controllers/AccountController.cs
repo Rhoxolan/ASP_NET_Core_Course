@@ -20,5 +20,10 @@ namespace OnlineShop.Controllers
 		{
 			return View();
 		}
+
+		public IActionResult Register()
+		{
+			return View();
+		}
 	}
 }
