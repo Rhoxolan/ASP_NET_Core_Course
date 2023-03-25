@@ -1,11 +1,16 @@
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using OnlineShop.Data;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
-builder.Services.AddIdentity<User, IdentityRole>();
+builder.Services.AddIdentity<User, IdentityRole>()
+	.AddEntityFrameworkStores<ShopDbContext>();
+string connStr = builder.Configuration.GetConnectionString("shopDB");
+builder.Services.AddDbContext<ShopDbContext>(options => options.UseSqlServer(connStr));
+
 
 var app = builder.Build();
 
