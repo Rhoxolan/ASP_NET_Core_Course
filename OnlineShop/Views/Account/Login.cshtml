@@ -6,6 +6,7 @@
 @model LoginViewModel
 <form asp-action="Login" method="post">
     <div asp-validation-summary="ModelOnly"></div>
+    <input type="hidden" asp-for="ReturnUrl"/>
     <div class="mb-3">
         <label asp-for="Login" class="form-label"></label>
         <input asp-for="Login" class="form-control" />
@@ -17,8 +18,8 @@
         <span asp-validation-for="Password" class="text-danger"></span>
     </div>
     <div class="mb-3">
-        <label asp-for="IsPersistent" class="form-label"></label>
-        <input asp-for="IsPersistent" class="form-control" />
+        <label asp-for="IsPersistent" class="form-check-label"></label>
+        <input asp-for="IsPersistent" class="form-check" />
     </div>
     <input type="submit" value="Login" class="btn btn-primary" />
 </form>
