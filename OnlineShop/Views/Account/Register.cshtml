@@ -32,4 +32,5 @@
         <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
     </div>
     <input type="submit" value="Register" class="btn btn-primary" />
+    <a asp-action="Login" asp-route-returnUrl="@(Context.Request.Path.Value + Context.Request.QueryString)" class="btn btn-secondary"></a>
 </form>
