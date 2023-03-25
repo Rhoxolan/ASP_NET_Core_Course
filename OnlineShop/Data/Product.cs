@@ -1,4 +1,6 @@
-﻿namespace OnlineShop.Data
+﻿using System.ComponentModel.DataAnnotations.Schema;
+
+namespace OnlineShop.Data
 {
 	public class Product
 	{
@@ -9,5 +11,12 @@
 		public double Price { get; set; }
 
 		public int Count { get; set; }
+
+		[ForeignKey(nameof(Category))]
+		public int CategoryId { get; set; }
+
+		public Category Category { get; set; } = default!;
+
+		public List<Product>? Products { get; set; } = default!;
 	}
 }

@@ -1,7 +1,11 @@
+using Microsoft.AspNetCore.Identity;
+using OnlineShop.Data;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+builder.Services.AddIdentity<User, IdentityRole>();
 
 var app = builder.Build();
 
