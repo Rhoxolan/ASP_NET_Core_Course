@@ -9,96 +9,90 @@ using OnlineShop.Data;
 
 namespace OnlineShop.Controllers
 {
-    public class ProductsController : Controller
+    public class PhotosController : Controller
     {
         private readonly ShopDbContext _context;
-        private readonly ILogger<HomeController> _logger;
 
-        public ProductsController(ShopDbContext context, ILogger<HomeController> logger)
+        public PhotosController(ShopDbContext context)
         {
             _context = context;
-            _logger = logger;
         }
 
-        // GET: Products
+        // GET: Photos
         public async Task<IActionResult> Index()
         {
-            var shopDbContext = _context.Products.Include(p => p.Category);
+            var shopDbContext = _context.Photos.Include(p => p.Product);
             return View(await shopDbContext.ToListAsync());
         }
 
-        // GET: Products/Details/5
+        // GET: Photos/Details/5
         public async Task<IActionResult> Details(int? id)
         {
-            if (id == null || _context.Products == null)
+            if (id == null || _context.Photos == null)
             {
                 return NotFound();
             }
 
-            var product = await _context.Products
-                .Include(p => p.Category)
+            var photo = await _context.Photos
+                .Include(p => p.Product)
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (product == null)
+            if (photo == null)
             {
                 return NotFound();
             }
 
-            return View(product);
+            return View(photo);
         }
 
-        // GET: Products/Create
+        // GET: Photos/Create
         public IActionResult Create()
         {
-            ViewData["CategoryId"] = new SelectList(_context.Categories, "Id", "Id");
+            ViewData["ProductId"] = new SelectList(_context.Products, "Id", "Id");
             return View();
         }
 
-        // POST: Products/Create
+        // POST: Photos/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Title,Price,Count,CategoryId")] Product product)
+        public async Task<IActionResult> Create([Bind("Id,FileName,PhotoUrl,ProductId")] Photo photo)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(product);
+                _context.Add(photo);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            foreach (var error in ModelState.Values.SelectMany(t => t.Errors))
-            {
-                _logger.LogError(error.ErrorMessage);
-            }
-            ViewData["CategoryId"] = new SelectList(_context.Categories, "Id", "Id", product.CategoryId);
-            return View(product);
+            ViewData["ProductId"] = new SelectList(_context.Products, "Id", "Id", photo.ProductId);
+            return View(photo);
         }
 
-        // GET: Products/Edit/5
+        // GET: Photos/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
-            if (id == null || _context.Products == null)
+            if (id == null || _context.Photos == null)
             {
                 return NotFound();
             }
 
-            var product = await _context.Products.FindAsync(id);
-            if (product == null)
+            var photo = await _context.Photos.FindAsync(id);
+            if (photo == null)
             {
                 return NotFound();
             }
-            ViewData["CategoryId"] = new SelectList(_context.Categories, "Id", "Id", product.CategoryId);
-            return View(product);
+            ViewData["ProductId"] = new SelectList(_context.Products, "Id", "Id", photo.ProductId);
+            return View(photo);
         }
 
-        // POST: Products/Edit/5
+        // POST: Photos/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Title,Price,Count,CategoryId")] Product product)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,FileName,PhotoUrl,ProductId")] Photo photo)
         {
-            if (id != product.Id)
+            if (id != photo.Id)
             {
                 return NotFound();
             }
@@ -107,12 +101,12 @@ namespace OnlineShop.Controllers
             {
                 try
                 {
-                    _context.Update(product);
+                    _context.Update(photo);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!ProductExists(product.Id))
+                    if (!PhotoExists(photo.Id))
                     {
                         return NotFound();
                     }
@@ -123,51 +117,51 @@ namespace OnlineShop.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["CategoryId"] = new SelectList(_context.Categories, "Id", "Id", product.CategoryId);
-            return View(product);
+            ViewData["ProductId"] = new SelectList(_context.Products, "Id", "Id", photo.ProductId);
+            return View(photo);
         }
 
-        // GET: Products/Delete/5
+        // GET: Photos/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
-            if (id == null || _context.Products == null)
+            if (id == null || _context.Photos == null)
             {
                 return NotFound();
             }
 
-            var product = await _context.Products
-                .Include(p => p.Category)
+            var photo = await _context.Photos
+                .Include(p => p.Product)
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (product == null)
+            if (photo == null)
             {
                 return NotFound();
             }
 
-            return View(product);
+            return View(photo);
         }
 
-        // POST: Products/Delete/5
+        // POST: Photos/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            if (_context.Products == null)
+            if (_context.Photos == null)
             {
-                return Problem("Entity set 'ShopDbContext.Products'  is null.");
+                return Problem("Entity set 'ShopDbContext.Photos'  is null.");
             }
-            var product = await _context.Products.FindAsync(id);
-            if (product != null)
+            var photo = await _context.Photos.FindAsync(id);
+            if (photo != null)
             {
-                _context.Products.Remove(product);
+                _context.Photos.Remove(photo);
             }
             
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool ProductExists(int id)
+        private bool PhotoExists(int id)
         {
-          return (_context.Products?.Any(e => e.Id == id)).GetValueOrDefault();
+          return (_context.Photos?.Any(e => e.Id == id)).GetValueOrDefault();
         }
     }
 }

@@ -12,11 +12,20 @@
             Admin page
         </h1>
         <hr />
+        <div class="d-flex">
+            <a asp-controller="Products">Products</a>
+            <a asp-controller="Categories">Categories</a>
+            <a asp-controller="Photos">Photos</a>
+        </div>
     </header>
 
     <div>
         @RenderBody()
     </div>
-
+    
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>
