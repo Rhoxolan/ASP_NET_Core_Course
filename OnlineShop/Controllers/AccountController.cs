@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Infrastructure;
 using OnlineShop.Data;
 using OnlineShop.Models.ViewModels.AccountViewModels;
 
@@ -84,5 +85,13 @@ namespace OnlineShop.Controllers
             }
             return View(vm);
         }
+
+        [HttpPost]
+        public async Task<IActionResult> Logout()
+        {
+            await _signInManager.SignOutAsync();
+            return RedirectToAction("Index", "Home");
+        }
+
     }
 }
