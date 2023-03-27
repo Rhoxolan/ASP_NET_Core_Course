@@ -75,7 +75,8 @@ namespace OnlineShop.Controllers
             {
                 Id = user.Id,
                 Email = user.Email,
-                Login = user.UserName
+                Login = user.UserName,
+                YearOfBirth = user.YearOfBirth
             };
             return View(dto);
         }
@@ -105,6 +106,11 @@ namespace OnlineShop.Controllers
                 }
             }
             return View(userDTO);
+        }
+
+        public async Task<IActionResult> ChangePassword(string? id)
+        {
+            throw new NotImplementedException();
         }
     }
 }
