@@ -1,4 +1,4 @@
-﻿@model IEnumerable<OnlineShop.Models.DTO.UserDTOs.EditUserDTO>
+﻿@model IEnumerable<OnlineShop.Models.DTO.UserDTOs.UserDTO>
 
 @{
 	ViewData["Title"] = "Index";
@@ -9,7 +9,7 @@
 <p>
 	<a asp-action="Create">Create New</a>
 </p>
-<table class="table">
+<table class="table table-striped table-hover">
 	<thead>
 		<tr>
 			<th>
@@ -44,9 +44,9 @@
 					@Html.DisplayFor(modelItem => item.Email)
 				</td>
 				<td>
-					<a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-					<a asp-action="ChangePassword" asp-route-id="@item.Id">Change Password</a> |
-					<a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+					<a asp-action="Edit" asp-route-id="@item.Id" class="btn-sm btn-outline-primary">Edit</a> |
+					<a asp-action="ChangePassword" asp-route-id="@item.Id" class="btn-sm btn-outline-secondary">Change Password</a> |
+					<a asp-action="Delete" asp-route-id="@item.Id" class="btn-sm btn-outline-warning">Delete</a>
 				</td>
 			</tr>
 		}
