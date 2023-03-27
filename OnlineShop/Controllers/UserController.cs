@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using OnlineShop.Data;
+using OnlineShop.Models.DTO.UserDTOs;
 
 namespace OnlineShop.Controllers
 {
@@ -16,7 +17,16 @@ namespace OnlineShop.Controllers
 
 		public async Task<IActionResult> Index()
 		{
-			return View(await _userManager.Users.ToListAsync());
+			var users = _userManager.Users;
+			//Use AutoMapper in Future
+			IEnumerable<UserDTO> usersDTO = await users.Select(t => new UserDTO
+			{
+				Id = t.Id,
+				Login = t.UserName,
+				Email = t.Email,
+				YearOfBirth = t.YearOfBirth
+			}).ToListAsync();
+			return View(usersDTO);
 		}
 	}
 }
