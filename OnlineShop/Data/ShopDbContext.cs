@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using OnlineShop.Models.DTO.UserDTOs;
 
 namespace OnlineShop.Data
 {
@@ -15,5 +16,7 @@ namespace OnlineShop.Data
 		{
 			Database.EnsureCreated();
 		}
+
+		public DbSet<OnlineShop.Models.DTO.UserDTOs.EditUserDTO>? EditUserDTO { get; set; }
 	}
 }
