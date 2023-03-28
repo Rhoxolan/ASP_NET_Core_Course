@@ -132,8 +132,21 @@ namespace OnlineShop.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> ChangePassword(ChangePasswordDTO dto)
         {
-            var passwordValidator = HttpContext.RequestServices.GetRequiredService<IPasswordValidator<User>>();
-            var passwordHasher = HttpContext.RequestServices.GetRequiredService<IPasswordHasher<User>>();
+            if (ModelState.IsValid)
+            {
+                User user = await _userManager.FindByIdAsync(dto.Id);
+                var passwordValidator = HttpContext.RequestServices.GetRequiredService<IPasswordValidator<User>>();
+                var passwordHasher = HttpContext.RequestServices.GetRequiredService<IPasswordHasher<User>>();
+                if(user is null)
+                {
+                    return NotFound();
+                }
+                var identityResult = await passwordValidator.ValidateAsync(_userManager, user, dto.NewPassword);
+                if(identityResult.Succeeded)
+                {
+                    throw new NotImplementedException();
+                }
+            }
             throw new NotImplementedException();
         }
     }
