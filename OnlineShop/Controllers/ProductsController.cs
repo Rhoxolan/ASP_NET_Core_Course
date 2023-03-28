@@ -95,7 +95,15 @@ namespace OnlineShop.Controllers
 				return NotFound();
 			}
 			ViewData["CategoryId"] = new SelectList(_context.Categories, "Id", "Id", product.CategoryId);
-			return View(product);
+			//AutoMapper
+			EditProductDTO productDTO = new EditProductDTO
+			{
+				Title = product.Title,
+				Price = product.Price,
+				Count = product.Count,
+				CategoryId = product.CategoryId
+			};
+			return View(productDTO);
 		}
 
 		// POST: Products/Edit/5

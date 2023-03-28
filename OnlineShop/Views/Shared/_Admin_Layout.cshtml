@@ -3,26 +3,26 @@
 <html>
 <head>
     <meta name="viewport" content="width=device-width" />
-    <title>@ViewBag.Title</title>
+    <title>@ViewData["Title"] - Admin Panel</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/OnlineShop.styles.css" asp-append-version="true" />
 </head>
 <body>
 
-    <header>
+    <header class="container-fluid">
         <h1>
             Admin page
         </h1>
         <hr />
-        <div class="d-flex">
-            <a asp-controller="Products">Products</a>
-            <a asp-controller="Categories">Categories</a>
-            <a asp-controller="Photos">Photos</a>
+        <div class="btn-group">
+            <a asp-controller="Products" class="btn btn-outline-success fw-bold">Products</a>
+            <a asp-controller="Categories" class="btn btn-outline-success fw-bold">Categories</a>
+            <a asp-controller="Photos" class="btn btn-outline-success fw-bold">Photos</a>
         </div>
     </header>
 
-    <div>
+    <div class="container-fluid mt-3">
         @RenderBody()
     </div>
     
