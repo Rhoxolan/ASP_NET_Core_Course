@@ -15,7 +15,7 @@ namespace OnlineShop.Data
 		[ForeignKey(nameof(Category))]
 		public int CategoryId { get; set; }
 
-		public Category? Category { get; set; } = default!; //Must be changing to non nullabe
+		public Category Category { get; set; } = default!;
 
         public List<Product>? Products { get; set; } = default!;
 	}
