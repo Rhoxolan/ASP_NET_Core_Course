@@ -6,20 +6,23 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using OnlineShop.Data;
+using OnlineShop.Models.DTO.CategoryDTOs;
 
 namespace OnlineShop.Controllers
 {
     public class CategoriesController : Controller
     {
         private readonly ShopDbContext _context;
+		private readonly ILogger<CategoriesController> _logger;
 
-        public CategoriesController(ShopDbContext context)
-        {
-            _context = context;
-        }
+		public CategoriesController(ShopDbContext context, ILogger<CategoriesController> logger)
+		{
+			_context = context;
+			_logger = logger;
+		}
 
-        // GET: Categories
-        public async Task<IActionResult> Index()
+		// GET: Categories
+		public async Task<IActionResult> Index()
         {
             var shopDbContext = _context.Categories.Include(c => c.ParentCategory);
             return View(await shopDbContext.ToListAsync());
@@ -56,16 +59,25 @@ namespace OnlineShop.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Title,ParentCategoryId")] Category category)
+        public async Task<IActionResult> Create(CreateCategoryDTO categoryDTO)
         {
             if (ModelState.IsValid)
             {
+                Category category = new Category
+                {
+                    Title = categoryDTO.Title,
+                    ParentCategoryId = categoryDTO.ParentCategoryId
+                };
                 _context.Add(category);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["ParentCategoryId"] = new SelectList(_context.Categories, "Id", "Id", category.ParentCategoryId);
-            return View(category);
+			foreach (var error in ModelState.Values.SelectMany(t => t.Errors))
+			{
+				_logger.LogError(error.ErrorMessage);
+			}
+			ViewData["ParentCategoryId"] = new SelectList(_context.Categories, "Id", "Id", categoryDTO.ParentCategoryId);
+            return View(categoryDTO);
         }
 
         // GET: Categories/Edit/5
@@ -82,7 +94,13 @@ namespace OnlineShop.Controllers
                 return NotFound();
             }
             ViewData["ParentCategoryId"] = new SelectList(_context.Categories, "Id", "Id", category.ParentCategoryId);
-            return View(category);
+            //AutoMapper
+            EditCategoryDTO categoryDTO = new EditCategoryDTO
+            {
+                Title= category.Title,
+                ParentCategoryId = category.ParentCategoryId
+            };
+			return View(categoryDTO);
         }
 
         // POST: Categories/Edit/5
@@ -90,35 +108,23 @@ namespace OnlineShop.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Title,ParentCategoryId")] Category category)
+        public async Task<IActionResult> Edit(EditCategoryDTO categoryDTO)
         {
-            if (id != category.Id)
-            {
-                return NotFound();
-            }
-
             if (ModelState.IsValid)
             {
-                try
+                Category? category = await _context.Categories.FindAsync(categoryDTO.Id);
+                if(category is null)
                 {
-                    _context.Update(category);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!CategoryExists(category.Id))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
-                return RedirectToAction(nameof(Index));
+					return NotFound();
+				}
+                category.Title = categoryDTO.Title;
+                category.ParentCategoryId = categoryDTO.ParentCategoryId;
+                _context.Update(category);
+                await _context.SaveChangesAsync();
+				return RedirectToAction(nameof(Index));
             }
-            ViewData["ParentCategoryId"] = new SelectList(_context.Categories, "Id", "Id", category.ParentCategoryId);
-            return View(category);
+            ViewData["ParentCategoryId"] = new SelectList(_context.Categories, "Id", "Id", categoryDTO.ParentCategoryId);
+            return View(categoryDTO);
         }
 
         // GET: Categories/Delete/5
