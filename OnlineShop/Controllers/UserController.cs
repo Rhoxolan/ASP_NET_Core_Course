@@ -110,6 +110,30 @@ namespace OnlineShop.Controllers
 
         public async Task<IActionResult> ChangePassword(string? id)
         {
+            if(id == null)
+            {
+                return NotFound();
+            }
+            var user = await _userManager.FindByIdAsync(id);
+            if (user == null)
+            {
+                return NotFound();
+            }
+
+            ChangePasswordDTO dto = new ChangePasswordDTO
+            {
+                Id = user.Id,
+                Email = user.Email,
+            };
+            return View(dto);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> ChangePassword(ChangePasswordDTO dto)
+        {
+            var passwordValidator = HttpContext.RequestServices.GetRequiredService<IPasswordValidator<User>>();
+            var passwordHasher = HttpContext.RequestServices.GetRequiredService<IPasswordHasher<User>>();
             throw new NotImplementedException();
         }
     }
