@@ -132,6 +132,8 @@ namespace OnlineShop.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> ChangePassword(ChangePasswordDTO dto)
         {
+            //Можно использовать метод ChangePasswordAsync()
+
             if (ModelState.IsValid)
             {
                 User user = await _userManager.FindByIdAsync(dto.Id);
@@ -144,10 +146,20 @@ namespace OnlineShop.Controllers
                 var identityResult = await passwordValidator.ValidateAsync(_userManager, user, dto.NewPassword);
                 if(identityResult.Succeeded)
                 {
-                    throw new NotImplementedException();
+                    var hashedPassword = passwordHasher.HashPassword(user, dto.NewPassword);
+                    user.PasswordHash = hashedPassword;
+                    await _userManager.UpdateAsync(user);
+                    return RedirectToAction("Index");
+                }
+                else
+                {
+                    foreach(var error in identityResult.Errors)
+                    {
+                        ModelState.AddModelError(string.Empty, error.Description);
+                    }
                 }
             }
-            throw new NotImplementedException();
+            return View(dto);
         }
     }
 }
