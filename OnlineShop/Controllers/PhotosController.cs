@@ -6,20 +6,23 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using OnlineShop.Data;
+using OnlineShop.Models.DTO.PhotoDTOs;
 
 namespace OnlineShop.Controllers
 {
     public class PhotosController : Controller
     {
         private readonly ShopDbContext _context;
+		private readonly ILogger<PhotosController> _logger;
 
-        public PhotosController(ShopDbContext context)
-        {
-            _context = context;
-        }
+		public PhotosController(ShopDbContext context, ILogger<PhotosController> logger)
+		{
+			_context = context;
+			_logger = logger;
+		}
 
-        // GET: Photos
-        public async Task<IActionResult> Index()
+		// GET: Photos
+		public async Task<IActionResult> Index()
         {
             var shopDbContext = _context.Photos.Include(p => p.Product);
             return View(await shopDbContext.ToListAsync());
@@ -47,7 +50,7 @@ namespace OnlineShop.Controllers
         // GET: Photos/Create
         public IActionResult Create()
         {
-            ViewData["ProductId"] = new SelectList(_context.Products, "Id", "Id");
+            ViewData["ProductId"] = new SelectList(_context.Products, nameof(Product.Id), nameof(Product.Title));
             return View();
         }
 
@@ -56,16 +59,26 @@ namespace OnlineShop.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,FileName,PhotoUrl,ProductId")] Photo photo)
+        public async Task<IActionResult> Create(CreatePhotoDTO photoDTO)
         {
             if (ModelState.IsValid)
             {
+                Photo photo = new Photo
+                {
+                    FileName = photoDTO.FileName,
+                    PhotoUrl = photoDTO.PhotoUrl,
+                    ProductId = photoDTO.ProductId,
+                };
                 _context.Add(photo);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["ProductId"] = new SelectList(_context.Products, "Id", "Id", photo.ProductId);
-            return View(photo);
+			foreach (var error in ModelState.Values.SelectMany(t => t.Errors))
+			{
+				_logger.LogError(error.ErrorMessage);
+			}
+			ViewData["ProductId"] = new SelectList(_context.Products, nameof(Product.Id), nameof(Product.Title), photoDTO.ProductId);
+            return View(photoDTO);
         }
 
         // GET: Photos/Edit/5
@@ -81,8 +94,15 @@ namespace OnlineShop.Controllers
             {
                 return NotFound();
             }
-            ViewData["ProductId"] = new SelectList(_context.Products, "Id", "Id", photo.ProductId);
-            return View(photo);
+            //AutoMapper
+            EditPhotoDTO photoDTO = new EditPhotoDTO
+            {
+                FileName = photo.FileName,
+                PhotoUrl = photo.PhotoUrl,
+                ProductId = photo.ProductId,
+            };
+			ViewData["ProductId"] = new SelectList(_context.Products, nameof(Product.Id), nameof(Product.Title), photo.ProductId);
+            return View(photoDTO);
         }
 
         // POST: Photos/Edit/5
@@ -90,35 +110,24 @@ namespace OnlineShop.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,FileName,PhotoUrl,ProductId")] Photo photo)
+        public async Task<IActionResult> Edit(EditPhotoDTO photoDTO)
         {
-            if (id != photo.Id)
-            {
-                return NotFound();
-            }
-
             if (ModelState.IsValid)
             {
-                try
-                {
-                    _context.Update(photo);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!PhotoExists(photo.Id))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
-                return RedirectToAction(nameof(Index));
+                Photo? photo = await _context.Photos.FindAsync(photoDTO.Id);
+				if (photo is null)
+				{
+					return NotFound();
+				}
+                photo.FileName = photoDTO.FileName;
+                photo.PhotoUrl = photoDTO.PhotoUrl;
+                photo.ProductId = photoDTO.ProductId;
+                _context.Update(photo);
+                await _context.SaveChangesAsync();
+				return RedirectToAction(nameof(Index));
             }
-            ViewData["ProductId"] = new SelectList(_context.Products, "Id", "Id", photo.ProductId);
-            return View(photo);
+            ViewData["ProductId"] = new SelectList(_context.Products, nameof(Product.Id), nameof(Product.Title), photoDTO.ProductId);
+            return View(photoDTO);
         }
 
         // GET: Photos/Delete/5

@@ -10,6 +10,6 @@
 
 		public int ProductId { get; set; }
 
-		public Product? Product { get; set; } = default!; //Must be changing to non nullabe
+		public Product Product { get; set; } = default!;
 	}
 }
