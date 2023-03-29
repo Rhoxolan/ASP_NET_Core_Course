@@ -1,4 +1,4 @@
-﻿@model IEnumerable<OnlineShop.Data.Product>
+﻿@model IEnumerable<Product>
 
 <!DOCTYPE html>
 
@@ -42,7 +42,7 @@
                 @Html.DisplayFor(modelItem => item.Count)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Category.Id)
+                @Html.DisplayFor(modelItem => item.Category.Title)
             </td>
             <td>
                 <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |

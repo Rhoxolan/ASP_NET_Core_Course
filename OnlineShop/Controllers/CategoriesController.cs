@@ -52,7 +52,7 @@ namespace OnlineShop.Controllers
 		{
 			var categories = await _context.Categories.ToListAsync();
 			categories.Insert(0, new() { Id = -1 });
-			ViewData["ParentCategoryId"] = new SelectList(categories, "Id", "Title");
+			ViewData["ParentCategoryId"] = new SelectList(categories, nameof(Category.Id), nameof(Category.Title));
 			return View();
 		}
 
@@ -83,7 +83,7 @@ namespace OnlineShop.Controllers
 			}
 			var categories = await _context.Categories.ToListAsync();
 			categories.Insert(0, new() { Id = -1 });
-			ViewData["ParentCategoryId"] = new SelectList(categories, "Id", "Title", categoryDTO.ParentCategoryId);
+			ViewData["ParentCategoryId"] = new SelectList(categories, nameof(Category.Id), nameof(Category.Title), categoryDTO.ParentCategoryId);
 			return View(categoryDTO);
 		}
 
@@ -102,7 +102,7 @@ namespace OnlineShop.Controllers
 			}
 			var categories = await _context.Categories.ToListAsync();
 			categories.Insert(0, new() { Id = -1 });
-			ViewData["ParentCategoryId"] = new SelectList(categories, "Id", "Title", category.ParentCategoryId);
+			ViewData["ParentCategoryId"] = new SelectList(categories, nameof(Category.Id), nameof(Category.Title), category.ParentCategoryId);
 			//AutoMapper
 			EditCategoryDTO categoryDTO = new EditCategoryDTO
 			{
@@ -138,6 +138,10 @@ namespace OnlineShop.Controllers
 				_context.Update(category);
 				await _context.SaveChangesAsync();
 				return RedirectToAction(nameof(Index));
+			}
+			foreach (var error in ModelState.Values.SelectMany(t => t.Errors))
+			{
+				_logger.LogError(error.ErrorMessage);
 			}
 			var categories = await _context.Categories.ToListAsync();
 			categories.Insert(0, new() { Id = -1 });

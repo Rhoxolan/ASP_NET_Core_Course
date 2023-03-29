@@ -126,7 +126,11 @@ namespace OnlineShop.Controllers
                 await _context.SaveChangesAsync();
 				return RedirectToAction(nameof(Index));
             }
-            ViewData["ProductId"] = new SelectList(_context.Products, nameof(Product.Id), nameof(Product.Title), photoDTO.ProductId);
+			foreach (var error in ModelState.Values.SelectMany(t => t.Errors))
+			{
+				_logger.LogError(error.ErrorMessage);
+			}
+			ViewData["ProductId"] = new SelectList(_context.Products, nameof(Product.Id), nameof(Product.Title), photoDTO.ProductId);
             return View(photoDTO);
         }
 

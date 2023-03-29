@@ -128,6 +128,10 @@ namespace OnlineShop.Controllers
 				await _context.SaveChangesAsync();
 				return RedirectToAction(nameof(Index));
 			}
+			foreach (var error in ModelState.Values.SelectMany(t => t.Errors))
+			{
+				_logger.LogError(error.ErrorMessage);
+			}
 			ViewData["CategoryId"] = new SelectList(_context.Categories, "Id", "Id", productDTO.CategoryId);
 			return View(productDTO);
 		}
