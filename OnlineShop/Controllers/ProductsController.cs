@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -14,15 +15,17 @@ namespace OnlineShop.Controllers
 	{
 		private readonly ShopDbContext _context;
 		private readonly ILogger<HomeController> _logger;
+        private readonly IMapper _mapper;
 
-		public ProductsController(ShopDbContext context, ILogger<HomeController> logger)
-		{
-			_context = context;
-			_logger = logger;
-		}
+        public ProductsController(ShopDbContext context, ILogger<HomeController> logger, IMapper mapper)
+        {
+            _context = context;
+            _logger = logger;
+            _mapper = mapper;
+        }
 
-		// GET: Products
-		public async Task<IActionResult> Index()
+        // GET: Products
+        public async Task<IActionResult> Index()
 		{
 			var shopDbContext = _context.Products.Include(p => p.Category);
 			return View(await shopDbContext.ToListAsync());
@@ -50,7 +53,7 @@ namespace OnlineShop.Controllers
 		// GET: Products/Create
 		public IActionResult Create()
 		{
-			ViewData["CategoryId"] = new SelectList(_context.Categories, "Id", "Id");
+			ViewData["CategoryId"] = new SelectList(_context.Categories, nameof(Category.Id), nameof(Category.Title));
 			return View();
 		}
 
@@ -63,13 +66,7 @@ namespace OnlineShop.Controllers
 		{
 			if (ModelState.IsValid)
 			{
-				Product product = new Product
-				{
-					Title = productDTO.Title,
-					Price = productDTO.Price,
-					Count = productDTO.Count,
-					CategoryId = productDTO.CategoryId
-				};
+				Product product = _mapper.Map<Product>(productDTO);
 				_context.Add(product);
 				await _context.SaveChangesAsync();
 				return RedirectToAction(nameof(Index));
@@ -78,7 +75,7 @@ namespace OnlineShop.Controllers
 			{
 				_logger.LogError(error.ErrorMessage);
 			}
-			ViewData["CategoryId"] = new SelectList(_context.Categories, "Id", "Id", productDTO.CategoryId);
+			ViewData["CategoryId"] = new SelectList(_context.Categories, nameof(Category.Id), nameof(Category.Title), productDTO.CategoryId);
 			return View(productDTO);
 		}
 
@@ -94,16 +91,8 @@ namespace OnlineShop.Controllers
 			{
 				return NotFound();
 			}
-			ViewData["CategoryId"] = new SelectList(_context.Categories, "Id", "Id", product.CategoryId);
-			//AutoMapper
-			EditProductDTO productDTO = new EditProductDTO
-			{
-				Title = product.Title,
-				Price = product.Price,
-				Count = product.Count,
-				CategoryId = product.CategoryId
-			};
-			return View(productDTO);
+			ViewData["CategoryId"] = new SelectList(_context.Categories, nameof(Category.Id), nameof(Category.Title), product.CategoryId);
+			return View(_mapper.Map<EditProductDTO>(product));
 		}
 
 		// POST: Products/Edit/5
@@ -132,7 +121,7 @@ namespace OnlineShop.Controllers
 			{
 				_logger.LogError(error.ErrorMessage);
 			}
-			ViewData["CategoryId"] = new SelectList(_context.Categories, "Id", "Id", productDTO.CategoryId);
+			ViewData["CategoryId"] = new SelectList(_context.Categories, nameof(Category.Id), nameof(Category.Title), productDTO.CategoryId);
 			return View(productDTO);
 		}
 

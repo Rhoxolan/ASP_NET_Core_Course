@@ -1,8 +1,14 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using OnlineShop.AutoMapperProfiles.CategoryProdiles;
+using OnlineShop.AutoMapperProfiles.ProductProfiles;
 using OnlineShop.Data;
 
 var builder = WebApplication.CreateBuilder(args);
+
+builder.Services.AddAutoMapper(typeof(EditCategoryProfile),
+	typeof(CreateProductProfile),
+	typeof(EditProductProfile));
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();

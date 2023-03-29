@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -14,15 +15,17 @@ namespace OnlineShop.Controllers
 	{
 		private readonly ShopDbContext _context;
 		private readonly ILogger<CategoriesController> _logger;
+        private readonly IMapper _mapper;
 
-		public CategoriesController(ShopDbContext context, ILogger<CategoriesController> logger)
-		{
-			_context = context;
-			_logger = logger;
-		}
+        public CategoriesController(ShopDbContext context, ILogger<CategoriesController> logger, IMapper mapper)
+        {
+            _context = context;
+            _logger = logger;
+            _mapper = mapper;
+        }
 
-		// GET: Categories
-		public async Task<IActionResult> Index()
+        // GET: Categories
+        public async Task<IActionResult> Index()
 		{
 			var shopDbContext = _context.Categories.Include(c => c.ParentCategory);
 			return View(await shopDbContext.ToListAsync());
@@ -94,7 +97,6 @@ namespace OnlineShop.Controllers
 			{
 				return NotFound();
 			}
-
 			var category = await _context.Categories.FindAsync(id);
 			if (category == null)
 			{
@@ -103,13 +105,7 @@ namespace OnlineShop.Controllers
 			var categories = await _context.Categories.ToListAsync();
 			categories.Insert(0, new() { Id = -1 });
 			ViewData["ParentCategoryId"] = new SelectList(categories, nameof(Category.Id), nameof(Category.Title), category.ParentCategoryId);
-			//AutoMapper
-			EditCategoryDTO categoryDTO = new EditCategoryDTO
-			{
-				Title = category.Title,
-				ParentCategoryId = category.ParentCategoryId
-			};
-			return View(categoryDTO);
+			return View(_mapper.Map<EditCategoryDTO>(category));
 		}
 
 		// POST: Categories/Edit/5
