@@ -10,9 +10,9 @@ using OnlineShop.Models.DTO.CategoryDTOs;
 
 namespace OnlineShop.Controllers
 {
-    public class CategoriesController : Controller
-    {
-        private readonly ShopDbContext _context;
+	public class CategoriesController : Controller
+	{
+		private readonly ShopDbContext _context;
 		private readonly ILogger<CategoriesController> _logger;
 
 		public CategoriesController(ShopDbContext context, ILogger<CategoriesController> logger)
@@ -23,151 +23,169 @@ namespace OnlineShop.Controllers
 
 		// GET: Categories
 		public async Task<IActionResult> Index()
-        {
-            var shopDbContext = _context.Categories.Include(c => c.ParentCategory);
-            return View(await shopDbContext.ToListAsync());
-        }
+		{
+			var shopDbContext = _context.Categories.Include(c => c.ParentCategory);
+			return View(await shopDbContext.ToListAsync());
+		}
 
-        // GET: Categories/Details/5
-        public async Task<IActionResult> Details(int? id)
-        {
-            if (id == null || _context.Categories == null)
-            {
-                return NotFound();
-            }
+		// GET: Categories/Details/5
+		public async Task<IActionResult> Details(int? id)
+		{
+			if (id == null || _context.Categories == null)
+			{
+				return NotFound();
+			}
 
-            var category = await _context.Categories
-                .Include(c => c.ParentCategory)
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (category == null)
-            {
-                return NotFound();
-            }
+			var category = await _context.Categories
+				.Include(c => c.ParentCategory)
+				.FirstOrDefaultAsync(m => m.Id == id);
+			if (category == null)
+			{
+				return NotFound();
+			}
 
-            return View(category);
-        }
+			return View(category);
+		}
 
-        // GET: Categories/Create
-        public IActionResult Create()
-        {
-            ViewData["ParentCategoryId"] = new SelectList(_context.Categories, "Id", "Id");
-            return View();
-        }
+		// GET: Categories/Create
+		public async Task<IActionResult> Create()
+		{
+			var categories = await _context.Categories.ToListAsync();
+			categories.Insert(0, new() { Id = -1 });
+			ViewData["ParentCategoryId"] = new SelectList(categories, "Id", "Title");
+			return View();
+		}
 
-        // POST: Categories/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(CreateCategoryDTO categoryDTO)
-        {
-            if (ModelState.IsValid)
-            {
-                Category category = new Category
-                {
-                    Title = categoryDTO.Title,
-                    ParentCategoryId = categoryDTO.ParentCategoryId
-                };
-                _context.Add(category);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
-            }
+		// POST: Categories/Create
+		// To protect from overposting attacks, enable the specific properties you want to bind to.
+		// For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+		[HttpPost]
+		[ValidateAntiForgeryToken]
+		public async Task<IActionResult> Create(CreateCategoryDTO categoryDTO)
+		{
+			if (ModelState.IsValid)
+			{
+				Category category = new Category
+				{
+					Title = categoryDTO.Title,
+				};
+				if (categoryDTO.ParentCategoryId != -1)
+				{
+					category.ParentCategoryId = categoryDTO.ParentCategoryId;
+				}
+				_context.Add(category);
+				await _context.SaveChangesAsync();
+				return RedirectToAction(nameof(Index));
+			}
 			foreach (var error in ModelState.Values.SelectMany(t => t.Errors))
 			{
 				_logger.LogError(error.ErrorMessage);
 			}
-			ViewData["ParentCategoryId"] = new SelectList(_context.Categories, "Id", "Id", categoryDTO.ParentCategoryId);
-            return View(categoryDTO);
-        }
-
-        // GET: Categories/Edit/5
-        public async Task<IActionResult> Edit(int? id)
-        {
-            if (id == null || _context.Categories == null)
-            {
-                return NotFound();
-            }
-
-            var category = await _context.Categories.FindAsync(id);
-            if (category == null)
-            {
-                return NotFound();
-            }
-            ViewData["ParentCategoryId"] = new SelectList(_context.Categories, "Id", "Id", category.ParentCategoryId);
-            //AutoMapper
-            EditCategoryDTO categoryDTO = new EditCategoryDTO
-            {
-                Title= category.Title,
-                ParentCategoryId = category.ParentCategoryId
-            };
+			var categories = await _context.Categories.ToListAsync();
+			categories.Insert(0, new() { Id = -1 });
+			ViewData["ParentCategoryId"] = new SelectList(categories, "Id", "Title", categoryDTO.ParentCategoryId);
 			return View(categoryDTO);
-        }
+		}
 
-        // POST: Categories/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(EditCategoryDTO categoryDTO)
-        {
-            if (ModelState.IsValid)
-            {
-                Category? category = await _context.Categories.FindAsync(categoryDTO.Id);
-                if(category is null)
-                {
+		// GET: Categories/Edit/5
+		public async Task<IActionResult> Edit(int? id)
+		{
+			if (id == null || _context.Categories == null)
+			{
+				return NotFound();
+			}
+
+			var category = await _context.Categories.FindAsync(id);
+			if (category == null)
+			{
+				return NotFound();
+			}
+			var categories = await _context.Categories.ToListAsync();
+			categories.Insert(0, new() { Id = -1 });
+			ViewData["ParentCategoryId"] = new SelectList(categories, "Id", "Title", category.ParentCategoryId);
+			//AutoMapper
+			EditCategoryDTO categoryDTO = new EditCategoryDTO
+			{
+				Title = category.Title,
+				ParentCategoryId = category.ParentCategoryId
+			};
+			return View(categoryDTO);
+		}
+
+		// POST: Categories/Edit/5
+		// To protect from overposting attacks, enable the specific properties you want to bind to.
+		// For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+		[HttpPost]
+		[ValidateAntiForgeryToken]
+		public async Task<IActionResult> Edit(EditCategoryDTO categoryDTO)
+		{
+			if (ModelState.IsValid)
+			{
+				Category? category = await _context.Categories.FindAsync(categoryDTO.Id);
+				if (category is null)
+				{
 					return NotFound();
 				}
-                category.Title = categoryDTO.Title;
-                category.ParentCategoryId = categoryDTO.ParentCategoryId;
-                _context.Update(category);
-                await _context.SaveChangesAsync();
+				category.Title = categoryDTO.Title;
+				if (categoryDTO.ParentCategoryId != -1)
+				{
+					category.ParentCategoryId = categoryDTO.ParentCategoryId;
+				}
+				else
+				{
+					category.ParentCategoryId = null;
+				}
+				_context.Update(category);
+				await _context.SaveChangesAsync();
 				return RedirectToAction(nameof(Index));
-            }
-            ViewData["ParentCategoryId"] = new SelectList(_context.Categories, "Id", "Id", categoryDTO.ParentCategoryId);
-            return View(categoryDTO);
-        }
+			}
+			var categories = await _context.Categories.ToListAsync();
+			categories.Insert(0, new() { Id = -1 });
+			ViewData["ParentCategoryId"] = new SelectList(categories, "Id", "Title", categoryDTO.ParentCategoryId);
+			return View(categoryDTO);
+		}
 
-        // GET: Categories/Delete/5
-        public async Task<IActionResult> Delete(int? id)
-        {
-            if (id == null || _context.Categories == null)
-            {
-                return NotFound();
-            }
+		// GET: Categories/Delete/5
+		public async Task<IActionResult> Delete(int? id)
+		{
+			if (id == null || _context.Categories == null)
+			{
+				return NotFound();
+			}
 
-            var category = await _context.Categories
-                .Include(c => c.ParentCategory)
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (category == null)
-            {
-                return NotFound();
-            }
+			var category = await _context.Categories
+				.Include(c => c.ParentCategory)
+				.FirstOrDefaultAsync(m => m.Id == id);
+			if (category == null)
+			{
+				return NotFound();
+			}
 
-            return View(category);
-        }
+			return View(category);
+		}
 
-        // POST: Categories/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
-        {
-            if (_context.Categories == null)
-            {
-                return Problem("Entity set 'ShopDbContext.Categories'  is null.");
-            }
-            var category = await _context.Categories.FindAsync(id);
-            if (category != null)
-            {
-                _context.Categories.Remove(category);
-            }
-            
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
-        }
+		// POST: Categories/Delete/5
+		[HttpPost, ActionName("Delete")]
+		[ValidateAntiForgeryToken]
+		public async Task<IActionResult> DeleteConfirmed(int id)
+		{
+			if (_context.Categories == null)
+			{
+				return Problem("Entity set 'ShopDbContext.Categories'  is null.");
+			}
+			var category = await _context.Categories.FindAsync(id);
+			if (category != null)
+			{
+				_context.Categories.Remove(category);
+			}
 
-        private bool CategoryExists(int id)
-        {
-          return (_context.Categories?.Any(e => e.Id == id)).GetValueOrDefault();
-        }
-    }
+			await _context.SaveChangesAsync();
+			return RedirectToAction(nameof(Index));
+		}
+
+		private bool CategoryExists(int id)
+		{
+			return (_context.Categories?.Any(e => e.Id == id)).GetValueOrDefault();
+		}
+	}
 }
