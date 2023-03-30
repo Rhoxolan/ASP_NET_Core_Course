@@ -6,6 +6,8 @@ namespace OnlineShop.AutoMapperProfiles.AccountProfiles
 {
     public class RegisterProfile : Profile
     {
-        public RegisterProfile() => CreateMap<User, RegisterViewModel>().ReverseMap();
+        public RegisterProfile() => CreateMap<User, RegisterViewModel>()
+            .ForMember(registerVm => registerVm.Login, opt => opt.MapFrom(user => user.UserName))
+            .ReverseMap();
     }
 }

@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -11,28 +12,23 @@ namespace OnlineShop.Controllers
     public class UserController : Controller
     {
         private readonly UserManager<User> _userManager;
+        private readonly IMapper _mapper;
 
-        public UserController(UserManager<User> userManager)
+        public UserController(UserManager<User> userManager, IMapper mapper)
         {
             _userManager = userManager;
+            _mapper = mapper;
         }
 
         public async Task<IActionResult> Index()
         {
-            var users = _userManager.Users;
-            //Use AutoMapper in Future
-            IEnumerable<UserDTO> usersDTO = await users.Select(t => new UserDTO
-            {
-                Id = t.Id,
-                Login = t.UserName,
-                Email = t.Email,
-                YearOfBirth = t.YearOfBirth
-            }).ToListAsync();
-            return View(usersDTO);
+            return View(await _userManager.Users.Select(u => _mapper.Map<UserDTO>(u)).ToListAsync());
         }
 
-        public async Task<IActionResult> Create()
-            => View();
+        public IActionResult Create()
+        {
+            return View();
+        }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -40,12 +36,7 @@ namespace OnlineShop.Controllers
         {
             if (ModelState.IsValid)
             {
-                User user = new User
-                {
-                    Email = userDTO.Email,
-                    UserName = userDTO.Login,
-                    YearOfBirth = userDTO.YearOfBirth,
-                };
+                User user = _mapper.Map<User>(userDTO);
                 var result = await _userManager.CreateAsync(user, userDTO.Password);
                 if (result.Succeeded)
                 {
@@ -70,15 +61,7 @@ namespace OnlineShop.Controllers
             {
                 return NotFound();
             }
-            //AutoMapper
-            EditUserDTO dto = new EditUserDTO
-            {
-                Id = user.Id,
-                Email = user.Email,
-                Login = user.UserName,
-                YearOfBirth = user.YearOfBirth
-            };
-            return View(dto);
+            return View(_mapper.Map<EditUserDTO>(user));
         }
 
         [HttpPost]
@@ -119,13 +102,7 @@ namespace OnlineShop.Controllers
             {
                 return NotFound();
             }
-
-            ChangePasswordDTO dto = new ChangePasswordDTO
-            {
-                Id = user.Id,
-                Email = user.Email,
-            };
-            return View(dto);
+            return View(_mapper.Map<ChangePasswordDTO>(user));
         }
 
         [HttpPost]
@@ -133,7 +110,6 @@ namespace OnlineShop.Controllers
         public async Task<IActionResult> ChangePassword(ChangePasswordDTO dto)
         {
             //Можно использовать метод ChangePasswordAsync()
-
             if (ModelState.IsValid)
             {
                 User user = await _userManager.FindByIdAsync(dto.Id);
