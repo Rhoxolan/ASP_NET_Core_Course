@@ -137,5 +137,36 @@ namespace OnlineShop.Controllers
             }
             return View(dto);
         }
+
+        public async Task<IActionResult> Delete(string? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+            var user = await _userManager.FindByIdAsync(id);
+            if (user == null)
+            {
+                return NotFound();
+            }
+            return View(user);
+        }
+
+        [HttpPost, ActionName("Delete")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> DeleteConfirmed(string? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+            var user = await _userManager.FindByIdAsync(id);
+            if (user == null)
+            {
+                return NotFound();
+            }
+            await _userManager.DeleteAsync(user);
+            return RedirectToAction(nameof(Index));
+        }
     }
 }
