@@ -3,11 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using OnlineShop.Data;
 using OnlineShop.Models.DTO.CategoryDTOs;
+using static System.String;
 
 namespace OnlineShop.Controllers
 {
@@ -53,10 +55,9 @@ namespace OnlineShop.Controllers
 		// GET: Categories/Create
 		public async Task<IActionResult> Create()
 		{
-			var categories = await _context.Categories.ToListAsync();
-			categories.Insert(0, new() { Id = -1 });
-			ViewData["ParentCategoryId"] = new SelectList(categories, nameof(Category.Id), nameof(Category.Title));
-			return View();
+            var categoriesSL = new SelectList(await _context.Categories.ToListAsync(), nameof(Category.Id), nameof(Category.Title));
+            ViewData["ParentCategoryId"] = categoriesSL.Prepend(new("Null", Empty));
+            return View();
 		}
 
 		// POST: Categories/Create
@@ -68,14 +69,7 @@ namespace OnlineShop.Controllers
 		{
 			if (ModelState.IsValid)
 			{
-				Category category = new Category
-				{
-					Title = categoryDTO.Title,
-				};
-				if (categoryDTO.ParentCategoryId != -1)
-				{
-					category.ParentCategoryId = categoryDTO.ParentCategoryId;
-				}
+				Category category = _mapper.Map<Category>(categoryDTO);
 				_context.Add(category);
 				await _context.SaveChangesAsync();
 				return RedirectToAction(nameof(Index));
@@ -84,11 +78,10 @@ namespace OnlineShop.Controllers
 			{
 				_logger.LogError(error.ErrorMessage);
 			}
-			var categories = await _context.Categories.ToListAsync();
-			categories.Insert(0, new() { Id = -1 });
-			ViewData["ParentCategoryId"] = new SelectList(categories, nameof(Category.Id), nameof(Category.Title), categoryDTO.ParentCategoryId);
-			return View(categoryDTO);
-		}
+            var categoriesSL = new SelectList(await _context.Categories.ToListAsync(), nameof(Category.Id), nameof(Category.Title));
+            ViewData["ParentCategoryId"] = categoriesSL.Prepend(new("Null", Empty));
+            return View(categoryDTO);
+        }
 
 		// GET: Categories/Edit/5
 		public async Task<IActionResult> Edit(int? id)
@@ -102,10 +95,9 @@ namespace OnlineShop.Controllers
 			{
 				return NotFound();
 			}
-			var categories = await _context.Categories.ToListAsync();
-			categories.Insert(0, new() { Id = -1 });
-			ViewData["ParentCategoryId"] = new SelectList(categories, nameof(Category.Id), nameof(Category.Title), category.ParentCategoryId);
-			return View(_mapper.Map<EditCategoryDTO>(category));
+            var categoriesSL = new SelectList(await _context.Categories.ToListAsync(), nameof(Category.Id), nameof(Category.Title));
+            ViewData["ParentCategoryId"] = categoriesSL.Prepend(new("Null", Empty));
+            return View(_mapper.Map<EditCategoryDTO>(category));
 		}
 
 		// POST: Categories/Edit/5
@@ -123,14 +115,7 @@ namespace OnlineShop.Controllers
 					return NotFound();
 				}
 				category.Title = categoryDTO.Title;
-				if (categoryDTO.ParentCategoryId != -1)
-				{
-					category.ParentCategoryId = categoryDTO.ParentCategoryId;
-				}
-				else
-				{
-					category.ParentCategoryId = null;
-				}
+				category.ParentCategoryId = categoryDTO.ParentCategoryId;
 				_context.Update(category);
 				await _context.SaveChangesAsync();
 				return RedirectToAction(nameof(Index));
@@ -139,10 +124,9 @@ namespace OnlineShop.Controllers
 			{
 				_logger.LogError(error.ErrorMessage);
 			}
-			var categories = await _context.Categories.ToListAsync();
-			categories.Insert(0, new() { Id = -1 });
-			ViewData["ParentCategoryId"] = new SelectList(categories, "Id", "Title", categoryDTO.ParentCategoryId);
-			return View(categoryDTO);
+            var categoriesSL = new SelectList(await _context.Categories.ToListAsync(), nameof(Category.Id), nameof(Category.Title));
+            ViewData["ParentCategoryId"] = categoriesSL.Prepend(new("Null", Empty));
+            return View(categoryDTO);
 		}
 
 		// GET: Categories/Delete/5

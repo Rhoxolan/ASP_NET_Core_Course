@@ -6,7 +6,8 @@ using OnlineShop.Data;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddAutoMapper(typeof(EditCategoryProfile),
+builder.Services.AddAutoMapper(typeof(CreateCategoryProfile),
+	typeof(EditCategoryProfile),
 	typeof(CreateProductProfile),
 	typeof(EditProductProfile));
 
