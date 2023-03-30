@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -14,11 +15,13 @@ namespace OnlineShop.Controllers
     {
         private readonly ShopDbContext _context;
 		private readonly ILogger<PhotosController> _logger;
+        private readonly IMapper _mapper;
 
-		public PhotosController(ShopDbContext context, ILogger<PhotosController> logger)
+		public PhotosController(ShopDbContext context, ILogger<PhotosController> logger, IMapper mapper)
 		{
 			_context = context;
 			_logger = logger;
+            _mapper = mapper;
 		}
 
 		// GET: Photos
@@ -63,12 +66,7 @@ namespace OnlineShop.Controllers
         {
             if (ModelState.IsValid)
             {
-                Photo photo = new Photo
-                {
-                    FileName = photoDTO.FileName,
-                    PhotoUrl = photoDTO.PhotoUrl,
-                    ProductId = photoDTO.ProductId,
-                };
+                Photo photo = _mapper.Map<Photo>(photoDTO);
                 _context.Add(photo);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
@@ -94,15 +92,8 @@ namespace OnlineShop.Controllers
             {
                 return NotFound();
             }
-            //AutoMapper
-            EditPhotoDTO photoDTO = new EditPhotoDTO
-            {
-                FileName = photo.FileName,
-                PhotoUrl = photo.PhotoUrl,
-                ProductId = photo.ProductId,
-            };
 			ViewData["ProductId"] = new SelectList(_context.Products, nameof(Product.Id), nameof(Product.Title), photo.ProductId);
-            return View(photoDTO);
+            return View(_mapper.Map<EditPhotoDTO>(photo));
         }
 
         // POST: Photos/Edit/5

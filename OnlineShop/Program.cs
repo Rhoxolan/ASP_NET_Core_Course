@@ -3,13 +3,18 @@ using Microsoft.EntityFrameworkCore;
 using OnlineShop.AutoMapperProfiles.CategoryProdiles;
 using OnlineShop.AutoMapperProfiles.ProductProfiles;
 using OnlineShop.Data;
+using OnlineShop.Models.DTO.PhotoDTOs;
+using OnlineShop.Models.ViewModels.AccountViewModels;
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddAutoMapper(typeof(CreateCategoryProfile),
 	typeof(EditCategoryProfile),
 	typeof(CreateProductProfile),
-	typeof(EditProductProfile));
+	typeof(EditProductProfile),
+	typeof(CreatePhotoDTO),
+	typeof(EditPhotoDTO),
+	typeof(RegisterViewModel));
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();

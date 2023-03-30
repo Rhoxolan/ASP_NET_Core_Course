@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
 using OnlineShop.Data;
@@ -10,12 +11,15 @@ namespace OnlineShop.Controllers
     {
         private readonly UserManager<User> _userManager;
         private readonly SignInManager<User> _signInManager;
+        private readonly IMapper _mapper;
 
         public AccountController(UserManager<User> userManager,
-            SignInManager<User> signInManager)
+            SignInManager<User> signInManager,
+            IMapper mapper)
         {
             _userManager = userManager;
             _signInManager = signInManager;
+            _mapper = mapper;
         }
 
         public IActionResult Index()
@@ -34,12 +38,7 @@ namespace OnlineShop.Controllers
         {
             if (ModelState.IsValid)
             {
-                User user = new User
-                {
-                    Email = vm.EMail,
-                    UserName = vm.Login,
-                    YearOfBirth = vm.YearOfBirth,
-                };
+                User user = _mapper.Map<User>(vm);
                 var result = await _userManager.CreateAsync(user, vm.Password);
                 if (result.Succeeded)
                 {
