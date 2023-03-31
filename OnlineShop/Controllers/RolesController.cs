@@ -49,10 +49,31 @@ namespace OnlineShop.Controllers
 			}
 			else
 			{
-
 				ModelState.AddModelError(string.Empty, "Role name isnt valid");
 			}
 			return View();
+		}
+
+		[HttpPost]
+		[ValidateAntiForgeryToken]
+		public async Task<IActionResult> Delete(string? id)
+		{
+			if (string.IsNullOrEmpty(id))
+			{
+				return NotFound();
+			}
+			IdentityRole role = await roleManager.FindByIdAsync(id);
+			if (role is not null)
+			{
+				await roleManager.DeleteAsync(role);
+			}
+			return RedirectToAction(nameof(Index));
+		}
+
+		public async Task<IActionResult> UserList()
+		{
+			var users = await userManager.Users.ToListAsync();
+			return View(users);
 		}
 	}
 }
