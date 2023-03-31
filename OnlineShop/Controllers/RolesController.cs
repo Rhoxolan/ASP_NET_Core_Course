@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using OnlineShop.Data;
+using OnlineShop.Models.ViewModels.RolesViewModels;
 
 namespace OnlineShop.Controllers
 {
@@ -74,6 +75,51 @@ namespace OnlineShop.Controllers
 		{
 			var users = await userManager.Users.ToListAsync();
 			return View(users);
+		}
+
+		public async Task<IActionResult> ChangeUserRoles(string? id)
+		{
+			if (string.IsNullOrEmpty(id))
+			{
+				return NotFound();
+			}
+			User user = await userManager.FindByIdAsync(id);
+			if (user is null)
+			{
+				return NotFound();
+			}
+			var userRoles = await userManager.GetRolesAsync(user);
+			var allRoles = await roleManager.Roles.ToListAsync();
+			ChangeRoleViewModel vm = new ChangeRoleViewModel
+			{
+				UserId = user.Id,
+				UserName = user.UserName,
+				UserRoles = userRoles,
+				AllRoles = allRoles
+			};
+			return View(vm);
+		}
+
+		[HttpPost]
+		[ValidateAntiForgeryToken]
+		public async Task<IActionResult> ChangeUserRoles(string? id, List<string> roles)
+		{
+			if (string.IsNullOrEmpty(id))
+			{
+				return NotFound();
+			}
+			User? user = await userManager.FindByIdAsync(id);
+			if (user is null)
+			{
+				return NotFound();
+			}
+			var userRoles = await userManager.GetRolesAsync(user);
+			var allRoles = await roleManager.Roles.Select(t=>t.Name).ToListAsync();
+			var addedRoles = roles.Except(userRoles);
+			var deletedRoles = userRoles.Except(roles);
+			await userManager.AddToRolesAsync(user, addedRoles);
+			await userManager.RemoveFromRolesAsync(user, deletedRoles);
+			return RedirectToAction(nameof(UserList));
 		}
 	}
 }
