@@ -8,15 +8,15 @@ namespace OnlineShop.Models.DTO.PhotoDTOs
 		public int Id { get; set; }
 
 		[Required]
-		[Display(Name = "FileName")]
+		[Display(Name = "File Name")]
 		public string FileName { get; set; } = Empty;
 
 		[Required]
-		[Display(Name = "PhotoUrl")]
+		[Display(Name = "Photo Url")]
 		public string PhotoUrl { get; set; } = Empty;
 
 		[Required]
-		[Display(Name = "ProductId")]
+		[Display(Name = "Product Id")]
 		public int ProductId { get; set; }
 	}
 }

@@ -136,7 +136,6 @@ namespace OnlineShop.Controllers
 			{
 				return NotFound();
 			}
-
 			var category = await _context.Categories
 				.Include(c => c.ParentCategory)
 				.FirstOrDefaultAsync(m => m.Id == id);
@@ -144,8 +143,7 @@ namespace OnlineShop.Controllers
 			{
 				return NotFound();
 			}
-
-			return View(category);
+			return View(_mapper.Map<CategoryDTO>(category));
 		}
 
 		// POST: Categories/Delete/5
@@ -162,7 +160,6 @@ namespace OnlineShop.Controllers
 			{
 				_context.Categories.Remove(category);
 			}
-
 			await _context.SaveChangesAsync();
 			return RedirectToAction(nameof(Index));
 		}

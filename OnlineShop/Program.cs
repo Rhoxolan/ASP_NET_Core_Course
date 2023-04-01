@@ -1,21 +1,24 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using OnlineShop.AutoMapperProfiles.CategoryProdiles;
+using OnlineShop.AutoMapperProfiles.PhotoProfiles;
 using OnlineShop.AutoMapperProfiles.ProductProfiles;
 using OnlineShop.AutoMapperProfiles.RoleProfiles;
 using OnlineShop.AutoMapperProfiles.UserProfiles;
 using OnlineShop.Data;
-using OnlineShop.Models.DTO.PhotoDTOs;
 using OnlineShop.Models.ViewModels.AccountViewModels;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddAutoMapper(typeof(CreateCategoryProfile),
+builder.Services.AddAutoMapper(typeof(CategoryProfile),
+    typeof(CreateCategoryProfile),
     typeof(EditCategoryProfile),
+    typeof(ProductProfile),
     typeof(CreateProductProfile),
     typeof(EditProductProfile),
-    typeof(CreatePhotoDTO),
-    typeof(EditPhotoDTO),
+    typeof(PhotoProfile),
+    typeof(CreatePhotoProfile),
+    typeof(EditPhotoProfile),
     typeof(RegisterViewModel),
     typeof(UserProfile),
     typeof(CreateUserProfile),

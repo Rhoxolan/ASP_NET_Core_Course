@@ -1,10 +1,13 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using OnlineShop.Data;
+using System.ComponentModel.DataAnnotations;
 using static System.String;
 
 namespace OnlineShop.Models.DTO.PhotoDTOs
 {
-	public class CreatePhotoDTO
+	public class PhotoDTO
 	{
+		public int Id { get; set; }
+
 		[Required]
 		[Display(Name = "File Name")]
 		public string FileName { get; set; } = Empty;
@@ -14,7 +17,7 @@ namespace OnlineShop.Models.DTO.PhotoDTOs
 		public string PhotoUrl { get; set; } = Empty;
 
 		[Required]
-		[Display(Name = "Product Id")]
-		public int ProductId { get; set; }
+		[Display(Name = "Product")]
+		public Product Product { get; set; } = default!;
 	}
 }

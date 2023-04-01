@@ -132,7 +132,6 @@ namespace OnlineShop.Controllers
 			{
 				return NotFound();
 			}
-
 			var product = await _context.Products
 				.Include(p => p.Category)
 				.FirstOrDefaultAsync(m => m.Id == id);
@@ -140,8 +139,7 @@ namespace OnlineShop.Controllers
 			{
 				return NotFound();
 			}
-
-			return View(product);
+			return View(_mapper.Map<ProductDTO>(product));
 		}
 
 		// POST: Products/Delete/5
@@ -158,7 +156,6 @@ namespace OnlineShop.Controllers
 			{
 				_context.Products.Remove(product);
 			}
-
 			await _context.SaveChangesAsync();
 			return RedirectToAction(nameof(Index));
 		}

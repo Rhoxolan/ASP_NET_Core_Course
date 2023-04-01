@@ -132,7 +132,6 @@ namespace OnlineShop.Controllers
             {
                 return NotFound();
             }
-
             var photo = await _context.Photos
                 .Include(p => p.Product)
                 .FirstOrDefaultAsync(m => m.Id == id);
@@ -140,8 +139,7 @@ namespace OnlineShop.Controllers
             {
                 return NotFound();
             }
-
-            return View(photo);
+            return View(_mapper.Map<PhotoDTO>(photo));
         }
 
         // POST: Photos/Delete/5
@@ -158,7 +156,6 @@ namespace OnlineShop.Controllers
             {
                 _context.Photos.Remove(photo);
             }
-            
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
