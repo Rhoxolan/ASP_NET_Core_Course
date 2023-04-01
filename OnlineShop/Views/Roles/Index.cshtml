@@ -9,7 +9,10 @@
 </head>
 <body>
 	<p>
-		<a asp-action="Create">Create New</a>
+		<a asp-action="Create" class="btn btn-outline-success">Create New</a>
+	</p>
+	<p>
+		<a asp-action="UserList" class="btn btn-outline-success">User List</a>
 	</p>
 	<table class="table">
 		<thead>
@@ -19,6 +22,9 @@
 				</th>
 				<th>
 					@Html.DisplayNameFor(model => model.Name)
+				</th>
+				<th>
+
 				</th>
 			</tr>
 		</thead>
@@ -33,9 +39,7 @@
 						@Html.DisplayFor(modelItem => item.Name)
 					</td>
 					<td>
-						<form asp-action="Delete" asp-route-id="item.Id" method="post">
-							<button type="submit" class="btn btn-sm btn-danger">Delete</button>
-						</form>
+						<a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-sm btn-danger">Delete</a>
 					</td>
 				</tr>
 			}

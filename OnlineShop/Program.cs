@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using OnlineShop.AutoMapperProfiles.CategoryProdiles;
 using OnlineShop.AutoMapperProfiles.ProductProfiles;
+using OnlineShop.AutoMapperProfiles.RoleProfiles;
 using OnlineShop.AutoMapperProfiles.UserProfiles;
 using OnlineShop.Data;
 using OnlineShop.Models.DTO.PhotoDTOs;
@@ -19,7 +20,8 @@ builder.Services.AddAutoMapper(typeof(CreateCategoryProfile),
     typeof(UserProfile),
     typeof(CreateUserProfile),
     typeof(EditUserProfile),
-    typeof(ChangePasswordProfile)
+    typeof(ChangePasswordProfile),
+    typeof(RoleProfile)
     );
 
 // Add services to the container.
