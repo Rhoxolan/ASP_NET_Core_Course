@@ -149,7 +149,7 @@ namespace OnlineShop.Controllers
             {
                 return NotFound();
             }
-            return View(user);
+            return View(_mapper.Map<UserDTO>(user));
         }
 
         [HttpPost, ActionName("Delete")]
