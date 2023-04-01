@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -13,7 +15,8 @@ using static System.String;
 
 namespace OnlineShop.Controllers
 {
-	public class CategoriesController : Controller
+    [Authorize(Roles = "Admin")]
+    public class CategoriesController : Controller
 	{
 		private readonly ShopDbContext _context;
 		private readonly ILogger<CategoriesController> _logger;

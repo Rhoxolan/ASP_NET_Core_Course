@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -11,7 +13,8 @@ using OnlineShop.Models.DTO.ProductDTOs;
 
 namespace OnlineShop.Controllers
 {
-	public class ProductsController : Controller
+    [Authorize(Roles = "Admin")]
+    public class ProductsController : Controller
 	{
 		private readonly ShopDbContext _context;
 		private readonly ILogger<HomeController> _logger;

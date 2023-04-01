@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -6,10 +7,12 @@ using OnlineShop.Data;
 using OnlineShop.Models.DTO.RoleDTOs;
 using OnlineShop.Models.DTO.UserDTOs;
 using OnlineShop.Models.ViewModels.RolesViewModels;
+using System.Data;
 
 namespace OnlineShop.Controllers
 {
-	public class RolesController : Controller
+    [Authorize(Roles = "Admin")]
+    public class RolesController : Controller
 	{
 		private readonly UserManager<User> userManager;
 		private readonly RoleManager<IdentityRole> roleManager;
