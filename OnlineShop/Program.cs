@@ -21,7 +21,8 @@ builder.Services.AddAutoMapper(typeof(CreateCategoryProfile),
     typeof(CreateUserProfile),
     typeof(EditUserProfile),
     typeof(ChangePasswordProfile),
-    typeof(RoleProfile)
+    typeof(RoleProfile),
+    typeof(ChangeRoleProfile)
     );
 
 // Add services to the container.

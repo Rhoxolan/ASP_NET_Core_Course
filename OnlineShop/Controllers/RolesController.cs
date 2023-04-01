@@ -110,13 +110,9 @@ namespace OnlineShop.Controllers
 			}
 			var userRoles = await userManager.GetRolesAsync(user);
 			var allRoles = await roleManager.Roles.ToListAsync();
-			ChangeRoleViewModel vm = new ChangeRoleViewModel
-			{
-				UserId = user.Id,
-				UserName = user.UserName,
-				UserRoles = userRoles,
-				AllRoles = allRoles
-			};
+			ChangeRoleViewModel vm = _mapper.Map<ChangeRoleViewModel>(user);
+			vm.UserRoles = userRoles;
+			vm.AllRoles = allRoles;
 			return View(vm);
 		}
 
