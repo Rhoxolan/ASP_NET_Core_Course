@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Identity;
-using OnlineShop.Models.DTO.RolesDTO;
+using OnlineShop.Models.DTO.RoleDTOs;
 
 namespace OnlineShop.AutoMapperProfiles.RoleProfiles
 {

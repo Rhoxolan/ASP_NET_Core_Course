@@ -3,7 +3,8 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using OnlineShop.Data;
-using OnlineShop.Models.DTO.RolesDTO;
+using OnlineShop.Models.DTO.RoleDTOs;
+using OnlineShop.Models.DTO.UserDTOs;
 using OnlineShop.Models.ViewModels.RolesViewModels;
 
 namespace OnlineShop.Controllers
@@ -25,7 +26,7 @@ namespace OnlineShop.Controllers
 
 		public async Task<IActionResult> Index()
 		{
-			return View(await roleManager.Roles.ToListAsync());
+			return View(await roleManager.Roles.Select(r => _mapper.Map<RoleDTO>(r)).ToListAsync());
 		}
 
 		public IActionResult Create()
@@ -93,8 +94,7 @@ namespace OnlineShop.Controllers
 
 		public async Task<IActionResult> UserList()
 		{
-			var users = await userManager.Users.ToListAsync();
-			return View(users);
+			return View(await userManager.Users.Select(u => _mapper.Map<UserDTO>(u)).ToListAsync());
 		}
 
 		public async Task<IActionResult> ChangeUserRoles(string? id)

@@ -13,7 +13,7 @@ namespace OnlineShop.Models.DTO.UserDTOs
 		public string Login { get; set; } = default!;
 
 		[Required]
-		[Display(Name = "Date of birth")]
+		[Display(Name = "Date of Birth")]
 		public int YearOfBirth { get; set; }
 
 		[Required]

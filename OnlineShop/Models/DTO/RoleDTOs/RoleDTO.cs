@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using static System.String;
 
-namespace OnlineShop.Models.DTO.RolesDTO
+namespace OnlineShop.Models.DTO.RoleDTOs
 {
 	public class RoleDTO
 	{
