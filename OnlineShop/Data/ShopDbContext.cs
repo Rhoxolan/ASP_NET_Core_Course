@@ -1,7 +1,5 @@
 ﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
-using OnlineShop.Models.DTO.UserDTOs;
-using OnlineShop.Models.DTO.RoleDTOs;
 
 namespace OnlineShop.Data
 {
