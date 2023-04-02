@@ -17,9 +17,5 @@ namespace OnlineShop.Data
 		{
 			Database.EnsureCreated();
 		}
-
-		public DbSet<OnlineShop.Models.DTO.UserDTOs.UserDTO>? UserDTO { get; set; }
-
-		public DbSet<OnlineShop.Models.DTO.RoleDTOs.RoleDTO>? RoleDTO { get; set; }
 	}
 }
