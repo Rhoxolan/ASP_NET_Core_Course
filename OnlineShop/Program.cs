@@ -29,12 +29,18 @@ builder.Services.AddAutoMapper(typeof(CategoryProfile),
     );
 
 // Add services to the container.
+var configurations = builder.Configuration;
 builder.Services.AddControllersWithViews();
 builder.Services.AddIdentity<User, IdentityRole>()
 	.AddEntityFrameworkStores<ShopDbContext>();
 string connStr = builder.Configuration.GetConnectionString("shopDB");
 builder.Services.AddDbContext<ShopDbContext>(options => options.UseSqlServer(connStr));
-
+builder.Services.AddAuthentication().AddGoogle(options =>
+{
+    IConfigurationSection googleSection = configurations.GetSection("Authentication:Google");
+    options.ClientId = googleSection["ClientId"];
+    options.ClientSecret = googleSection["ClientSecret"];
+});
 
 var app = builder.Build();
 
