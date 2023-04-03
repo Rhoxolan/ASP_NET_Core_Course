@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
 using OnlineShop.Data;
 using OnlineShop.Models.ViewModels.AccountViewModels;
+using System.Security.Claims;
 
 namespace OnlineShop.Controllers
 {
@@ -105,11 +106,30 @@ namespace OnlineShop.Controllers
         public async Task<IActionResult> GoogleRedirect()
         {
             ExternalLoginInfo? loginInfo = await _signInManager.GetExternalLoginInfoAsync();
-            if(loginInfo is null)
+            if (loginInfo is null)
             {
                 return RedirectToAction(nameof(Login));
             }
             var loginResult = await _signInManager.ExternalLoginSignInAsync(loginInfo.LoginProvider, loginInfo.ProviderKey, true);
+            string?[] userInfo =
+            {
+                loginInfo.Principal.FindFirst(ClaimTypes.Name)?.Value,
+                loginInfo.Principal.FindFirst(ClaimTypes.Email)?.Value,
+            };
+            if (loginResult.Succeeded)
+            {
+                return View(userInfo);
+            }
+            User user = new User
+            {
+                UserName = userInfo[1],
+                Email = userInfo[0]
+            };
+            var result = await _userManager.CreateAsync(user);
+            if(result.Succeeded)
+            {
+                result = await _userManager.AddLoginAsync(user, loginInfo);
+            }
             return View();
         }
 
