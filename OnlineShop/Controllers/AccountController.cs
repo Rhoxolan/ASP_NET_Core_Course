@@ -98,9 +98,9 @@ namespace OnlineShop.Controllers
         [AllowAnonymous]
         public IActionResult GoogleAuth()
         {
-            string? redirectUrl = Url.Action(nameof(GoogleRedirect), nameof(AccountController));
+            string? redirectUrl = Url.Action(nameof(GoogleRedirect));
             var properties = _signInManager.ConfigureExternalAuthenticationProperties("Google", redirectUrl);
-            return Challenge(properties);
+            return Challenge(properties, "Google");
         }
 
         public async Task<IActionResult> GoogleRedirect()
@@ -126,10 +126,20 @@ namespace OnlineShop.Controllers
                 Email = userInfo[0]
             };
             var result = await _userManager.CreateAsync(user);
-            if(result.Succeeded)
+            if (result.Succeeded)
             {
                 result = await _userManager.AddLoginAsync(user, loginInfo);
+                if (result.Succeeded)
+                {
+                    await _signInManager.SignInAsync(user, true);
+                    return View(userInfo);
+                }
             }
+            return RedirectToAction(nameof(AccessDenied));
+        }
+
+        public IActionResult AccessDenied()
+        {
             return View();
         }
 

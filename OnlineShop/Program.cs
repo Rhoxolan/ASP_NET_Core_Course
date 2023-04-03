@@ -31,7 +31,7 @@ builder.Services.AddAutoMapper(typeof(CategoryProfile),
 // Add services to the container.
 var configurations = builder.Configuration;
 builder.Services.AddControllersWithViews();
-builder.Services.AddIdentity<User, IdentityRole>()
+builder.Services.AddIdentity<User, IdentityRole>(/*options => options.SignIn.RequireConfirmedEmail = true*/)
 	.AddEntityFrameworkStores<ShopDbContext>();
 string connStr = builder.Configuration.GetConnectionString("shopDB");
 builder.Services.AddDbContext<ShopDbContext>(options => options.UseSqlServer(connStr));
@@ -41,6 +41,8 @@ builder.Services.AddAuthentication().AddGoogle(options =>
     options.ClientId = googleSection["ClientId"];
     options.ClientSecret = googleSection["ClientSecret"];
 });
+//builder.Services.AddDistributedMemoryCache();
+//builder.Services.AddSession();
 
 var app = builder.Build();
 
@@ -59,6 +61,7 @@ app.UseRouting();
 
 app.UseAuthentication();
 app.UseAuthorization();
+//app.UseSession();
 
 app.MapControllerRoute(
 	name: "default",
