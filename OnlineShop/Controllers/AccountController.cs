@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
@@ -91,6 +92,25 @@ namespace OnlineShop.Controllers
         {
             await _signInManager.SignOutAsync();
             return RedirectToAction("Index", "Home");
+        }
+
+        [AllowAnonymous]
+        public IActionResult GoogleAuth()
+        {
+            string? redirectUrl = Url.Action(nameof(GoogleRedirect), nameof(AccountController));
+            var properties = _signInManager.ConfigureExternalAuthenticationProperties("Google", redirectUrl);
+            return Challenge(properties);
+        }
+
+        public async Task<IActionResult> GoogleRedirect()
+        {
+            ExternalLoginInfo? loginInfo = await _signInManager.GetExternalLoginInfoAsync();
+            if(loginInfo is null)
+            {
+                return RedirectToAction(nameof(Login));
+            }
+            var loginResult = await _signInManager.ExternalLoginSignInAsync(loginInfo.LoginProvider, loginInfo.ProviderKey, true);
+            return View();
         }
 
     }
