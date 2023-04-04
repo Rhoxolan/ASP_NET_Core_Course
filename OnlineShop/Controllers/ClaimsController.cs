@@ -56,7 +56,7 @@ namespace OnlineShop.Controllers
             {
                 return RedirectToAction(nameof(AccountController.Login), "Account");
             }
-            string[] info = claimsInfo.Split(',');
+            string[] info = claimsInfo.Split(';');
             var claims = await userManager.GetClaimsAsync(user);
             Claim? claimForDelete = claims.FirstOrDefault(t => t.Type == info[0]
             && t.Value == info[1] && t.ValueType == info[2]);
@@ -71,5 +71,12 @@ namespace OnlineShop.Controllers
                 ModelState.AddModelError(string.Empty, error.Description);
             }
         }
+
+        //[Authorize(Roles ="admin,manager")]
+        [Authorize(Policy = "FrameworkPolicy")]
+        public IActionResult TestPolicy1() => View("Index", User.Claims);
+
+        [Authorize(Roles = "admin,manager")]
+        public IActionResult TestPolicy2() => View("Index", User.Claims);
     }
 }

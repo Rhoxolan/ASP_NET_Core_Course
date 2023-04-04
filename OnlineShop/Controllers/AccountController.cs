@@ -124,7 +124,7 @@ namespace OnlineShop.Controllers
             User user = new User
             {
                 UserName = userInfo[0],
-                Email = userInfo[0]
+                Email = userInfo[1]
             };
             var result = await _userManager.CreateAsync(user);
             if (result.Succeeded)
@@ -139,9 +139,8 @@ namespace OnlineShop.Controllers
             else
             {
                 User? findedUser =
-                    await _userManager.Users
-                    .FirstOrDefaultAsync(t => t.NormalizedEmail == user.Email!.ToUpper());
-                if(user is not null)
+                    await _userManager.FindByEmailAsync(userInfo[1]);
+                if (findedUser is not null)
                 {
                     await _userManager.AddLoginAsync(findedUser!, loginInfo);
                 }

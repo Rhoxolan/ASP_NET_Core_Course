@@ -32,7 +32,7 @@ builder.Services.AddAutoMapper(typeof(CategoryProfile),
 var configurations = builder.Configuration;
 builder.Services.AddControllersWithViews();
 builder.Services.AddIdentity<User, IdentityRole>(/*options => options.SignIn.RequireConfirmedEmail = true*/)
-	.AddEntityFrameworkStores<ShopDbContext>();
+    .AddEntityFrameworkStores<ShopDbContext>();
 string connStr = builder.Configuration.GetConnectionString("shopDB");
 builder.Services.AddDbContext<ShopDbContext>(options => options.UseSqlServer(connStr));
 builder.Services.AddAuthentication().AddGoogle(options =>
@@ -40,6 +40,14 @@ builder.Services.AddAuthentication().AddGoogle(options =>
     IConfigurationSection googleSection = configurations.GetSection("Authentication:Google");
     options.ClientId = googleSection["ClientId"];
     options.ClientSecret = googleSection["ClientSecret"];
+});
+builder.Services.AddAuthorization(option =>
+{
+    option.AddPolicy("FrameworkPolicy", policy =>
+    {
+        policy.RequireClaim("PrefferedFramework", new[] { "ASP.NET Core" });
+        policy.RequireRole("admin", "manager");
+    });
 });
 //builder.Services.AddDistributedMemoryCache();
 //builder.Services.AddSession();
@@ -49,9 +57,9 @@ var app = builder.Build();
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
 {
-	app.UseExceptionHandler("/Home/Error");
-	// The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
-	app.UseHsts();
+    app.UseExceptionHandler("/Home/Error");
+    // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
+    app.UseHsts();
 }
 
 app.UseHttpsRedirection();
@@ -64,7 +72,7 @@ app.UseAuthorization();
 //app.UseSession();
 
 app.MapControllerRoute(
-	name: "default",
-	pattern: "{controller=Home}/{action=Index}/{id?}");
+    name: "default",
+    pattern: "{controller=Home}/{action=Index}/{id?}");
 
 app.Run();
