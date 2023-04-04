@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
+using Microsoft.EntityFrameworkCore;
 using OnlineShop.Data;
 using OnlineShop.Models.ViewModels.AccountViewModels;
 using System.Security.Claims;
@@ -122,7 +123,7 @@ namespace OnlineShop.Controllers
             }
             User user = new User
             {
-                UserName = userInfo[1],
+                UserName = userInfo[0],
                 Email = userInfo[0]
             };
             var result = await _userManager.CreateAsync(user);
@@ -133,6 +134,16 @@ namespace OnlineShop.Controllers
                 {
                     await _signInManager.SignInAsync(user, true);
                     return View(userInfo);
+                }
+            }
+            else
+            {
+                User? findedUser =
+                    await _userManager.Users
+                    .FirstOrDefaultAsync(t => t.NormalizedEmail == user.Email!.ToUpper());
+                if(user is not null)
+                {
+                    await _userManager.AddLoginAsync(findedUser!, loginInfo);
                 }
             }
             return RedirectToAction(nameof(AccessDenied));
