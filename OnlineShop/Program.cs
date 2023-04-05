@@ -31,7 +31,7 @@ builder.Services.AddAutoMapper(typeof(CategoryProfile),
 // Add services to the container.
 var configurations = builder.Configuration;
 builder.Services.AddControllersWithViews();
-builder.Services.AddIdentity<User, IdentityRole>(/*options => options.SignIn.RequireConfirmedEmail = true*/)
+builder.Services.AddIdentity<User, IdentityRole>()
     .AddEntityFrameworkStores<ShopDbContext>();
 string connStr = builder.Configuration.GetConnectionString("shopDB");
 builder.Services.AddDbContext<ShopDbContext>(options => options.UseSqlServer(connStr));
@@ -49,6 +49,8 @@ builder.Services.AddAuthorization(option =>
         policy.RequireRole("admin", "manager");
     });
 });
+builder.Services.Configure<IdentityOptions>(opt
+    => opt.User.AllowedUserNameCharacters += "йцукенгшщзхъфывапролджэячсмитьбюЙЦУКЕНГШЩЗХЪФЫВАПРОЛДЖЭЯЧСМИТЬБЮ");
 //builder.Services.AddDistributedMemoryCache();
 //builder.Services.AddSession();
 

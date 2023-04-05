@@ -5,8 +5,10 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
 using Microsoft.EntityFrameworkCore;
 using OnlineShop.Data;
+using OnlineShop.Models.DTO.UserDTOs;
 using OnlineShop.Models.ViewModels.AccountViewModels;
 using System.Security.Claims;
+using static System.String;
 
 namespace OnlineShop.Controllers
 {
@@ -150,35 +152,33 @@ namespace OnlineShop.Controllers
 
         public async Task<IActionResult> GoogleRedirect()
         {
-            //Добавить определение User-a по отличному от емаил признаку
-
             ExternalLoginInfo? loginInfo = await _signInManager.GetExternalLoginInfoAsync();
             if (loginInfo is null)
             {
                 return RedirectToAction(nameof(Login));
             }
-            var loginResult = await _signInManager.ExternalLoginSignInAsync(loginInfo.LoginProvider, loginInfo.ProviderKey, true);
-            string?[] userInfo =
+            await _signInManager.ExternalLoginSignInAsync(loginInfo.LoginProvider, loginInfo.ProviderKey, true);
+            var userInfo = new Dictionary<string, string?>
             {
-                loginInfo.Principal.FindFirst(ClaimTypes.Name)?.Value,
-                loginInfo.Principal.FindFirst(ClaimTypes.Email)?.Value,
+                ["Name"] = loginInfo.Principal.FindFirst(ClaimTypes.Name)?.Value,
+                ["Email"] = loginInfo.Principal.FindFirst(ClaimTypes.Email)?.Value,
+                ["LoginProvider"] = loginInfo.LoginProvider
             };
-            User? user = await _userManager.FindByEmailAsync(userInfo[1]);
-            if (user is null)
-            {
-                user = new User
-                {
-                    UserName = userInfo[0],
-                    Email = userInfo[1]
-                };
-                await _userManager.CreateAsync(user);
-                await _userManager.AddLoginAsync(user, loginInfo);
-                await _signInManager.SignInAsync(user, true);
-            }
-            else
+            User? user = await _userManager.FindByEmailAsync(userInfo["Email"]);
+            if (user is not null && user.LoginProvider == "Google")
             {
                 await _signInManager.SignInAsync(user, true);
+                return View(userInfo);
             }
+            user = new User
+            {
+                UserName = userInfo["Name"],
+                Email = userInfo["Email"],
+                LoginProvider = userInfo["LoginProvider"]
+            };
+            var res1 = await _userManager.CreateAsync(user);
+            var res2 = await _userManager.AddLoginAsync(user, loginInfo);
+            await _signInManager.SignInAsync(user, true);
             return View(userInfo);
         }
 
