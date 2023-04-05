@@ -31,7 +31,12 @@ builder.Services.AddAutoMapper(typeof(CategoryProfile),
 // Add services to the container.
 var configurations = builder.Configuration;
 builder.Services.AddControllersWithViews();
-builder.Services.AddIdentity<User, IdentityRole>()
+builder.Services.AddIdentity<User, IdentityRole>(opt =>
+{
+    // Есть вариант добавить пользовательский валидатор - https://stackoverflow.com/questions/47988003/how-to-customize-asp-net-identity-core-username-to-allow-special-characters-and
+    opt.User.AllowedUserNameCharacters += "йцукенгшщзхъфывапролджэячсмитьбюЙЦУКЕНГШЩЗХЪФЫВАПРОЛДЖЭЯЧСМИТЬБЮ ";
+    opt.User.RequireUniqueEmail = false;
+})
     .AddEntityFrameworkStores<ShopDbContext>();
 string connStr = builder.Configuration.GetConnectionString("shopDB");
 builder.Services.AddDbContext<ShopDbContext>(options => options.UseSqlServer(connStr));
@@ -49,8 +54,6 @@ builder.Services.AddAuthorization(option =>
         policy.RequireRole("admin", "manager");
     });
 });
-builder.Services.Configure<IdentityOptions>(opt
-    => opt.User.AllowedUserNameCharacters += "йцукенгшщзхъфывапролджэячсмитьбюЙЦУКЕНГШЩЗХЪФЫВАПРОЛДЖЭЯЧСМИТЬБЮ");
 //builder.Services.AddDistributedMemoryCache();
 //builder.Services.AddSession();
 

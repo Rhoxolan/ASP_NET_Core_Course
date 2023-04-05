@@ -106,50 +106,6 @@ namespace OnlineShop.Controllers
             return Challenge(properties, "Google");
         }
 
-        public async Task<IActionResult> GoogleRedirectOld()
-        {
-            ExternalLoginInfo? loginInfo = await _signInManager.GetExternalLoginInfoAsync();
-            if (loginInfo is null)
-            {
-                return RedirectToAction(nameof(Login));
-            }
-            var loginResult = await _signInManager.ExternalLoginSignInAsync(loginInfo.LoginProvider, loginInfo.ProviderKey, true);
-            string?[] userInfo =
-            {
-                loginInfo.Principal.FindFirst(ClaimTypes.Name)?.Value,
-                loginInfo.Principal.FindFirst(ClaimTypes.Email)?.Value,
-            };
-            if (loginResult.Succeeded)
-            {
-                return View(userInfo);
-            }
-            User user = new User
-            {
-                UserName = userInfo[0],
-                Email = userInfo[1]
-            };
-            var result = await _userManager.CreateAsync(user);
-            if (result.Succeeded)
-            {
-                result = await _userManager.AddLoginAsync(user, loginInfo);
-                if (result.Succeeded)
-                {
-                    await _signInManager.SignInAsync(user, true);
-                    return View(userInfo);
-                }
-            }
-            else
-            {
-                User? findedUser =
-                    await _userManager.FindByEmailAsync(userInfo[1]);
-                if (findedUser is not null)
-                {
-                    await _userManager.AddLoginAsync(findedUser!, loginInfo);
-                }
-            }
-            return RedirectToAction(nameof(AccessDenied));
-        }
-
         public async Task<IActionResult> GoogleRedirect()
         {
             ExternalLoginInfo? loginInfo = await _signInManager.GetExternalLoginInfoAsync();
@@ -164,7 +120,7 @@ namespace OnlineShop.Controllers
                 ["Email"] = loginInfo.Principal.FindFirst(ClaimTypes.Email)?.Value,
                 ["LoginProvider"] = loginInfo.LoginProvider
             };
-            User? user = await _userManager.FindByEmailAsync(userInfo["Email"]);
+            User? user = await _userManager.FindByEmailAsync(userInfo["Email"]); //Тут
             if (user is not null && user.LoginProvider == "Google")
             {
                 await _signInManager.SignInAsync(user, true);
@@ -176,11 +132,56 @@ namespace OnlineShop.Controllers
                 Email = userInfo["Email"],
                 LoginProvider = userInfo["LoginProvider"]
             };
-            var res1 = await _userManager.CreateAsync(user);
-            var res2 = await _userManager.AddLoginAsync(user, loginInfo);
+            await _userManager.CreateAsync(user);
+            await _userManager.AddLoginAsync(user, loginInfo);
             await _signInManager.SignInAsync(user, true);
             return View(userInfo);
         }
+
+        //Old method from the lesson
+        //public async Task<IActionResult> GoogleRedirectOld()
+        //{
+        //    ExternalLoginInfo? loginInfo = await _signInManager.GetExternalLoginInfoAsync();
+        //    if (loginInfo is null)
+        //    {
+        //        return RedirectToAction(nameof(Login));
+        //    }
+        //    var loginResult = await _signInManager.ExternalLoginSignInAsync(loginInfo.LoginProvider, loginInfo.ProviderKey, true);
+        //    string?[] userInfo =
+        //    {
+        //        loginInfo.Principal.FindFirst(ClaimTypes.Name)?.Value,
+        //        loginInfo.Principal.FindFirst(ClaimTypes.Email)?.Value,
+        //    };
+        //    if (loginResult.Succeeded)
+        //    {
+        //        return View(userInfo);
+        //    }
+        //    User user = new User
+        //    {
+        //        UserName = userInfo[0],
+        //        Email = userInfo[1]
+        //    };
+        //    var result = await _userManager.CreateAsync(user);
+        //    if (result.Succeeded)
+        //    {
+        //        result = await _userManager.AddLoginAsync(user, loginInfo);
+        //        if (result.Succeeded)
+        //        {
+        //            await _signInManager.SignInAsync(user, true);
+        //            return View(userInfo);
+        //        }
+        //    }
+        //    else
+        //    {
+        //        User? findedUser =
+        //            await _userManager.FindByEmailAsync(userInfo[1]);
+        //        if (findedUser is not null)
+        //        {
+        //            await _userManager.AddLoginAsync(findedUser!, loginInfo);
+        //        }
+        //    }
+        //    return RedirectToAction(nameof(AccessDenied));
+        //}
 
         public IActionResult AccessDenied()
         {
