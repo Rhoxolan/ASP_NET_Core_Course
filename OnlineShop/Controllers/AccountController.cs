@@ -76,7 +76,7 @@ namespace OnlineShop.Controllers
                 var result = await _signInManager.PasswordSignInAsync(vm.Login, vm.Password, vm.IsPersistent, false);
                 if (result.Succeeded)
                 {
-                    if (!string.IsNullOrEmpty(vm.ReturnUrl) && Url.IsLocalUrl(vm.ReturnUrl))
+                    if (!IsNullOrEmpty(vm.ReturnUrl) && Url.IsLocalUrl(vm.ReturnUrl))
                     {
                         return Redirect(vm.ReturnUrl);
                     }
@@ -106,6 +106,7 @@ namespace OnlineShop.Controllers
             return Challenge(properties, "Google");
         }
 
+        //Доп. пример с интернета - https://medium.com/c-sharp-progarmming/asp-net-core-google-authentication-4c0aa8feebbc
         public async Task<IActionResult> GoogleRedirect()
         {
             ExternalLoginInfo? loginInfo = await _signInManager.GetExternalLoginInfoAsync();
@@ -120,8 +121,10 @@ namespace OnlineShop.Controllers
                 ["Email"] = loginInfo.Principal.FindFirst(ClaimTypes.Email)?.Value,
                 ["LoginProvider"] = loginInfo.LoginProvider
             };
-            User? user = await _userManager.FindByEmailAsync(userInfo["Email"]); //Тут
-            if (user is not null && user.LoginProvider == "Google")
+            User? user = await _userManager.Users
+                .Where(u => u.Email == userInfo["Email"] && u.LoginProvider == "Google")
+                .FirstOrDefaultAsync();
+            if (user is not null)
             {
                 await _signInManager.SignInAsync(user, true);
                 return View(userInfo);
