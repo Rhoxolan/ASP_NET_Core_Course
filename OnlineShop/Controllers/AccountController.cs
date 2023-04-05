@@ -104,7 +104,7 @@ namespace OnlineShop.Controllers
             return Challenge(properties, "Google");
         }
 
-        public async Task<IActionResult> GoogleRedirect()
+        public async Task<IActionResult> GoogleRedirectOld()
         {
             ExternalLoginInfo? loginInfo = await _signInManager.GetExternalLoginInfoAsync();
             if (loginInfo is null)
@@ -146,6 +146,40 @@ namespace OnlineShop.Controllers
                 }
             }
             return RedirectToAction(nameof(AccessDenied));
+        }
+
+        public async Task<IActionResult> GoogleRedirect()
+        {
+            //Добавить определение User-a по отличному от емаил признаку
+
+            ExternalLoginInfo? loginInfo = await _signInManager.GetExternalLoginInfoAsync();
+            if (loginInfo is null)
+            {
+                return RedirectToAction(nameof(Login));
+            }
+            var loginResult = await _signInManager.ExternalLoginSignInAsync(loginInfo.LoginProvider, loginInfo.ProviderKey, true);
+            string?[] userInfo =
+            {
+                loginInfo.Principal.FindFirst(ClaimTypes.Name)?.Value,
+                loginInfo.Principal.FindFirst(ClaimTypes.Email)?.Value,
+            };
+            User? user = await _userManager.FindByEmailAsync(userInfo[1]);
+            if (user is null)
+            {
+                user = new User
+                {
+                    UserName = userInfo[0],
+                    Email = userInfo[1]
+                };
+                await _userManager.CreateAsync(user);
+                await _userManager.AddLoginAsync(user, loginInfo);
+                await _signInManager.SignInAsync(user, true);
+            }
+            else
+            {
+                await _signInManager.SignInAsync(user, true);
+            }
+            return View(userInfo);
         }
 
         public IActionResult AccessDenied()

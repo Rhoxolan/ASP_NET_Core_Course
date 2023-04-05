@@ -13,7 +13,7 @@ using OnlineShop.Models.DTO.PhotoDTOs;
 
 namespace OnlineShop.Controllers
 {
-    [Authorize(Roles = "Admin")]
+    //[Authorize(Roles = "Admin")]
     public class PhotosController : Controller
     {
         private readonly ShopDbContext _context;
