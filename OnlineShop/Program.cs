@@ -34,7 +34,7 @@ builder.Services.AddControllersWithViews();
 builder.Services.AddIdentity<User, IdentityRole>(opt =>
 {
     // Есть вариант добавить пользовательский валидатор - https://stackoverflow.com/questions/47988003/how-to-customize-asp-net-identity-core-username-to-allow-special-characters-and
-    opt.User.AllowedUserNameCharacters += "йцукенгшщзхъфывапролджэячсмитьбюЙЦУКЕНГШЩЗХЪФЫВАПРОЛДЖЭЯЧСМИТЬБЮ ";
+    opt.User.AllowedUserNameCharacters += "йцукенгшщзхъфывапролджэячсмитьбюЙЦУКЕНГШЩЗХЪФЫВАПРОЛДЖЭЯЧСМИТЬБЮ ()";
     opt.User.RequireUniqueEmail = false;
 })
     .AddEntityFrameworkStores<ShopDbContext>();

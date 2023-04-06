@@ -119,7 +119,7 @@ namespace OnlineShop.Controllers
             await _signInManager.ExternalLoginSignInAsync(loginInfo.LoginProvider, loginInfo.ProviderKey, true);
             var userInfo = new Dictionary<string, string?>
             {
-                ["Name"] = loginInfo.Principal.FindFirst(ClaimTypes.Name)?.Value,
+                ["Name"] = loginInfo.Principal.FindFirst(ClaimTypes.Name)?.Value + $"({loginInfo.Principal.FindFirst(ClaimTypes.Email)?.Value})", //Добавлено из-за необходимости соблюдения создания уникальных логинов. Альтернативный вариант, если необходимы не уникалньые логины - добавить пользователський валидатор.
                 ["Email"] = loginInfo.Principal.FindFirst(ClaimTypes.Email)?.Value,
                 ["LoginProvider"] = loginInfo.LoginProvider
             };
