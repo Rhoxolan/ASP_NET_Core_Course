@@ -109,8 +109,6 @@ namespace OnlineShop.Controllers
         //Доп. пример с интернета - https://medium.com/c-sharp-progarmming/asp-net-core-google-authentication-4c0aa8feebbc
         public async Task<IActionResult> GoogleRedirect()
         {
-            //Решить дупликате логинс
-
             ExternalLoginInfo? loginInfo = await _signInManager.GetExternalLoginInfoAsync();
             if (loginInfo is null)
             {
