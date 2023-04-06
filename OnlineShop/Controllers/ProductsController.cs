@@ -13,7 +13,7 @@ using OnlineShop.Models.DTO.ProductDTOs;
 
 namespace OnlineShop.Controllers
 {
-    //[Authorize(Roles = "Admin")]
+    [Authorize(Policy = "ApplicationPolicy")]
     public class ProductsController : Controller
 	{
 		private readonly ShopDbContext _context;

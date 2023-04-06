@@ -7,7 +7,7 @@ using System.Security.Claims;
 
 namespace OnlineShop.Controllers
 {
-    //[Authorize(Roles = "Admin")]
+    [Authorize(Policy = "ApplicationPolicy")]
     public class ClaimsController : Controller
     {
         private readonly UserManager<User> userManager;
@@ -71,12 +71,5 @@ namespace OnlineShop.Controllers
                 ModelState.AddModelError(string.Empty, error.Description);
             }
         }
-
-        //[Authorize(Roles ="admin,manager")]
-        [Authorize(Policy = "FrameworkPolicy")]
-        public IActionResult TestPolicy1() => View("Index", User.Claims);
-
-        [Authorize(Roles = "admin,manager")]
-        public IActionResult TestPolicy2() => View("Index", User.Claims);
     }
 }

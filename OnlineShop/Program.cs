@@ -36,8 +36,7 @@ builder.Services.AddIdentity<User, IdentityRole>(opt =>
     // Есть вариант добавить пользовательский валидатор - https://stackoverflow.com/questions/47988003/how-to-customize-asp-net-identity-core-username-to-allow-special-characters-and
     opt.User.AllowedUserNameCharacters += "йцукенгшщзхъфывапролджэячсмитьбюЙЦУКЕНГШЩЗХЪФЫВАПРОЛДЖЭЯЧСМИТЬБЮ ()";
     opt.User.RequireUniqueEmail = false;
-})
-    .AddEntityFrameworkStores<ShopDbContext>();
+}).AddEntityFrameworkStores<ShopDbContext>();
 string connStr = builder.Configuration.GetConnectionString("shopDB");
 builder.Services.AddDbContext<ShopDbContext>(options => options.UseSqlServer(connStr));
 builder.Services.AddAuthentication().AddGoogle(options =>
@@ -48,10 +47,10 @@ builder.Services.AddAuthentication().AddGoogle(options =>
 });
 builder.Services.AddAuthorization(option =>
 {
-    option.AddPolicy("FrameworkPolicy", policy =>
+    option.AddPolicy("ApplicationPolicy", policy =>
     {
-        policy.RequireClaim("PrefferedFramework", new[] { "ASP.NET Core" });
-        policy.RequireRole("admin", "manager");
+        policy.RequireClaim("App", "Online Shop");
+        policy.RequireRole("Admin", "Manager");
     });
 });
 //builder.Services.AddDistributedMemoryCache();
