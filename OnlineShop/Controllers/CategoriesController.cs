@@ -15,7 +15,7 @@ using static System.String;
 
 namespace OnlineShop.Controllers
 {
-    [Authorize(Policy = "ApplicationPolicy")]
+    //[Authorize(Policy = "ApplicationPolicy")]
     public class CategoriesController : Controller
 	{
 		private readonly ShopDbContext _context;

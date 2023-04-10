@@ -8,7 +8,7 @@ using OnlineShop.Models.DTO.UserDTOs;
 
 namespace OnlineShop.Controllers
 {
-    [Authorize(Policy = "ApplicationPolicy")]
+    //[Authorize(Policy = "ApplicationPolicy")]
     public class UserController : Controller
     {
         private readonly UserManager<User> _userManager;

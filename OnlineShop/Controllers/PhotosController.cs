@@ -13,7 +13,7 @@ using OnlineShop.Models.DTO.PhotoDTOs;
 
 namespace OnlineShop.Controllers
 {
-    [Authorize(Policy = "ApplicationPolicy")]
+    //[Authorize(Policy = "ApplicationPolicy")]
     public class PhotosController : Controller
     {
         private readonly ShopDbContext _context;

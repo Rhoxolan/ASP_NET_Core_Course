@@ -1,0 +1,10 @@
+﻿@model Tuple<List<string>, string?>
+@foreach (string category in Model.Item1)
+{
+	<div class="d-flex">
+		<a asp-action="Index" asp-controller="Home" asp-route-category="@category"
+		class="@(category==Model.Item2 ? "btn btn-outline-primary" : "btn btn-outline-secondary" )">
+		@category
+		</a>
+	</div>
+}

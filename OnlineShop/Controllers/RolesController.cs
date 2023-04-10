@@ -11,7 +11,7 @@ using System.Data;
 
 namespace OnlineShop.Controllers
 {
-    [Authorize(Policy = "ApplicationPolicy")]
+    //[Authorize(Policy = "ApplicationPolicy")]
     public class RolesController : Controller
 	{
 		private readonly UserManager<User> userManager;
