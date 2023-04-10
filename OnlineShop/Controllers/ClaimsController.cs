@@ -7,7 +7,7 @@ using System.Security.Claims;
 
 namespace OnlineShop.Controllers
 {
-    //[Authorize(Policy = "ApplicationPolicy")]
+    [Authorize(Policy = "ApplicationPolicy")]
     public class ClaimsController : Controller
     {
         private readonly UserManager<User> userManager;

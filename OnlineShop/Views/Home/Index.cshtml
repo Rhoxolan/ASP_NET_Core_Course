@@ -4,7 +4,8 @@
 
 <div class="row">
     <div class="col-3">
-        <vc:caregiries-menu></vc:caregiries-menu>
+        @*<vc:caregiries-menu></vc:caregiries-menu>*@
+        @await Component.InvokeAsync("CategoriesMenu", new {currentCategory = "Apple"})
     </div>
     <div class="col">
 
