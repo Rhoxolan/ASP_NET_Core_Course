@@ -10,6 +10,9 @@
                 <h5 class="card-title">@Model.Title</h5>
                 <p class="card-text">@Model.Price.ToString("# EUR")</p>
                 <p class="card-text"><small class="text-muted">@Model!.Category!.Title</small></p>
+                <form>
+                    <input type="hidden" value="@Context.Request.Path" name="returnUrl" />
+                </form>
                 <a asp-action="AddToCart" asp-controller="Cart" asp-route-id="@Model.Id"
                    class="btn btn-sm btn-success">Add to Cart</a>
             </div>
