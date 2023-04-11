@@ -1,13 +1,21 @@
-﻿@{
+﻿@model HomeIndexViewModel
+@{
     ViewData["Title"] = "Home Page";
 }
 
 <div class="row">
     <div class="col-3">
         @*<vc:caregiries-menu></vc:caregiries-menu>*@
-        @await Component.InvokeAsync("CategoriesMenu", new {currentCategory = "Apple"})
+        @await Component.InvokeAsync("CategoriesMenu", new {currentCategory = Model.Category})
     </div>
     <div class="col">
-
+        <div class="container-fluid">
+            <div class="row row-cols-2">
+                @foreach(Product product in Model.Products)
+                {
+                    await Html.RenderPartialAsync("_productCard", product);
+                }
+            </div>
+        </div>
     </div>
 </div>

@@ -16,5 +16,7 @@ namespace OnlineShop.Data
 		public int CategoryId { get; set; }
 
 		public Category Category { get; set; } = default!;
+
+		public List<Photo> Photos { get; set; } = default!;
 	}
 }
