@@ -40,7 +40,7 @@
     </tfoot>
 </table>
 <p>
-    <form asp-controller="Cart" asp-action="DeleteAllFromCart">
+    <form asp-controller="Cart" asp-action="DeleteAllFromCart" method="post">
         <input type="hidden" value="@Model.ReturnUrl" name="returnUrl" />
         <button type="submit" class="btn btn-outline-danger">Delete All From Cart</button>
     </form>
