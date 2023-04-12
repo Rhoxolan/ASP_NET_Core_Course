@@ -15,20 +15,20 @@ namespace OnlineShop.Controllers
             _context = context;
         }
 
-		public IActionResult Index(string returnUrl)
-		{
-			Cart cart = GetCart();
+        public IActionResult Index(string returnUrl)
+        {
+            Cart cart = GetCart();
             CartIndexViewModel viewModel = new CartIndexViewModel
             {
                 Cart = cart,
                 ReturnUrl = returnUrl
             };
-			return View(viewModel);
-		}
+            return View(viewModel);
+        }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-		public async Task<IActionResult> AddToCart(int id, string returnUrl)
+        public async Task<IActionResult> AddToCart(int id, string returnUrl)
         {
             Cart cart = GetCart();
             Product? product = await _context.Products.FindAsync(id);
@@ -44,8 +44,25 @@ namespace OnlineShop.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteFromCart(int id, string returnUrl)
         {
-            throw new NotImplementedException();
-		}
+            Cart cart = GetCart();
+            Product? product = await _context.Products.FindAsync(id);
+            if (product != null)
+            {
+                cart.RemoveFromCart(product);
+                HttpContext.Session.Set("cart", cart.CartItems);
+            }
+            return RedirectToAction("Index", new { returnUrl });
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult DeleteAllFromCart(string returnUrl)
+        {
+            Cart cart = GetCart();
+            cart.Clear();
+            HttpContext.Session.Set("cart", cart.CartItems);
+            return Redirect(returnUrl);
+        }
 
         private Cart GetCart()
         {

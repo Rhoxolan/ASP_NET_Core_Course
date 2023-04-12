@@ -24,7 +24,7 @@
                 <td>@((item.Count * item.Product.Price).ToString("# EUR"))</td>
                 <td>
                     <form asp-controller="Cart" asp-action="DeleteFromCart" asp-route-id="@item.Product.Id">
-                        <input type="hidden" value="@Context.Request.Path" name="returnUrl" />
+                        <input type="hidden" value="@Model.ReturnUrl" name="returnUrl" />
                         <button type="submit" class="btn btn-sm btn-danger">Delete from Cart</button>
                     </form>
                 </td>
@@ -39,4 +39,12 @@
         </tr>
     </tfoot>
 </table>
-<a href="@Model.ReturnUrl" class="btn btn-outline-success">Return</a>
+<p>
+    <form asp-controller="Cart" asp-action="DeleteAllFromCart">
+        <input type="hidden" value="@Model.ReturnUrl" name="returnUrl" />
+        <button type="submit" class="btn btn-outline-danger">Delete All From Cart</button>
+    </form>
+</p>
+<p>
+    <a href="@Model.ReturnUrl" class="btn btn-outline-success">Return</a>
+</p>
