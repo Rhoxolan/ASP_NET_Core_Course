@@ -32,7 +32,7 @@ namespace OnlineShop.Controllers
             return RedirectToAction("Index", new { returnUrl });
         }
 
-        public Cart GetCart()
+        private Cart GetCart()
         {
             IEnumerable<CartItem>? cartItems = HttpContext.Session.Get<IEnumerable<CartItem>>("cart");
             Cart? cart = null;
