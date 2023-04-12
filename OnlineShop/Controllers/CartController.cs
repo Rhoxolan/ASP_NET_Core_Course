@@ -2,6 +2,7 @@
 using OnlineShop.Data;
 using OnlineShop.Extensions;
 using OnlineShop.Models.Domain;
+using OnlineShop.Models.ViewModels.CartViewModels;
 
 namespace OnlineShop.Controllers
 {
@@ -14,13 +15,20 @@ namespace OnlineShop.Controllers
             _context = context;
         }
 
-        public IActionResult Index(string returnUrl)
-        {
-            Cart cart = GetCart();
-            return View(cart);
-        }
+		public IActionResult Index(string returnUrl)
+		{
+			Cart cart = GetCart();
+            CartIndexViewModel viewModel = new CartIndexViewModel
+            {
+                Cart = cart,
+                ReturnUrl = returnUrl
+            };
+			return View(viewModel);
+		}
 
-        public async Task<IActionResult> AddToCart(int id, string returnUrl)
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+		public async Task<IActionResult> AddToCart(int id, string returnUrl)
         {
             Cart cart = GetCart();
             Product? product = await _context.Products.FindAsync(id);
@@ -31,6 +39,13 @@ namespace OnlineShop.Controllers
             }
             return RedirectToAction("Index", new { returnUrl });
         }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> DeleteFromCart(int id, string returnUrl)
+        {
+            throw new NotImplementedException();
+		}
 
         private Cart GetCart()
         {

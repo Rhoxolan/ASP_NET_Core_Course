@@ -1,4 +1,4 @@
-﻿@model Cart
+﻿@model CartIndexViewModel
 @{
     int num = 0;
 }
@@ -14,7 +14,7 @@
         </tr>
     </thead>
     <tbody>
-        @foreach (CartItem item in Model.CartItems)
+        @foreach (var item in Model.Cart.CartItems)
         {
             <tr>
                 <td>@(++num)</td>
@@ -23,8 +23,10 @@
                 <td>@item.Count</td>
                 <td>@((item.Count * item.Product.Price).ToString("# EUR"))</td>
                 <td>
-                    <a asp-action="DeleteFromCart"
-                   asp-route-id="@item.Product.Id">Delete from cart</a>
+                    <form asp-controller="Cart" asp-action="DeleteFromCart" asp-route-id="@item.Product.Id">
+                        <input type="hidden" value="@Context.Request.Path" name="returnUrl" />
+                        <button type="submit" class="btn btn-sm btn-danger">Delete from Cart</button>
+                    </form>
                 </td>
             </tr>
         }
@@ -32,8 +34,9 @@
     <tfoot>
         <tr>
             <th colspan="4">Total Price:</th>
-            <th>@Model.TotalPrice.ToString("# EUR")</th>
+            <th>@Model.Cart.TotalPrice.ToString("# EUR")</th>
             <th></th>
         </tr>
     </tfoot>
 </table>
+<a href="@Model.ReturnUrl" class="btn btn-outline-success">Return</a>
