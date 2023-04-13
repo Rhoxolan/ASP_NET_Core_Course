@@ -15,9 +15,9 @@ namespace OnlineShop.Controllers
             _context = context;
         }
 
-        public IActionResult Index(string returnUrl)
+        public IActionResult Index(string returnUrl, Cart cart)
         {
-            Cart cart = GetCart();
+            //Cart cart = GetCart();
             CartIndexViewModel viewModel = new CartIndexViewModel
             {
                 Cart = cart,
@@ -28,9 +28,9 @@ namespace OnlineShop.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> AddToCart(int id, string returnUrl)
+        public async Task<IActionResult> AddToCart(Cart cart, int id, string returnUrl)
         {
-            Cart cart = GetCart();
+            //Cart cart = GetCart();
             Product? product = await _context.Products.FindAsync(id);
             if (product != null)
             {
@@ -42,9 +42,9 @@ namespace OnlineShop.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteFromCart(int id, string returnUrl)
+        public async Task<IActionResult> DeleteFromCart(Cart cart, int id, string returnUrl)
         {
-            Cart cart = GetCart();
+            //Cart cart = GetCart();
             Product? product = await _context.Products.FindAsync(id);
             if (product != null)
             {
@@ -56,27 +56,27 @@ namespace OnlineShop.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult DeleteAllFromCart(string returnUrl)
+        public IActionResult DeleteAllFromCart(Cart cart, string returnUrl)
         {
-            Cart cart = GetCart();
+            //Cart cart = GetCart();
             cart.Clear();
             HttpContext.Session.Set("cart", cart.CartItems);
             return Redirect(returnUrl);
         }
 
-        private Cart GetCart()
-        {
-            IEnumerable<CartItem>? cartItems = HttpContext.Session.Get<IEnumerable<CartItem>>("cart");
-            Cart? cart = null;
-            if (cartItems == null)
-            {
-                cart = new Cart();
-            }
-            else
-            {
-                cart = new Cart(cartItems!);
-            }
-            return cart;
-        }
+        //private Cart GetCart()
+        //{
+        //    IEnumerable<CartItem>? cartItems = HttpContext.Session.Get<IEnumerable<CartItem>>("cart");
+        //    Cart? cart = null;
+        //    if (cartItems == null)
+        //    {
+        //        cart = new Cart();
+        //    }
+        //    else
+        //    {
+        //        cart = new Cart(cartItems!);
+        //    }
+        //    return cart;
+        //}
     }
 }

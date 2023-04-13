@@ -16,5 +16,17 @@
 				}
 			</div>
 		</div>
+		<nav aria-label="pagination example">
+			<ul class="pagination">
+				@for (int i = 1; i <= Model.PageCount; i++)
+				{
+					<li class="@(i==Model.Page ? "page-item active" : "page-item" )">
+						<a asp-action="Index" asp-route-page="@i"
+					   asp-route-category="@Model.Category"
+			class="page-link">@i</a>
+					</li>
+				}
+			</ul>
+		</nav>
 	</div>
 </div>

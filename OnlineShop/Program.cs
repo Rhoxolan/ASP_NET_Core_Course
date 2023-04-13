@@ -6,6 +6,7 @@ using OnlineShop.AutoMapperProfiles.ProductProfiles;
 using OnlineShop.AutoMapperProfiles.RoleProfiles;
 using OnlineShop.AutoMapperProfiles.UserProfiles;
 using OnlineShop.Data;
+using OnlineShop.Infrastructure.ModelBinderProviders;
 using OnlineShop.Models.ViewModels.AccountViewModels;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -30,7 +31,10 @@ builder.Services.AddAutoMapper(typeof(CategoryProfile),
 
 // Add services to the container.
 var configurations = builder.Configuration;
-builder.Services.AddControllersWithViews();
+builder.Services.AddControllersWithViews(opt =>
+{
+    opt.ModelBinderProviders.Insert(0, new CartModelBinderProvider());
+});
 builder.Services.AddIdentity<User, IdentityRole>(opt =>
 {
     // Есть вариант добавить пользовательский валидатор - https://stackoverflow.com/questions/47988003/how-to-customize-asp-net-identity-core-username-to-allow-special-characters-and

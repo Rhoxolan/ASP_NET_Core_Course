@@ -6,21 +6,27 @@ namespace OnlineShop.Infrastructure.ModelBinders
 {
     public class CartModelBinder : IModelBinder
     {
-        public async Task BindModelAsync(ModelBindingContext bindingContext)
+        public Task BindModelAsync(ModelBindingContext bindingContext)
         {
             if(bindingContext == null)
             {
                 throw new ArgumentNullException(nameof(bindingContext));
             }
             string sessionKey = "cart";
-            Cart? cart = null;
             IEnumerable<CartItem>? cartItems = null; 
             if(bindingContext.HttpContext.Session != null)
             {
                 cartItems
-                    = bindingContext.HttpContext.Session.Get<IEnumerable<CartItem>>("cart");
+                    = bindingContext.HttpContext.Session.Get<IEnumerable<CartItem>>(sessionKey);
             }
-            throw new NotImplementedException();
+            if(cartItems == null)
+            {
+                cartItems = new List<CartItem>();
+                bindingContext.HttpContext.Session!.Set(sessionKey, cartItems);
+            }
+            Cart cart = new(cartItems);
+            bindingContext.Result = ModelBindingResult.Success(cart);
+            return Task.CompletedTask;
         }
     }
 }
