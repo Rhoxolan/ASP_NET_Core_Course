@@ -1,0 +1,178 @@
+﻿<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <title></title>
+    <link href="dist/bootstrap/css/bootstrap.css" rel="stylesheet" />
+</head>
+
+<body>
+
+    <div class="container">
+
+        <h1 data-color="red">List of Cars</h1>
+
+        <form name="carForm">
+            <input type="hidden" name="id" value="0" />
+            <div class="mb-3">
+                <label class="form-label" for="manufacturer">Manufacturer:</label>
+                <input type="text" name="manufacturer" id="manufacturer" class="form-control" />
+            </div>
+            <div class="mb-3">
+                <label class="form-label" for="model">Model:</label>
+                <input type="text" name="model" id="model" class="form-control" />
+            </div>
+            <div class="mb-3">
+                <label class="form-label" for="price">Price:</label>
+                <input type="number" name="price" id="price" class="form-control" />
+            </div>
+            <div class="mb-3">
+                <label class="form-label" for="price">Year:</label>
+                <input type="number" name="year" id="year" class="form-control" />
+            </div>
+            <button id="submit" type="submit" value="Save" class="btn btn-success">Save</button>
+        </form>
+        <div class="row">
+            <table class="table table-striped table-hover">
+                <thead>
+                    <tr>
+                        <th>Id</th>
+                        <th>Manufacturer</th>
+                        <th>Model</th>
+                        <th>Price</th>
+                        <th>Year</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <script src="dist/bootstrap/js/bootstrap.js"></script>
+
+    <script type="text/javascript">
+        document.addEventListener("DOMContentLoaded", () => {
+            let form = document.forms["carForm"];
+            form.addEventListener("submit", e => {
+                e.preventDefault();
+                let car = {};
+                car.manufacturer = form.elements["manufacturer"].value;
+                car.model = form.elements["model"].value;
+                car.price = parseFloat(form.elements["price"].value);
+                car.year = parseInt(form.elements["year"].value);
+                console.log(car)
+                let id = parseInt(form.elements["id"].value);
+                if (id == 0)
+                    createCar(car);
+                else {
+                    car.id = id;
+                    editCar(car);
+                }
+            });
+            loadCarDataAsync();
+        });
+
+        async function getCar(id) {
+            let resp = await fetch(`api/cars/${id}`, {
+                method: "GET",
+                headers: {
+                    "accept": "application/json"
+                }
+            });
+            if (resp.ok === true) {
+                let carData = await resp.json();
+                let form = document.forms["carForm"];
+                form.elements["id"].value = carData.id;
+                form.elements["manufacturer"].value = carData.manufacturer;
+                form.elements["model"].value = carData.model;
+                form.elements["price"].value = carData.price;
+                form.elements["year"].value = carData.year;
+            }
+        }
+
+        async function loadCarDataAsync() {
+            let h1 = document.querySelector("h1");
+            console.log(h1.dataset.author);
+            let resp = await fetch("api/cars", {
+                method: "GET",
+                headers: {
+                    "accept": "application/json"
+                }
+            });
+            if (resp.ok === true) {
+                let carsData = await resp.json();
+                console.log(carsData);
+                Array.from(carsData).
+                    forEach(car => {
+                        let tbody = document.querySelector("tbody");
+                        tbody.append(row(car));
+                    });
+            }
+        }
+
+        function row(car) {
+            let tr = document.createElement("tr");
+            tr.setAttribute("data-rowid", car.id);
+            for (let key in car) {
+                let td = document.createElement("td");
+                td.append(car[key]);
+                tr.append(td);
+            }
+            let linksTd = document.createElement("td");
+            let editLink = document.createElement("a");
+            editLink.setAttribute("data-id", car.id);
+            editLink.setAttribute("style", "cursor:pointer");
+            editLink.addEventListener("click", (e) => {
+                e.preventDefault();
+                getCar(car.id);
+            });
+            editLink.classList.add("btn");
+            editLink.classList.add("btn-sm");
+            editLink.classList.add("btn-outline-warning");
+            editLink.innerText = "Edit";
+            let deleteLink = document.createElement("a");
+            deleteLink.setAttribute("data-id", car.id);
+            deleteLink.addEventListener("click", (e) => {
+                e.preventDefault();
+                //deleteCar(car.id);
+            });
+            deleteLink.setAttribute("style", "cursor:pointer");
+            deleteLink.classList.add("btn");
+            deleteLink.classList.add("btn-sm");
+            deleteLink.classList.add("btn-outline-danger");
+            deleteLink.innerText = "Delete";
+            linksTd.append(editLink);
+            linksTd.append(deleteLink);
+            tr.append(linksTd);
+            return tr;
+        }
+
+        async function createCar(car) {
+            let resp = await fetch("api/cars", {
+                method: "POST",
+                headers: {
+                    "Accept": "application/json",
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(car)
+            });
+            if (resp.ok === true) {
+                let respCar = await resp.json();
+                let tbody = document.querySelector("tbody");
+                tbody.append(row(respCar));
+                reset();
+            }
+        }
+
+        function reset() {
+            let form = document.forms["carForm"];
+            form.reset();
+            form.elements["id"].value = 0;
+        }
+    </script>
+
+</body>
+</html>
