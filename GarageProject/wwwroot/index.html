@@ -150,6 +150,22 @@
             return tr;
         }
 
+        async function editCar(car) {
+            let resp = await fetch(`api/cars/${car.id}`, {
+                method: "PUT",
+                headers: {
+                    "Accept": "application/json",
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(car)
+            });
+            if (resp.ok === true) {
+                let editedCar = await resp.json();
+                document.querySelector(`tr[data-rowid="${car.id}"]`).replaceWith(row(editedCar));
+                reset();
+            }
+        }
+
         async function deleteCar(id) {
             let resp = await fetch(`api/cars/${id}`, {
                 method: "DELETE",

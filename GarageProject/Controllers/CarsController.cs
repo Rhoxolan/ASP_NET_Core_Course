@@ -53,7 +53,7 @@ namespace GarageProject.Controllers
         // PUT: api/Cars/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutCar(int id, Car car)
+        public async Task<ActionResult<Car>> PutCar(int id, Car car)
         {
             if (id != car.Id)
             {
@@ -78,7 +78,7 @@ namespace GarageProject.Controllers
                 }
             }
 
-            return NoContent();
+            return car;
         }
 
         // POST: api/Cars
