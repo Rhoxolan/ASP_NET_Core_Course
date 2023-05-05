@@ -61,7 +61,7 @@ namespace OnlineShop.Controllers
             //Cart cart = GetCart();
             cart.Clear();
             HttpContext.Session.Set("cart", cart.CartItems);
-            return Redirect(returnUrl);
+            return LocalRedirect(returnUrl);
         }
 
         //private Cart GetCart()
