@@ -137,7 +137,7 @@
             deleteLink.setAttribute("data-id", car.id);
             deleteLink.addEventListener("click", (e) => {
                 e.preventDefault();
-                //deleteCar(car.id);
+                deleteCar(car.id);
             });
             deleteLink.setAttribute("style", "cursor:pointer");
             deleteLink.classList.add("btn");
@@ -148,6 +148,10 @@
             linksTd.append(deleteLink);
             tr.append(linksTd);
             return tr;
+        }
+
+        async function deleteCar(id) {
+
         }
 
         async function createCar(car) {
