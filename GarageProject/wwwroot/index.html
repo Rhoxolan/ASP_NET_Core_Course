@@ -151,7 +151,15 @@
         }
 
         async function deleteCar(id) {
-
+            let resp = await fetch(`api/cars/${id}`, {
+                method: "DELETE",
+                headers: {
+                    "Accept": "application/json",
+                },
+            });
+            if (resp.ok === true) {
+                document.querySelector(`tr[data-rowid="${id}"]`).remove();
+            }
         }
 
         async function createCar(car) {
