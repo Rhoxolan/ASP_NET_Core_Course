@@ -113,7 +113,7 @@ namespace GarageProject.Controllers
             _context.Cars.Remove(car);
             await _context.SaveChangesAsync();
 
-            return NoContent();
+            return Ok();
         }
 
         private bool CarExists(int id)

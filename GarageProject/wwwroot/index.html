@@ -95,7 +95,6 @@
 
         async function loadCarDataAsync() {
             let h1 = document.querySelector("h1");
-            console.log(h1.dataset.author);
             let resp = await fetch("api/cars", {
                 method: "GET",
                 headers: {
@@ -104,7 +103,6 @@
             });
             if (resp.ok === true) {
                 let carsData = await resp.json();
-                console.log(carsData);
                 Array.from(carsData).
                     forEach(car => {
                         let tbody = document.querySelector("tbody");
